@@ -32,13 +32,16 @@ Một tiện ích mở rộng (Chrome Extension) thông minh giúp **tự độn
 
 ## 🛠 Hướng dẫn cài đặt
 
-1. Tải về hoặc clone repository này về máy:
-   ```bash
-   git clone https://github.com/khanhnkq/DocCleaner.git
-   ```
-2. Truy cập `chrome://extensions/` trên trình duyệt Chrome / Edge / Cốc Cốc / Brave.
-3. Gạt bật **"Chế độ nhà phát triển" (Developer mode)** ở góc trên bên phải.
-4. Nhấn nút **"Tải tiện ích đã giải nén" (Load unpacked)** và chọn thư mục `Studocu-Helper`.
+### Cách 1: Tải file `.zip` (Nhanh nhất cho người dùng)
+1. Truy cập trang Releases: **[GitHub Releases - DocCleaner v1.3](https://github.com/khanhnkq/DocCleaner/releases/tag/v1.3)**
+2. Tải về tệp **`DocCleaner-v1.3.zip`** và giải nén ra một thư mục.
+3. Mở `chrome://extensions/` ➔ Bật **Developer mode** ở góc phải ➔ Chọn **Load unpacked** thư mục vừa giải nén.
+
+### Cách 2: Tải bằng Git (Dành cho Developer)
+```bash
+git clone https://github.com/khanhnkq/DocCleaner.git
+```
+Mở `chrome://extensions/` ➔ Bật **Developer mode** ➔ Chọn **Load unpacked** thư mục dự án.
 
 ---
 
