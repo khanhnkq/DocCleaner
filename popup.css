@@ -1,0 +1,262 @@
+/* Uniform Graphic Poster Theme (Modal Rounding, Uniform Cards, Buy Me A Coffee) */
+
+:root {
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* Colors from Graphic Poster Reference */
+  --bg-navy: #193582;
+  --card-cream: #f6f7ef;
+  --card-white: #ffffff;
+  --accent-lime: #c6eb34;
+  --accent-green: #58c474;
+  --accent-yellow: #ffdd00;
+  --text-navy: #091b42;
+  --text-muted: #5e6d8a;
+  
+  --radius-modal: 24px;
+  --radius-card: 18px;
+  --radius-badge: 18px;
+  --card-height: 58px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 320px;
+  font-family: var(--font-family);
+  background-color: var(--bg-navy);
+  color: var(--text-navy);
+  user-select: none;
+  overflow: hidden;
+  border-radius: var(--radius-modal);
+  -webkit-font-smoothing: antialiased;
+}
+
+.app-container {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-color: var(--bg-navy);
+  border-radius: var(--radius-modal);
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+}
+
+/* Header Card Block */
+.header-card {
+  background-color: var(--card-cream);
+  border-radius: var(--radius-card);
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.header-main {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-title {
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--text-navy);
+  letter-spacing: -0.6px;
+  line-height: 1.1;
+}
+
+.header-sub {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.header-badge {
+  background-color: var(--accent-lime);
+  border-radius: var(--radius-card);
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-navy);
+  font-weight: 900;
+  min-width: 56px;
+  line-height: 1;
+}
+
+.badge-tag {
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+
+.badge-ver {
+  font-size: 10.5px;
+  opacity: 0.85;
+  margin-top: 2px;
+}
+
+/* Uniform Card List */
+.card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Base Card Item - 100% Identical Dimensions for All Rows */
+.card-item {
+  width: 100%;
+  height: var(--card-height);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  outline: none;
+  text-align: left;
+}
+
+/* Interactive Card Buttons */
+button.card-item {
+  cursor: pointer;
+  transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button.card-item:hover {
+  transform: translateY(-2px);
+}
+
+button.card-item:active {
+  transform: scale(0.98);
+}
+
+/* Uniform Left Badge Block */
+.card-badge {
+  width: var(--card-height);
+  height: var(--card-height);
+  border-radius: var(--radius-badge);
+  background-color: var(--accent-lime);
+  color: var(--text-navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  transition: background-color 0.3s ease;
+}
+
+.lime-badge,
+.card-badge.studocu-theme {
+  background-color: var(--accent-lime);
+}
+
+.green-badge,
+.card-badge.scribd-theme {
+  background-color: var(--accent-green);
+}
+
+.yellow-badge {
+  background-color: var(--accent-yellow);
+}
+
+.card-badge.idle-theme {
+  background-color: #94a3b8;
+  color: #ffffff;
+}
+
+/* Uniform Right Body Block */
+.card-body {
+  flex: 1;
+  height: var(--card-height);
+  border-radius: var(--radius-card);
+  background-color: var(--card-cream);
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s ease;
+}
+
+button.card-item:hover .card-body {
+  background-color: var(--card-white);
+}
+
+.card-label {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.card-title {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--text-navy);
+  line-height: 1.2;
+}
+
+.card-desc {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Buy Me A Coffee Special Item */
+.coffee-card .card-title {
+  color: #b45309;
+}
+
+/* Status Banner Footer */
+.status-banner {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--accent-lime);
+}
+
+.status-banner.processing .status-dot {
+  background-color: #fbbf24;
+  animation: blink 0.8s infinite alternate;
+}
+
+@keyframes blink {
+  from { opacity: 0.3; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1.2); }
+}
+
+/* Credit Footer */
+.footer-block {
+  text-align: center;
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.author-name {
+  color: var(--accent-lime);
+  font-weight: 800;
+}

@@ -1,0 +1,61 @@
+{
+  "manifest_version": 3,
+  "name": "DocCleaner & PDF Downloader (Studocu & Scribd)",
+  "version": "1.3",
+  "description": "Tự động chặn 100% quảng cáo, loại bỏ lớp mờ paywall và xuất tài liệu PDF sắc nét HD cho Studocu và Scribd.",
+  "permissions": [
+    "cookies",
+    "scripting",
+    "activeTab",
+    "webNavigation"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "host_permissions": [
+    "*://*.studocu.com/*",
+    "*://*.studocu.vn/*",
+    "*://*.scribd.com/*"
+  ],
+  "action": {
+    "default_title": "DocCleaner - Studocu & Scribd Helper",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.studocu.com/*",
+        "*://*.studocu.vn/*",
+        "*://*.scribd.com/*"
+      ],
+      "css": [
+        "custom_style.css"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "*://*.studocu.com/*",
+        "*://*.studocu.vn/*",
+        "*://*.scribd.com/*"
+      ],
+      "js": [
+        "scribd_handler.js",
+        "content.js"
+      ],
+      "run_at": "document_end"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "viewer_styles.css"
+      ],
+      "matches": [
+        "*://*.studocu.com/*",
+        "*://*.studocu.vn/*",
+        "*://*.scribd.com/*"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DocCleaner Pro</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+  <div class="app-container">
+    <!-- Header Block -->
+    <header class="header-card">
+      <div class="header-main">
+        <h1 class="header-title">DocCleaner</h1>
+        <p class="header-sub">Hỗ Trợ Studocu & Scribd</p>
+      </div>
+      <div class="header-badge">
+        <span class="badge-tag">PRO</span>
+        <span class="badge-ver">v1.3</span>
+      </div>
+    </header>
+
+    <!-- Uniform Cards List -->
+    <main class="card-list">
+      <!-- Item 1: Trang web hiện tại -->
+      <div class="card-item info-card">
+        <div class="card-badge" id="status-badge">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="12 6 12 12 16 14" />
+          </svg>
+        </div>
+        <div class="card-body">
+          <span class="card-label">Trang Web Hiện Tại</span>
+          <span class="card-title" id="platform-name">Đang nhận diện...</span>
+        </div>
+      </div>
+
+      <!-- Item 2: Nút Tải PDF -->
+      <button id="checkBtn" class="card-item btn-card">
+        <div class="card-badge lime-badge">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+        </div>
+        <div class="card-body">
+          <span class="card-title">Tải PDF Nét Cao (1-Click)</span>
+          <span class="card-desc" id="pdf-btn-desc">Tự động nạp trang và lưu file PDF</span>
+        </div>
+      </button>
+
+      <!-- Item 3: Mở khóa & Dọn Cookie -->
+      <button id="clearBtn" class="card-item btn-card">
+        <div class="card-badge green-badge">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            <path d="m9 12 2 2 4-4" />
+          </svg>
+        </div>
+        <div class="card-body">
+          <span class="card-title">Bỏ Mờ Trang & Xóa Quảng Cáo</span>
+          <span class="card-desc">Xóa cookie để bỏ giới hạn lượt xem</span>
+        </div>
+      </button>
+
+      <!-- Item 4: Buy Me A Coffee Button -->
+      <button id="coffeeBtn" class="card-item coffee-card">
+        <div class="card-badge yellow-badge">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
+            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" />
+            <line x1="6" y1="1" x2="6" y2="4" />
+            <line x1="10" y1="1" x2="10" y2="4" />
+            <line x1="14" y1="1" x2="14" y2="4" />
+          </svg>
+        </div>
+        <div class="card-body">
+          <span class="card-title">Mời Tác Giả Ly Cà Phê</span>
+          <span class="card-desc">Ủng hộ để phát triển thêm tính năng</span>
+        </div>
+      </button>
+    </main>
+
+    <!-- Footer Status Banner -->
+    <div id="status" class="status-banner">
+      <span class="status-dot"></span>
+      <span id="status-text">Đã sẵn sàng hoạt động</span>
+    </div>
+
+    <!-- Credit -->
+    <footer class="footer-block">
+      <span>Tác giả: <strong class="author-name">Khanhnkq</strong></span>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+
+</html>
