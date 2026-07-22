@@ -48,7 +48,7 @@ function updateStatus(msg, isProcessing = false) {
 const coffeeBtn = document.getElementById('coffeeBtn');
 if (coffeeBtn) {
     coffeeBtn.addEventListener('click', () => {
-        chrome.tabs.create({ url: 'https://www.buymeacoffee.com/khanhnkq' });
+        chrome.tabs.create({ url: 'https://khanhnkq.quizken.com/buy-me-a-coffee' });
     });
 }
 

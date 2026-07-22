@@ -14,4 +14,4 @@
 This extension does not connect to any third-party analytics, tracking, or advertising services. All ad-blocking and PDF formatting logic is executed client-side.
 
 ## 4. Contact & Support
-If you have any questions regarding this Privacy Policy or wish to support the project, please visit the GitHub repository or [Buy Me A Coffee](https://www.buymeacoffee.com/khanhnkq).
+If you have any questions regarding this Privacy Policy or wish to support the project, please visit the GitHub repository or [Buy Me A Coffee](https://khanhnkq.quizken.com/buy-me-a-coffee).
