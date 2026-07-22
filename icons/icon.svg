@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E3A8A" />
+      <stop offset="50%" stop-color="#2563EB" />
+      <stop offset="100%" stop-color="#06B6D4" />
+    </linearGradient>
+
+    <!-- Document Card Shadow & Gradient -->
+    <linearGradient id="doc-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#F1F5F9" />
+    </linearGradient>
+
+    <!-- Arrow Gradient -->
+    <linearGradient id="arrow-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" />
+      <stop offset="100%" stop-color="#0284C7" />
+    </linearGradient>
+
+    <!-- Glow Filter -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="16" stdDeviation="16" flood-color="#0F172A" flood-opacity="0.35" />
+    </filter>
+  </defs>
+
+  <!-- Background App Tile -->
+  <rect width="512" height="512" rx="112" ry="112" fill="url(#bg-grad)" />
+
+  <!-- Main Document Container with Shadow -->
+  <g filter="url(#shadow)">
+    <!-- Back Page (Layered Effect) -->
+    <path d="M 180 110 L 350 110 C 363.2 110 374 120.8 374 134 L 374 380 C 374 393.2 363.2 404 350 404 L 180 404 C 166.8 404 156 393.2 156 380 L 156 134 C 156 120.8 166.8 110 180 110 Z" fill="#E2E8F0" opacity="0.6" transform="translate(14, 12)" />
+
+    # Front Main Document
+    <!-- Folded Corner Doc Path: Width 230, Height 290 -->
+    <path d="M 160 110 
+             L 320 110 
+             L 370 160 
+             L 370 380 
+             A 20 20 0 0 1 350 400 
+             L 160 400 
+             A 20 20 0 0 1 140 380 
+             L 140 130 
+             A 20 20 0 0 1 160 110 Z" 
+          fill="url(#doc-grad)" />
+
+    <!-- Document Fold Corner Accent -->
+    <path d="M 320 110 L 320 150 A 10 10 0 0 0 330 160 L 370 160 Z" fill="#CBD5E1" />
+
+    <!-- Text Lines -->
+    <rect x="180" y="180" width="120" height="14" rx="7" fill="#94A3B8" />
+    <rect x="180" y="212" width="150" height="14" rx="7" fill="#CBD5E1" />
+    <rect x="180" y="244" width="130" height="14" rx="7" fill="#CBD5E1" />
+    <rect x="180" y="276" width="110" height="14" rx="7" fill="#CBD5E1" />
+  </g>
+
+  <!-- Clean Magic Sparkle (Unblur/Clean symbol) -->
+  <path d="M 125 240 
+           Q 145 240 145 220 
+           Q 145 240 165 240 
+           Q 145 240 145 260 
+           Q 145 240 125 240 Z" 
+        fill="#38BDF8" filter="url(#glow)" />
+  <circle cx="145" cy="240" r="4" fill="#FFFFFF" />
+
+  <!-- Small Top Right Sparkle -->
+  <path d="M 370 100 
+           Q 380 100 380 90 
+           Q 380 100 390 100 
+           Q 380 100 380 110 
+           Q 380 100 370 100 Z" 
+        fill="#FDE047" opacity="0.9" />
+
+  <!-- Download Arrow Badge -->
+  <g filter="url(#shadow)">
+    <!-- Circle Badge -->
+    <circle cx="256" cy="370" r="48" fill="#1E293B" />
+    <circle cx="256" cy="370" r="44" fill="url(#arrow-grad)" />
+
+    <!-- Arrow Icon -->
+    <path d="M 256 342 L 256 384 M 238 368 L 256 386 L 274 368" 
+          stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+  </g>
+</svg>
