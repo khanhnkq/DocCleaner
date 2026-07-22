@@ -1,34 +1,143 @@
 // Popup script for DocCleaner (Studocu & Scribd Helper)
 
+const translations = {
+    vi: {
+        headerSub: 'Hỗ Trợ Studocu & Scribd',
+        currentWebsite: 'Trang Web Hiện Tại',
+        detecting: 'Đang nhận diện...',
+        notSupported: 'Không hỗ trợ',
+        downloadPdfTitle: 'Tải PDF Nét Cao (1-Click)',
+        downloadPdfDesc: 'Tự động nạp trang và lưu file PDF',
+        scribdPdfDesc: 'Preload & Xuất PDF Scribd HD',
+        studocuPdfDesc: 'Bypass giới hạn & Xuất PDF Studocu HD',
+        unblurTitle: 'Bỏ Mờ Trang & Xóa Quảng Cáo',
+        unblurDesc: 'Xóa cookie để bỏ giới hạn lượt xem',
+        coffeeTitle: 'Mời Tác Giả Ly Cà Phê',
+        coffeeDesc: 'Ủng hộ để phát triển thêm tính năng',
+        statusReady: 'Đã sẵn sàng hoạt động',
+        statusStandby: 'Chế độ chờ...',
+        statusScribdReady: 'Sẵn sàng diệt QC & Tải PDF Scribd HD',
+        statusStudocuReady: 'Sẵn sàng diệt QC & Tải PDF Studocu HD',
+        statusNotSupported: 'Vui lòng mở Studocu hoặc Scribd',
+        statusScanning: 'Đang quét & diệt quảng cáo...',
+        statusCleared: 'Đã xóa {count} cookies & dọn sạch quảng cáo!',
+        statusProcessingScribd: 'Đang xử lý tài liệu Scribd...',
+        statusProcessingStudocu: 'Đang xử lý tài liệu Studocu...',
+        alertScribdInit: 'Đang khởi tạo bộ nạp Scribd, vui lòng thử lại sau 1 giây!',
+        alertOpenDoc: 'Vui lòng mở một trang tài liệu trên Studocu hoặc Scribd để sử dụng!',
+        authorLabel: 'Tác giả:'
+    },
+    en: {
+        headerSub: 'Studocu & Scribd Helper',
+        currentWebsite: 'Current Website',
+        detecting: 'Detecting...',
+        notSupported: 'Not supported',
+        downloadPdfTitle: 'Download HD PDF (1-Click)',
+        downloadPdfDesc: 'Auto-preload pages & save as PDF',
+        scribdPdfDesc: 'Preload & Export Scribd HD PDF',
+        studocuPdfDesc: 'Bypass limits & Export Studocu HD PDF',
+        unblurTitle: 'Unblur Pages & Remove Ads',
+        unblurDesc: 'Clear limit cookies & clean overlays',
+        coffeeTitle: 'Buy the Author a Coffee',
+        coffeeDesc: 'Support ongoing development',
+        statusReady: 'Ready',
+        statusStandby: 'Standby mode...',
+        statusScribdReady: 'Ready to block ads & Download Scribd HD PDF',
+        statusStudocuReady: 'Ready to block ads & Download Studocu HD PDF',
+        statusNotSupported: 'Please open Studocu or Scribd',
+        statusScanning: 'Scanning & removing ads...',
+        statusCleared: 'Cleared {count} cookies & removed ads!',
+        statusProcessingScribd: 'Processing Scribd document...',
+        statusProcessingStudocu: 'Processing Studocu document...',
+        alertScribdInit: 'Initializing Scribd loader, please try again in 1 second!',
+        alertOpenDoc: 'Please open a document page on Studocu or Scribd to proceed!',
+        authorLabel: 'Author:'
+    }
+};
+
+let currentLang = 'en';
+
 document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+            const { lang } = await chrome.storage.local.get({ lang: 'en' });
+            currentLang = lang || 'en';
+        }
+    } catch (e) {}
+
+    applyLanguage(currentLang);
+
+    // Language switch click listener
+    const langSwitch = document.getElementById('langSwitch');
+    if (langSwitch) {
+        langSwitch.addEventListener('click', async (e) => {
+            const targetOpt = e.target.closest('.lang-opt');
+            const selectedLang = targetOpt ? targetOpt.getAttribute('data-lang') : (currentLang === 'vi' ? 'en' : 'vi');
+            if (selectedLang && selectedLang !== currentLang) {
+                applyLanguage(selectedLang);
+                try {
+                    if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+                        await chrome.storage.local.set({ lang: selectedLang });
+                    }
+                } catch (err) {}
+                await updateTabContext();
+            }
+        });
+    }
+
+    await updateTabContext();
+});
+
+function applyLanguage(lang) {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    const dict = translations[lang] || translations.en;
+
+    document.querySelectorAll('[data-i18n]').forEach((el) => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) {
+            el.textContent = dict[key];
+        }
+    });
+
+    document.querySelectorAll('#langSwitch .lang-opt').forEach((opt) => {
+        if (opt.getAttribute('data-lang') === lang) {
+            opt.classList.add('active');
+        } else {
+            opt.classList.remove('active');
+        }
+    });
+}
+
+async function updateTabContext() {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-    const statusText = document.getElementById('status-text');
     const pdfDesc = document.getElementById('pdf-btn-desc');
     const statusBadge = document.getElementById('status-badge');
     const platformName = document.getElementById('platform-name');
+    const dict = translations[currentLang] || translations.en;
 
     if (!tab || !tab.url) {
-        updateStatus('Chế độ chờ...', false);
+        updateStatus(dict.statusStandby, false);
         return;
     }
 
     const url = new URL(tab.url);
     if (url.hostname.includes('scribd.com')) {
-        updateStatus('Sẵn sàng diệt QC & Tải PDF Scribd HD', false);
-        if (pdfDesc) pdfDesc.innerText = 'Preload & Xuất PDF Scribd HD';
+        updateStatus(dict.statusScribdReady, false);
+        if (pdfDesc) pdfDesc.innerText = dict.scribdPdfDesc;
         if (platformName) platformName.innerText = 'Scribd.com';
         if (statusBadge) statusBadge.className = 'card-badge scribd-theme';
     } else if (url.hostname.includes('studocu.com') || url.hostname.includes('studocu.vn')) {
-        updateStatus('Sẵn sàng diệt QC & Tải PDF Studocu HD', false);
-        if (pdfDesc) pdfDesc.innerText = 'Bypass giới hạn & Xuất PDF Studocu HD';
+        updateStatus(dict.statusStudocuReady, false);
+        if (pdfDesc) pdfDesc.innerText = dict.studocuPdfDesc;
         if (platformName) platformName.innerText = 'Studocu.com';
         if (statusBadge) statusBadge.className = 'card-badge studocu-theme';
     } else {
-        updateStatus('Vui lòng mở Studocu hoặc Scribd', false);
-        if (platformName) platformName.innerText = 'Không hỗ trợ';
+        updateStatus(dict.statusNotSupported, false);
+        if (platformName) platformName.innerText = dict.notSupported;
         if (statusBadge) statusBadge.className = 'card-badge idle-theme';
     }
-});
+}
 
 function updateStatus(msg, isProcessing = false) {
     const statusText = document.getElementById('status-text');
@@ -54,7 +163,8 @@ if (coffeeBtn) {
 
 // Clear cookies & remove ads for active domain
 document.getElementById('clearBtn').addEventListener('click', async () => {
-    updateStatus("Đang quét & diệt quảng cáo...", true);
+    const dict = translations[currentLang] || translations.en;
+    updateStatus(dict.statusScanning, true);
 
     try {
         const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -84,44 +194,46 @@ document.getElementById('clearBtn').addEventListener('click', async () => {
             }
         });
 
-        updateStatus(`Đã xóa ${count} cookies & dọn sạch quảng cáo!`, false);
+        const clearedMsg = dict.statusCleared.replace('{count}', count);
+        updateStatus(clearedMsg, false);
 
         setTimeout(() => {
             if (tab.id) chrome.tabs.reload(tab.id);
         }, 800);
 
     } catch (e) {
-        updateStatus("Lỗi: " + e.message, false);
+        updateStatus("Error: " + e.message, false);
     }
 });
 
 // Trigger PDF Generation
 document.getElementById('checkBtn').addEventListener('click', async () => {
+    const dict = translations[currentLang] || translations.en;
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     if (!tab || !tab.url) return;
 
     const url = new URL(tab.url);
 
     if (url.hostname.includes('scribd.com')) {
-        updateStatus("Đang xử lý tài liệu Scribd...", true);
+        updateStatus(dict.statusProcessingScribd, true);
         chrome.scripting.executeScript({
             target: { tabId: tab.id },
             func: () => {
                 if (typeof window.runScribdCleaner === 'function') {
                     window.runScribdCleaner();
                 } else {
-                    alert("Đang khởi tạo bộ nạp Scribd, vui lòng thử lại sau 1 giây!");
+                    alert(translations.en.alertScribdInit);
                 }
             }
         });
     } else if (url.hostname.includes('studocu.com') || url.hostname.includes('studocu.vn')) {
-        updateStatus("Đang xử lý tài liệu Studocu...", true);
+        updateStatus(dict.statusProcessingStudocu, true);
         chrome.scripting.executeScript({
             target: { tabId: tab.id },
             func: runCleanViewer
         });
     } else {
-        alert("Vui lòng mở một trang tài liệu trên Studocu hoặc Scribd để sử dụng!");
+        alert(dict.alertOpenDoc);
     }
 });
 

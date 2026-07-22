@@ -77,6 +77,47 @@ html, body {
   margin-top: 2px;
 }
 
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lang-switch {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: var(--bg-navy);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 3px 7px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 9.5px;
+  font-weight: 800;
+  color: #fff;
+  transition: all 0.2s ease;
+}
+
+.lang-switch:hover {
+  border-color: var(--accent-lime);
+  background: #122866;
+}
+
+.lang-opt {
+  color: rgba(255, 255, 255, 0.6);
+  transition: color 0.2s ease;
+}
+
+.lang-opt.active {
+  color: var(--accent-lime);
+  font-weight: 900;
+}
+
+.lang-divider {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 8px;
+}
+
 .header-badge {
   background-color: var(--accent-lime);
   border-radius: var(--radius-card);

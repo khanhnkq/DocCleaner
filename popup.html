@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 
 <head>
   <meta charset="utf-8">
@@ -14,17 +14,24 @@
     <header class="header-card">
       <div class="header-main">
         <h1 class="header-title">DocCleaner</h1>
-        <p class="header-sub">Hỗ Trợ Studocu & Scribd</p>
+        <p class="header-sub" data-i18n="headerSub">Studocu & Scribd Helper</p>
       </div>
-      <div class="header-badge">
-        <span class="badge-tag">PRO</span>
-        <span class="badge-ver">v1.3</span>
+      <div class="header-right">
+        <div class="lang-switch" id="langSwitch" title="Switch Language / Đổi Ngôn Ngữ">
+          <span class="lang-opt" data-lang="vi">VN</span>
+          <span class="lang-divider">/</span>
+          <span class="lang-opt active" data-lang="en">EN</span>
+        </div>
+        <div class="header-badge">
+          <span class="badge-tag">PRO</span>
+          <span class="badge-ver">v1.3</span>
+        </div>
       </div>
     </header>
 
     <!-- Uniform Cards List -->
     <main class="card-list">
-      <!-- Item 1: Trang web hiện tại -->
+      <!-- Item 1: Current Active Web Page -->
       <div class="card-item info-card">
         <div class="card-badge" id="status-badge">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
@@ -34,12 +41,12 @@
           </svg>
         </div>
         <div class="card-body">
-          <span class="card-label">Trang Web Hiện Tại</span>
-          <span class="card-title" id="platform-name">Đang nhận diện...</span>
+          <span class="card-label" data-i18n="currentWebsite">Current Website</span>
+          <span class="card-title" id="platform-name">Detecting...</span>
         </div>
       </div>
 
-      <!-- Item 2: Nút Tải PDF -->
+      <!-- Item 2: PDF Download Button -->
       <button id="checkBtn" class="card-item btn-card">
         <div class="card-badge lime-badge">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
@@ -50,12 +57,12 @@
           </svg>
         </div>
         <div class="card-body">
-          <span class="card-title">Tải PDF Nét Cao (1-Click)</span>
-          <span class="card-desc" id="pdf-btn-desc">Tự động nạp trang và lưu file PDF</span>
+          <span class="card-title" data-i18n="downloadPdfTitle">Download HD PDF (1-Click)</span>
+          <span class="card-desc" id="pdf-btn-desc" data-i18n="downloadPdfDesc">Auto-preload pages & save as PDF</span>
         </div>
       </button>
 
-      <!-- Item 3: Mở khóa & Dọn Cookie -->
+      <!-- Item 3: Unblur & Ad-Cleaner -->
       <button id="clearBtn" class="card-item btn-card">
         <div class="card-badge green-badge">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
@@ -65,8 +72,8 @@
           </svg>
         </div>
         <div class="card-body">
-          <span class="card-title">Bỏ Mờ Trang & Xóa Quảng Cáo</span>
-          <span class="card-desc">Xóa cookie để bỏ giới hạn lượt xem</span>
+          <span class="card-title" data-i18n="unblurTitle">Unblur Pages & Remove Ads</span>
+          <span class="card-desc" data-i18n="unblurDesc">Clear limit cookies & clean overlays</span>
         </div>
       </button>
 
@@ -83,8 +90,8 @@
           </svg>
         </div>
         <div class="card-body">
-          <span class="card-title">Mời Tác Giả Ly Cà Phê</span>
-          <span class="card-desc">Ủng hộ để phát triển thêm tính năng</span>
+          <span class="card-title" data-i18n="coffeeTitle">Buy the Author a Coffee</span>
+          <span class="card-desc" data-i18n="coffeeDesc">Support ongoing development</span>
         </div>
       </button>
     </main>
@@ -92,12 +99,12 @@
     <!-- Footer Status Banner -->
     <div id="status" class="status-banner">
       <span class="status-dot"></span>
-      <span id="status-text">Đã sẵn sàng hoạt động</span>
+      <span id="status-text" data-i18n="statusReady">Ready</span>
     </div>
 
     <!-- Credit -->
     <footer class="footer-block">
-      <span>Tác giả: <strong class="author-name">Khanhnkq</strong></span>
+      <span><span data-i18n="authorLabel">Author:</span> <strong class="author-name">Khanhnkq</strong></span>
     </footer>
   </div>
 

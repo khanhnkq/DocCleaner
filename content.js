@@ -113,6 +113,20 @@
     // 3. Create floating action button
     const fabBtn = document.createElement('button');
     fabBtn.id = 'studocu-fab-btn';
+
+    let currentBtnText = 'Download HD PDF';
+
+    async function updateFabLabel() {
+        try {
+            if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+                const { lang } = await chrome.storage.local.get({ lang: 'en' });
+                currentBtnText = lang === 'vi' ? 'Tải PDF HD' : 'Download HD PDF';
+                const span = fabBtn.querySelector('.fab-text-label');
+                if (span) span.innerText = currentBtnText;
+            }
+        } catch (e) {}
+    }
+
     fabBtn.innerHTML = `
         <div class="fab-icon-box">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -121,15 +135,25 @@
                 <line x1="12" y1="15" x2="12" y2="3"></line>
             </svg>
         </div>
-        <span>Tải PDF HD</span>
+        <span class="fab-text-label">${currentBtnText}</span>
         <span class="fab-tag">${brandName}</span>
     `;
+
+    updateFabLabel();
+
+    if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.onChanged) {
+        chrome.storage.onChanged.addListener((changes, area) => {
+            if (area === 'local' && changes.lang) {
+                updateFabLabel();
+            }
+        });
+    }
 
     fabBtn.addEventListener('click', async () => {
         if (fabBtn.classList.contains('processing')) return;
 
         fabBtn.classList.add('processing');
-        const span = fabBtn.querySelector('span');
+        const span = fabBtn.querySelector('.fab-text-label');
 
         const statusCallback = (msg) => {
             if (span) span.innerText = msg;
@@ -140,20 +164,20 @@
                 if (typeof window.runScribdCleaner === 'function') {
                     await window.runScribdCleaner(statusCallback);
                 } else {
-                    alert('Lỗi: Scribd Handler chưa sẵn sàng.');
+                    alert('Error: Scribd Handler is not ready.');
                 }
             } else if (isStudocu) {
-                span.innerText = 'Đang xử lý Studocu...';
+                if (span) span.innerText = currentBtnText.includes('Tải') ? 'Đang xử lý Studocu...' : 'Processing Studocu...';
                 await runStudocuCleanViewer();
             } else {
-                alert('Trang web hiện tại chưa được hỗ trợ.');
+                alert('Current web page is not supported.');
             }
         } catch (e) {
             console.error('DocCleaner error:', e);
-            alert('Lỗi: ' + e.message);
+            alert('Error: ' + e.message);
         } finally {
             fabBtn.classList.remove('processing');
-            if (span) span.innerText = 'Tải PDF HD';
+            if (span) span.innerText = currentBtnText;
         }
     });
 

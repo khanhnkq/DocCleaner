@@ -142,21 +142,29 @@
             if (typeof statusCallback === 'function') statusCallback(msg);
         };
 
-        updateStatus('Đang quét trang Scribd...');
+        let isVi = false;
+        try {
+            if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+                const { lang } = await chrome.storage.local.get({ lang: 'en' });
+                isVi = lang === 'vi';
+            }
+        } catch (e) {}
+
+        updateStatus(isVi ? 'Đang quét trang Scribd...' : 'Scanning Scribd pages...');
         removeScribdAds();
 
         const pages = document.querySelectorAll('.outer_page, .document_page');
         if (pages.length === 0) {
-            alert('Không tìm thấy trang tài liệu nào trên Scribd.\n(Vui lòng mở một trang đọc tài liệu Scribd để xuất PDF!)');
+            alert(isVi ? 'Không tìm thấy trang tài liệu nào trên Scribd.\n(Vui lòng mở một trang đọc tài liệu Scribd để xuất PDF!)' : 'No document pages found on Scribd.\n(Please open a document page on Scribd to export PDF!)');
             return;
         }
 
-        updateStatus('Tải trước tất cả trang...');
+        updateStatus(isVi ? 'Tải trước tất cả trang...' : 'Preloading all pages...');
         await preloadAllScribdPages((percent) => {
-            updateStatus(`Đang nạp trang... ${percent}%`);
+            updateStatus(isVi ? `Đang nạp trang... ${percent}%` : `Loading pages... ${percent}%`);
         });
 
-        updateStatus('Đang làm nét & tạo bộ xem sạch...');
+        updateStatus(isVi ? 'Đang làm nét & tạo bộ xem sạch...' : 'Unblurring & rendering clean view...');
         removeScribdAds();
 
         // Build Clean Viewer Container to isolate document pages from Scribd UI header/sidebar
