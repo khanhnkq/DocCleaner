@@ -12,9 +12,10 @@ html, body {
 /* Studocu Ads & Overlays */
 #upgrade-overlay,
 .banner-wrapper,
-[class*="paywall"],
 [class*="paywall-overlay"],
-#page-container-wrapper + div,
+[class*="PaywallOverlay"],
+[class*="paywall_overlay"],
+.viewer-paywall-banner,
 .advertisement,
 #onetrust-consent-sdk,
 .onetrust-pc-dark-filter,

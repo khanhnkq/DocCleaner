@@ -583,17 +583,35 @@
 
         updateStatus(isVi ? 'Đang mở cửa sổ in PDF...' : 'Opening print window...');
         setTimeout(() => {
+            window.addEventListener('afterprint', cleanupAfterPrint, { once: true });
             window.print();
+            // Fallback nếu afterprint không fire (trình duyệt cũ)
+            setTimeout(cleanupAfterPrint, 2000);
         }, 500);
     } catch (err) {
         console.error('DocCleaner Scribd error:', err);
         if (overlayUI) overlayUI.remove();
+        cleanupAfterPrint();
         alert('Error: ' + (err && err.message ? err.message : err));
     }
 }
+
+    /**
+     * Removes the clean viewer container, styles, and preload overlay
+     * to restore the original page UI after printing.
+     */
+    function cleanupAfterPrint() {
+        const viewer = document.getElementById('clean-viewer-container');
+        const style = document.getElementById('clean-viewer-styles');
+        const overlay = document.getElementById('scribd-preload-overlay');
+        if (viewer) viewer.remove();
+        if (style) style.remove();
+        if (overlay) overlay.remove();
+    }
 
     // Export functions to window scope for router in content.js
     window.initScribdAdBlocker = initScribdAdBlocker;
     window.runScribdCleaner = runScribdCleaner;
     window.removeScribdAds = removeScribdAds;
+    window.cleanupAfterPrint = cleanupAfterPrint;
 })();

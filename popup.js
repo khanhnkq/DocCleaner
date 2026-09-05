@@ -24,6 +24,7 @@ const translations = {
         statusProcessingScribd: 'Đang xử lý tài liệu Scribd...',
         statusProcessingStudocu: 'Đang xử lý tài liệu Studocu...',
         alertScribdInit: 'Đang khởi tạo bộ nạp Scribd, vui lòng thử lại sau 1 giây!',
+        alertStudocuInit: 'Đang khởi tạo bộ nạp Studocu, vui lòng thử lại sau 1 giây!',
         alertOpenDoc: 'Vui lòng mở một trang tài liệu trên Studocu hoặc Scribd để sử dụng!',
         authorLabel: 'Tác giả:'
     },
@@ -50,6 +51,7 @@ const translations = {
         statusProcessingScribd: 'Processing Scribd document...',
         statusProcessingStudocu: 'Processing Studocu document...',
         alertScribdInit: 'Initializing Scribd loader, please try again in 1 second!',
+        alertStudocuInit: 'Initializing Studocu loader, please try again in 1 second!',
         alertOpenDoc: 'Please open a document page on Studocu or Scribd to proceed!',
         authorLabel: 'Author:'
     }
@@ -237,7 +239,14 @@ document.getElementById('checkBtn').addEventListener('click', async () => {
             updateStatus(dict.statusProcessingStudocu, true);
             await chrome.scripting.executeScript({
                 target: { tabId: tab.id },
-                func: runCleanViewer
+                func: (errorMsg) => {
+                    if (typeof window.runStudocuCleanViewer === 'function') {
+                        window.runStudocuCleanViewer();
+                    } else {
+                        alert(errorMsg || 'Initializing Studocu loader, please try again in 1 second!');
+                    }
+                },
+                args: [dict.alertStudocuInit]
             });
         } else {
             alert(dict.alertOpenDoc);
@@ -250,11 +259,13 @@ document.getElementById('checkBtn').addEventListener('click', async () => {
 });
 
 async function runCleanViewer() {
-    const pages = document.querySelectorAll('div[data-page-index]');
+    let pages = document.querySelectorAll('div[data-page-index]');
     if (pages.length === 0) {
         alert("⚠️ Không tìm thấy trang nào.\n(Hãy cuộn chuột xuống cuối tài liệu để web tải hết nội dung trước!)");
         return;
     }
+
+    const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
     let signature = '';
     let baseDocPath = '';
@@ -273,6 +284,50 @@ async function runCleanViewer() {
                 break;
             } catch (e) { }
         }
+    }
+
+    function loadImageWithRetry(imgEl, targetSrc, maxRetries = 2) {
+        return new Promise((resolve) => {
+            let attempts = 0;
+            function tryLoad() {
+                attempts++;
+                imgEl.src = targetSrc;
+                imgEl.setAttribute('loading', 'eager');
+                imgEl.loading = 'eager';
+                imgEl.style.display = 'block';
+                imgEl.style.visibility = 'visible';
+
+                if (imgEl.complete && imgEl.naturalWidth > 0) {
+                    resolve();
+                    return;
+                }
+
+                const timeoutId = setTimeout(() => {
+                    if (imgEl.complete && imgEl.naturalWidth > 0) {
+                        resolve();
+                    } else if (attempts < maxRetries) {
+                        tryLoad();
+                    } else {
+                        resolve();
+                    }
+                }, 6000);
+
+                imgEl.addEventListener('load', () => {
+                    clearTimeout(timeoutId);
+                    resolve();
+                }, { once: true });
+
+                imgEl.addEventListener('error', () => {
+                    clearTimeout(timeoutId);
+                    if (attempts < maxRetries) {
+                        setTimeout(tryLoad, 300);
+                    } else {
+                        resolve();
+                    }
+                }, { once: true });
+            }
+            tryLoad();
+        });
     }
 
     const imagePromises = [];
@@ -296,24 +351,18 @@ async function runCleanViewer() {
             targetSrc = imgEl.src;
         }
 
-        imgEl.src = targetSrc;
-        imgEl.setAttribute('loading', 'eager');
-        imgEl.loading = 'eager';
-        imgEl.style.display = 'block';
-        imgEl.style.visibility = 'visible';
+        if (!targetSrc) return;
 
-        if (imgEl.complete && imgEl.naturalWidth > 0) return;
+        if (imgEl.src === targetSrc && imgEl.complete && imgEl.naturalWidth > 0) return;
 
-        imagePromises.push(new Promise(resolve => {
-            imgEl.addEventListener('load', resolve, { once: true });
-            imgEl.addEventListener('error', resolve, { once: true });
-            setTimeout(resolve, 3000);
-        }));
+        imagePromises.push(loadImageWithRetry(imgEl, targetSrc));
     });
 
     if (imagePromises.length > 0) {
         await Promise.all(imagePromises);
     }
+
+    await sleep(200);
 
     const wrapper = document.querySelector('#page-container-wrapper')
         || document.querySelector('[id*="page-container"]')
@@ -322,36 +371,106 @@ async function runCleanViewer() {
     const viewerContainer = document.createElement('div');
     viewerContainer.id = 'clean-viewer-container';
     if (wrapper) {
-        const classes = wrapper.className.split(' ').filter(c => !c.includes('Viewer_page-container'));
-        viewerContainer.className = classes.join(' ');
+        viewerContainer.className = wrapper.className;
     }
 
+    const innerDocWrapper = document.createElement('div');
+    innerDocWrapper.id = wrapper && wrapper.id ? wrapper.id : 'page-container-wrapper';
+    if (wrapper) innerDocWrapper.className = wrapper.className;
+    viewerContainer.appendChild(innerDocWrapper);
+
     pages.forEach((page, index) => {
+        const pc = page.querySelector('.pc') || page;
         const pf = page.querySelector('.pf') || page;
-        const pc = page.querySelector('.pc') || pf;
 
-        const style = window.getComputedStyle(pc);
-        const rect = pc.getBoundingClientRect();
+        let width = 0;
+        let height = 0;
 
-        let width = parseFloat(style.width) || rect.width || 612;
-        let height = parseFloat(style.height) || rect.height || 792;
+        if (pc.style && pc.style.width) width = parseFloat(pc.style.width);
+        if (pc.style && pc.style.height) height = parseFloat(pc.style.height);
+
+        if (!width || !height) {
+            const cs = window.getComputedStyle(pc);
+            width = parseFloat(cs.width);
+            height = parseFloat(cs.height);
+        }
+
+        if (!width || !height) {
+            const rect = pc.getBoundingClientRect();
+            width = rect.width;
+            height = rect.height;
+        }
+
+        if (!width || !height) {
+            const img = page.querySelector('img.bi') || page.querySelector('img');
+            if (img && img.naturalWidth && img.naturalHeight) {
+                width = img.naturalWidth;
+                height = img.naturalHeight;
+            }
+        }
+
+        if (!width || width < 200) width = 892;
+        if (!height || height < 200) height = 1262;
 
         const scaleFactor = Math.min(775 / width, 1060 / height);
+        const scaledHeight = height * scaleFactor;
 
         const newPage = document.createElement('div');
         newPage.className = 'std-page';
         newPage.id = `page-${index + 1}`;
         newPage.setAttribute('data-page-number', index + 1);
         newPage.style.width = '100%';
-        newPage.style.height = (height * scaleFactor) + 'px';
+        newPage.style.height = scaledHeight + 'px';
+        newPage.style.position = 'relative';
+        newPage.style.overflow = 'hidden';
+        newPage.style.backgroundColor = '#ffffff';
 
         const pfClone = pf.cloneNode(true);
+        pfClone.style.width = width + 'px';
+        pfClone.style.height = height + 'px';
+        pfClone.style.position = 'relative';
         pfClone.style.transform = `scale(${scaleFactor})`;
-        pfClone.style.transformOrigin = 'center center';
+        pfClone.style.transformOrigin = 'top center';
         pfClone.style.margin = '0 auto';
+        pfClone.style.top = '0';
+        pfClone.style.left = '0';
+        pfClone.style.overflow = 'hidden';
+        pfClone.style.display = 'block';
+        pfClone.style.visibility = 'visible';
+        pfClone.style.opacity = '1';
+
+        const pcsInClone = pfClone.matches('.pc') ? [pfClone] : Array.from(pfClone.querySelectorAll('.pc'));
+        pcsInClone.forEach(pcEl => {
+            pcEl.style.width = width + 'px';
+            pcEl.style.height = height + 'px';
+            pcEl.style.position = 'absolute';
+            pcEl.style.top = '0';
+            pcEl.style.left = '0';
+            pcEl.style.display = 'block';
+            pcEl.style.visibility = 'visible';
+            pcEl.style.opacity = '1';
+            pcEl.style.filter = 'none';
+            pcEl.style.overflow = 'hidden';
+        });
+
+        pfClone.querySelectorAll('.t').forEach(tEl => {
+            tEl.style.visibility = 'visible';
+            tEl.style.opacity = '1';
+            tEl.style.filter = 'none';
+            tEl.style.zIndex = '5';
+        });
+
+        pfClone.querySelectorAll('img').forEach(imgEl => {
+            imgEl.style.display = 'block';
+            imgEl.style.visibility = 'visible';
+            imgEl.style.opacity = '1';
+            imgEl.style.zIndex = '1';
+            imgEl.setAttribute('loading', 'eager');
+            imgEl.loading = 'eager';
+        });
 
         newPage.appendChild(pfClone);
-        viewerContainer.appendChild(newPage);
+        innerDocWrapper.appendChild(newPage);
     });
 
     const oldStyle = document.getElementById('clean-viewer-styles');
@@ -363,18 +482,35 @@ async function runCleanViewer() {
         body { background-color: #f6f7fb !important; margin: 0 !important; }
         body > *:not(#clean-viewer-container) { display: none !important; }
         #clean-viewer-container { position: absolute; top: 0; left: 0; width: 100%; display: flex; flex-direction: column; align-items: center; padding: 30px 0; z-index: 99999; }
-        .std-page { position: relative !important; background-color: white; margin-bottom: 20px; overflow: hidden !important; border: none !important; }
+        .std-page { position: relative !important; background-color: white !important; margin-bottom: 20px; overflow: hidden !important; border: none !important; }
+        .std-page .pf { position: relative !important; overflow: hidden !important; display: block !important; visibility: visible !important; opacity: 1 !important; filter: none !important; }
+        .std-page .pc { position: absolute !important; top: 0 !important; left: 0 !important; display: block !important; visibility: visible !important; opacity: 1 !important; filter: none !important; overflow: hidden !important; }
+        .std-page .t { position: absolute !important; visibility: visible !important; opacity: 1 !important; filter: none !important; z-index: 5 !important; }
+        .std-page img.bi { position: absolute !important; top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important; z-index: 1 !important; display: block !important; visibility: visible !important; opacity: 1 !important; }
         @media print {
             @page { margin: 0; size: A4 portrait; }
             html, body { background-color: white !important; margin: 0 !important; }
             #clean-viewer-container { position: static !important; display: block !important; width: 100% !important; }
-            .std-page { position: relative !important; width: 100% !important; height: 100vh !important; page-break-after: always !important; }
+            .std-page { position: relative !important; width: 100% !important; height: 100vh !important; page-break-after: always !important; overflow: hidden !important; background: white !important; }
+            .std-page .pf { position: relative !important; margin: 0 auto !important; display: block !important; visibility: visible !important; opacity: 1 !important; filter: none !important; overflow: hidden !important; }
+            .std-page .pc { position: absolute !important; top: 0 !important; left: 0 !important; display: block !important; visibility: visible !important; opacity: 1 !important; filter: none !important; overflow: hidden !important; }
+            .std-page .t { position: absolute !important; visibility: visible !important; opacity: 1 !important; z-index: 5 !important; }
+            .std-page img.bi { position: absolute !important; top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important; z-index: 1 !important; }
         }
     `;
     document.head.appendChild(viewerStyle);
     document.body.appendChild(viewerContainer);
 
     setTimeout(() => {
+        const cleanup = () => {
+            const v = document.getElementById('clean-viewer-container');
+            const s = document.getElementById('clean-viewer-styles');
+            if (v) v.remove();
+            if (s) s.remove();
+        };
+        window.addEventListener('afterprint', cleanup, { once: true });
         window.print();
+        // Fallback nếu afterprint không fire
+        setTimeout(cleanup, 2000);
     }, 800);
 }
