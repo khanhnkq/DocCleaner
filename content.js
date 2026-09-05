@@ -80,17 +80,31 @@
             text-transform: uppercase;
         }
 
+        .fab-icon-box .fab-icon-spinner {
+            display: none;
+        }
+
+        .fab-icon-box .fab-icon-download {
+            display: block;
+        }
+
         #studocu-fab-btn.processing {
             background-color: #293856;
             cursor: wait;
             opacity: 0.95;
         }
 
-        #studocu-fab-btn.processing .fab-icon-box svg {
-            animation: fabSpin 1s linear infinite;
+        #studocu-fab-btn.processing .fab-icon-box .fab-icon-download {
+            display: none;
+        }
+
+        #studocu-fab-btn.processing .fab-icon-box .fab-icon-spinner {
+            display: block;
+            animation: fabSpin 0.85s linear infinite;
         }
 
         @keyframes fabSpin {
+            0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
 
@@ -99,7 +113,7 @@
                 transition-duration: 0.01ms !important;
                 transform: none !important;
             }
-            #studocu-fab-btn.processing .fab-icon-box svg {
+            #studocu-fab-btn.processing .fab-icon-box .fab-icon-spinner {
                 animation: none !important;
             }
         }
@@ -129,10 +143,14 @@
 
     fabBtn.innerHTML = `
         <div class="fab-icon-box">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <svg class="fab-icon-download" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                 <polyline points="7 10 12 15 17 10"></polyline>
                 <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <svg class="fab-icon-spinner" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round">
+                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-opacity="0.25" stroke-width="2.8" fill="none"></circle>
+                <path d="M12 3a9 9 0 0 1 9 9" stroke="currentColor" stroke-width="2.8" fill="none"></path>
             </svg>
         </div>
         <span class="fab-text-label">${currentBtnText}</span>
@@ -200,10 +218,13 @@ function initStudocuAdBlocker() {
             '#upgrade-overlay',
             '.banner-wrapper',
             '[class*="paywall"]',
-            '[class*="overlay"]',
+            '[class*="paywall-overlay"]',
             '#onetrust-consent-sdk',
             '.onetrust-pc-dark-filter',
-            '#didomi-host'
+            '#didomi-host',
+            '#credential_picker_container',
+            '#credential_picker_iframe',
+            'iframe[src*="accounts.google.com/gsi"]'
         ];
         adSelectors.forEach(sel => {
             document.querySelectorAll(sel).forEach(el => el.remove());

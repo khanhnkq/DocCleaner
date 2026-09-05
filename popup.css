@@ -301,6 +301,29 @@ button.card-item:hover .card-body {
   to { opacity: 1; transform: scale(1.2); }
 }
 
+/* Spinner for PDF Button */
+.card-badge .btn-icon-spinner {
+  display: none;
+}
+
+.card-badge .btn-icon-download {
+  display: block;
+}
+
+.btn-card.processing .card-badge .btn-icon-download {
+  display: none;
+}
+
+.btn-card.processing .card-badge .btn-icon-spinner {
+  display: block;
+  animation: fabSpin 0.85s linear infinite;
+}
+
+@keyframes fabSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 /* Credit Footer */
 .footer-block {
   text-align: center;

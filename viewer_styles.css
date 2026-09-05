@@ -79,8 +79,12 @@ body > *:not(#clean-viewer-container) {
     .promo_wrapper,
     .promo_border,
     .auto__doc_page_webpack_app_page_truncate_promo,
+    .auto__doc_page_webpack_doc_page_blur_promo,
     .page_blur_promo,
+    .page-blur-promo,
     .absolute_blur,
+    .page_missing_explanation,
+    .between_page_portal_root,
     #studocu-fab-btn {
         display: none !important;
     }
@@ -93,6 +97,7 @@ body > *:not(#clean-viewer-container) {
     }
     
     .std-page,
+    .scribd-clean-page,
     .outer_page,
     .document_page {
         margin: 0 auto !important; 

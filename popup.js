@@ -208,32 +208,44 @@ document.getElementById('clearBtn').addEventListener('click', async () => {
 
 // Trigger PDF Generation
 document.getElementById('checkBtn').addEventListener('click', async () => {
+    const checkBtn = document.getElementById('checkBtn');
+    if (checkBtn.classList.contains('processing')) return;
+
     const dict = translations[currentLang] || translations.en;
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     if (!tab || !tab.url) return;
 
     const url = new URL(tab.url);
 
-    if (url.hostname.includes('scribd.com')) {
-        updateStatus(dict.statusProcessingScribd, true);
-        chrome.scripting.executeScript({
-            target: { tabId: tab.id },
-            func: () => {
-                if (typeof window.runScribdCleaner === 'function') {
-                    window.runScribdCleaner();
-                } else {
-                    alert(translations.en.alertScribdInit);
-                }
-            }
-        });
-    } else if (url.hostname.includes('studocu.com') || url.hostname.includes('studocu.vn')) {
-        updateStatus(dict.statusProcessingStudocu, true);
-        chrome.scripting.executeScript({
-            target: { tabId: tab.id },
-            func: runCleanViewer
-        });
-    } else {
-        alert(dict.alertOpenDoc);
+    checkBtn.classList.add('processing');
+
+    try {
+        if (url.hostname.includes('scribd.com')) {
+            updateStatus(dict.statusProcessingScribd, true);
+            await chrome.scripting.executeScript({
+                target: { tabId: tab.id },
+                func: (errorMsg) => {
+                    if (typeof window.runScribdCleaner === 'function') {
+                        window.runScribdCleaner();
+                    } else {
+                        alert(errorMsg || 'Initializing Scribd loader, please try again in 1 second!');
+                    }
+                },
+                args: [dict.alertScribdInit]
+            });
+        } else if (url.hostname.includes('studocu.com') || url.hostname.includes('studocu.vn')) {
+            updateStatus(dict.statusProcessingStudocu, true);
+            await chrome.scripting.executeScript({
+                target: { tabId: tab.id },
+                func: runCleanViewer
+            });
+        } else {
+            alert(dict.alertOpenDoc);
+        }
+    } finally {
+        setTimeout(() => {
+            checkBtn.classList.remove('processing');
+        }, 1500);
     }
 });
 
