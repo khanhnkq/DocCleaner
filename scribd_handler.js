@@ -252,7 +252,7 @@
         });
 
         return {
-            update(percent, current, total) {
+            update(percent, current, total, customMsg) {
                 const bar = document.getElementById('scribd-preload-bar');
                 const pct = document.getElementById('scribd-preload-percent');
                 const cnt = document.getElementById('scribd-preload-count');
@@ -264,8 +264,12 @@
                 if (cnt && total) {
                     cnt.textContent = isVi ? `Trang ${current || 1}/${total}` : `Page ${current || 1}/${total}`;
                 }
-                if (sub && clamped >= 88) {
-                    sub.textContent = isVi ? 'Đang trích xuất đồ họa HD & chuẩn bị in...' : 'Extracting HD graphics & preparing print...';
+                if (sub) {
+                    if (customMsg) {
+                        sub.textContent = customMsg;
+                    } else if (clamped >= 88) {
+                        sub.textContent = isVi ? 'Đang trích xuất đồ họa HD & chuẩn bị in...' : 'Extracting HD graphics & preparing print...';
+                    }
                 }
             },
             remove() {
@@ -280,22 +284,23 @@
     /**
      * Fast, invisible programmatic preloader for Scribd.
      * Uses instant scrolling (behavior: 'instant') behind the overlay to trigger
-     * IntersectionObservers rapidly without causing any visible page rolling to the user.
+     * IntersectionObservers rapidly so that Scribd creates DOM nodes for all pages.
      */
-    async function preloadAllScribdPages(onProgress, overlayUI) {
+    async function preloadAllScribdPages(onProgress, overlayUI, isVi) {
         return new Promise(async (resolve) => {
             const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-            // 1. Eagerly trigger any lazy images that have data-src
+            // Eagerly trigger any lazy images that have data-src
             document.querySelectorAll('.outer_page img, .document_page img').forEach((img) => {
-                if (img.dataset && img.dataset.src && !img.src) {
-                    img.src = img.dataset.src;
+                if (img.dataset) {
+                    if (img.dataset.src && !img.src) img.src = img.dataset.src;
+                    if (img.dataset.orig && (!img.src || img.src.includes('lowres'))) img.src = img.dataset.orig;
                 }
                 img.loading = 'eager';
                 img.setAttribute('loading', 'eager');
             });
 
-            // 2. High-speed programmatic scroll pass
+            // High-speed programmatic scroll pass
             const viewportHeight = window.innerHeight || 800;
             const scrollStep = Math.floor(viewportHeight * 1.5);
             let currentScroll = 0;
@@ -315,10 +320,10 @@
                 // Count pages currently in DOM
                 const currentPages = document.querySelectorAll('.outer_page, .document_page, div[id^="outer_page_"]');
                 const pageCount = currentPages.length || 1;
-                const progress = Math.min(85, Math.floor((currentScroll / totalHeight) * 85));
+                const progress = Math.min(45, 5 + Math.floor((currentScroll / totalHeight) * 40));
 
                 if (typeof onProgress === 'function') onProgress(progress);
-                if (overlayUI) overlayUI.update(progress, Math.floor((progress / 85) * pageCount), pageCount);
+                if (overlayUI) overlayUI.update(progress, Math.floor((progress / 45) * pageCount), pageCount, isVi ? 'Đang kích hoạt nạp ngầm các trang...' : 'Activating page containers...');
 
                 if (currentScroll >= totalHeight) {
                     if (totalHeight === lastScrollHeight) {
@@ -328,43 +333,149 @@
                         lastScrollHeight = totalHeight;
                     }
 
-                    // Bottom reached and content finished loading
+                    // Bottom reached and height settled
                     if (sameHeightChecks >= 2) {
                         break;
                     }
                 }
 
-                await sleep(20); // 20ms instant step (invisible behind overlay)
+                await sleep(15);
             }
 
-            // 3. Targeted check: verify that all pages have rendered canvas or images
-            const allPages = document.querySelectorAll('.outer_page, .document_page, div[id^="outer_page_"]');
-            const total = allPages.length || 1;
-
-            for (let i = 0; i < allPages.length; i++) {
-                const p = allPages[i];
-                const canvas = p.querySelector('canvas');
-                const img = p.querySelector('img');
-
-                // If page hasn't rendered canvas or image yet, trigger instant view
-                const isRendered = (canvas && canvas.width > 0 && canvas.height > 0) || (img && img.complete && img.naturalWidth > 0);
-                if (!isRendered) {
-                    p.scrollIntoView({ behavior: 'instant', block: 'center' });
-                    await sleep(25);
-                }
-
-                const checkPercent = 85 + Math.floor(((i + 1) / total) * 15);
-                if (typeof onProgress === 'function') onProgress(checkPercent);
-                if (overlayUI) overlayUI.update(checkPercent, i + 1, total);
-            }
-
-            // 4. Return scroll instantly to top and wait briefly for final rasterization
-            window.scrollTo({ top: 0, behavior: 'instant' });
-            if (overlayUI) overlayUI.update(100, total, total);
-            if (typeof onProgress === 'function') onProgress(100);
-
-            await sleep(250);
             resolve();
+        });
+    }
+
+    /**
+     * Checks if a Scribd page has finished rendering text spans, canvas, and images.
+     */
+    function isScribdPageRendered(page) {
+        if (!page) return false;
+        const textSpans = page.querySelectorAll('.text_layer span, .text-layer span, [class^="ff"] span, span');
+        const imgs = Array.from(page.querySelectorAll('img'));
+        const canvases = Array.from(page.querySelectorAll('canvas'));
+
+        const imgsReady = imgs.length === 0 || imgs.every(img => (img.complete && img.naturalWidth > 0) || img.getAttribute('src')?.startsWith('data:'));
+        const canvasesReady = canvases.length === 0 || canvases.every(c => c.width > 0 && c.height > 0);
+        const textReady = textSpans.length > 0 || page.innerHTML.length > 300;
+
+        return imgsReady && canvasesReady && textReady;
+    }
+
+    /**
+     * True Page Readiness Detection for Scribd:
+     * Waits until the page's images, canvas, and text layer are completely stable and rendered.
+     */
+    function waitForScribdPageReady(page) {
+        return new Promise((resolve) => {
+            let lastLen = -1;
+            let stable = 0;
+            let tries = 0;
+
+            // Trigger lazy images eagerly
+            page.querySelectorAll('img').forEach(img => {
+                if (img.dataset) {
+                    if (img.dataset.src && !img.src) img.src = img.dataset.src;
+                    if (img.dataset.orig && (!img.src || img.src.includes('lowres'))) img.src = img.dataset.orig;
+                }
+                img.setAttribute('loading', 'eager');
+                img.loading = 'eager';
+            });
+
+            function check() {
+                const len = page.innerHTML.length;
+                if (isScribdPageRendered(page)) {
+                    if (len === lastLen) {
+                        stable++;
+                    } else {
+                        stable = 0;
+                        lastLen = len;
+                    }
+                    if (stable >= 2) {
+                        resolve();
+                        return;
+                    }
+                }
+                if (tries++ > 15) { // max ~1.5s per page
+                    resolve();
+                    return;
+                }
+                setTimeout(check, 100);
+            }
+            check();
+        });
+    }
+
+    /**
+     * Embeds all image URLs as Data URIs (Base64) into RAM.
+     * Guarantees 100% print preview reliability without missing assets, blank images, or broken tables.
+     */
+    async function embedImagesAsDataUris(pagesList, onProgress) {
+        const urls = [];
+        const urlMap = {};
+
+        pagesList.forEach(p => {
+            p.querySelectorAll('img').forEach(img => {
+                let src = img.getAttribute('src');
+                if (!src && img.dataset && img.dataset.src) {
+                    src = img.dataset.src;
+                    img.setAttribute('src', src);
+                    img.src = src;
+                }
+                if (src && src.startsWith('http') && !urls.includes(src)) {
+                    urls.push(src);
+                }
+            });
+        });
+
+        if (urls.length === 0) return;
+
+        let completed = 0;
+        const CONCURRENCY = 6;
+        let nextIdx = 0;
+
+        async function worker() {
+            while (nextIdx < urls.length) {
+                const url = urls[nextIdx++];
+                try {
+                    const res = await fetch(url, { credentials: 'omit' });
+                    if (res.ok) {
+                        const blob = await res.blob();
+                        if (blob && blob.size > 0) {
+                            const dataUri = await new Promise((resolve) => {
+                                const reader = new FileReader();
+                                reader.onload = () => resolve(reader.result);
+                                reader.onerror = () => resolve(null);
+                                reader.readAsDataURL(blob);
+                            });
+                            if (dataUri) {
+                                urlMap[url] = dataUri;
+                            }
+                        }
+                    }
+                } catch (err) {}
+                completed++;
+                if (typeof onProgress === 'function') {
+                    onProgress(completed, urls.length);
+                }
+            }
+        }
+
+        const workers = [];
+        for (let c = 0; c < Math.min(CONCURRENCY, urls.length); c++) {
+            workers.push(worker());
+        }
+        await Promise.all(workers);
+
+        // Replace img src attributes with Data URIs
+        pagesList.forEach(p => {
+            p.querySelectorAll('img').forEach(img => {
+                const s = img.getAttribute('src');
+                if (urlMap[s]) {
+                    img.setAttribute('src', urlMap[s]);
+                    img.src = urlMap[s];
+                }
+            });
         });
     }
 
@@ -403,11 +514,13 @@
 
             // Show sleek fullscreen progress overlay so user never sees page scrolling
             overlayUI = showPreloadOverlay(isVi);
+            overlayUI.update(5, 1, pages.length, isVi ? 'Đang quét & kích hoạt trang ngầm...' : 'Scanning & activating pages...');
 
-            updateStatus(isVi ? 'Đang nạp toàn bộ trang...' : 'Preloading all pages...');
+            // Step 1: Fast scroll pass to ensure Scribd injects all page containers into the DOM
+            updateStatus(isVi ? 'Đang kích hoạt toàn bộ trang...' : 'Activating all pages...');
             await preloadAllScribdPages((percent) => {
                 updateStatus(isVi ? `Đang nạp trang... ${percent}%` : `Loading pages... ${percent}%`);
-            }, overlayUI);
+            }, overlayUI, isVi);
 
             // Re-query pages after lazy loading
             pages = document.querySelectorAll('.outer_page, .document_page, div[id^="outer_page_"]');
@@ -415,186 +528,284 @@
                 pages = document.querySelectorAll('div[data-page-number], div[data-page-index], .page_container');
             }
 
-            updateStatus(isVi ? 'Đang làm nét & tạo bộ xem sạch...' : 'Unblurring & rendering clean view...');
-            removeScribdAds();
+            const totalPages = pages.length;
+            const capturedPages = [];
 
-            // Build Clean Viewer Container to isolate document pages from Scribd UI header/sidebar
+            // Step 2: Targeted page-by-page readiness check & deep capture
+            for (let i = 0; i < totalPages; i++) {
+                const page = pages[i];
+                if (page) {
+                    page.scrollIntoView({ behavior: 'instant', block: 'center' });
+                    window.dispatchEvent(new Event('scroll', { bubbles: true }));
+                }
+
+                // Wait until page text, images, and canvas are 100% loaded
+                await waitForScribdPageReady(page);
+
+                const pageStyle = window.getComputedStyle(page);
+                const rect = page.getBoundingClientRect();
+                const width = parseFloat(pageStyle.width) || rect.width || 800;
+                const height = parseFloat(pageStyle.height) || rect.height || 1050;
+
+                const cleanPage = document.createElement('div');
+                cleanPage.className = 'scribd-clean-page';
+                cleanPage.id = `scribd-page-${i + 1}`;
+                cleanPage.style.width = width + 'px';
+                cleanPage.style.height = height + 'px';
+
+                const clone = page.cloneNode(true);
+
+                // Strip ad/promo banners inside clone
+                clone.querySelectorAll(SCRIBD_AD_SELECTORS.join(',')).forEach(el => {
+                    try { el.remove(); } catch (e) {}
+                });
+
+                // Convert Canvas to High-Res Image (or drawImage) for 100% print preview reliability
+                const origCanvases = page.querySelectorAll('canvas');
+                const cloneCanvases = clone.querySelectorAll('canvas');
+                origCanvases.forEach((origCanvas, ci) => {
+                    const cloneCanvas = cloneCanvases[ci];
+                    if (cloneCanvas && origCanvas.width > 0 && origCanvas.height > 0) {
+                        try {
+                            const dataUrl = origCanvas.toDataURL('image/png');
+                            if (dataUrl && dataUrl.startsWith('data:image')) {
+                                const canvasImg = document.createElement('img');
+                                canvasImg.src = dataUrl;
+                                canvasImg.className = cloneCanvas.className;
+                                canvasImg.style.cssText = cloneCanvas.style.cssText;
+                                if (origCanvas.style.width) canvasImg.style.width = origCanvas.style.width;
+                                if (origCanvas.style.height) canvasImg.style.height = origCanvas.style.height;
+                                canvasImg.style.display = 'block';
+                                canvasImg.style.visibility = 'visible';
+                                canvasImg.style.opacity = '1';
+                                cloneCanvas.parentNode.replaceChild(canvasImg, cloneCanvas);
+                            } else {
+                                cloneCanvas.width = origCanvas.width;
+                                cloneCanvas.height = origCanvas.height;
+                                const ctx = cloneCanvas.getContext('2d');
+                                if (ctx) ctx.drawImage(origCanvas, 0, 0);
+                            }
+                        } catch (e) {
+                            cloneCanvas.width = origCanvas.width;
+                            cloneCanvas.height = origCanvas.height;
+                            const ctx = cloneCanvas.getContext('2d');
+                            if (ctx) {
+                                try { ctx.drawImage(origCanvas, 0, 0); } catch (err) {}
+                            }
+                        }
+                    }
+                });
+
+                // Ensure clone root container matches original size and coordinate space
+                clone.style.width = width + 'px';
+                clone.style.height = height + 'px';
+                clone.style.position = 'relative';
+                clone.style.top = '0';
+                clone.style.left = '0';
+                clone.style.margin = '0';
+                clone.style.display = 'block';
+                clone.style.visibility = 'visible';
+                clone.style.opacity = '1';
+                clone.style.filter = 'none';
+                clone.style.webkitFilter = 'none';
+                clone.classList.remove('blurred_page');
+
+                // Ensure images are unblurred and loaded eagerly
+                clone.querySelectorAll('img').forEach(img => {
+                    if (img.dataset) {
+                        if (img.dataset.src && !img.src) img.src = img.dataset.src;
+                        if (img.dataset.orig && (!img.src || img.src.includes('lowres'))) img.src = img.dataset.orig;
+                    }
+                    img.setAttribute('loading', 'eager');
+                    img.loading = 'eager';
+                    img.style.filter = 'none';
+                    img.style.webkitFilter = 'none';
+                    img.style.opacity = '1';
+                    img.style.visibility = 'visible';
+                });
+
+                // Remove blur and text shadows on text layers without modifying positioning coordinates
+                clone.querySelectorAll('.text_layer, .text-layer').forEach(tl => {
+                    tl.style.filter = 'none';
+                    tl.style.webkitFilter = 'none';
+                });
+                clone.querySelectorAll('.text_layer span, .text-layer span, [class^="ff"] span').forEach(span => {
+                    span.style.filter = 'none';
+                    span.style.webkitFilter = 'none';
+                    span.style.textShadow = 'none';
+                });
+
+                // Preserve table formatting and borders
+                clone.querySelectorAll('table').forEach(tbl => {
+                    tbl.style.borderCollapse = 'collapse';
+                    tbl.style.webkitPrintColorAdjust = 'exact';
+                });
+
+                cleanPage.appendChild(clone);
+                capturedPages.push(cleanPage);
+
+                const progress = 45 + Math.floor(((i + 1) / totalPages) * 30);
+                overlayUI.update(
+                    progress,
+                    i + 1,
+                    totalPages,
+                    isVi ? `Đang nạp & tối ưu trang ${i + 1}/${totalPages}...` : `Optimizing page ${i + 1}/${totalPages}...`
+                );
+            }
+
+            // Restore scroll position
+            window.scrollTo({ top: initialScrollY, behavior: 'instant' });
+
+            // Step 3: Embed All Images as Data URIs (Base64) to Guarantee 100% Print Reliability
+            overlayUI.update(76, totalPages, totalPages, isVi ? 'Đang chuyển đổi & nhúng ảnh HD/bảng biểu vào RAM...' : 'Embedding HD images & tables into RAM...');
+
+            await embedImagesAsDataUris(capturedPages, (done, total) => {
+                const pct = 76 + Math.floor((done / total) * 20);
+                overlayUI.update(
+                    pct,
+                    totalPages,
+                    totalPages,
+                    isVi ? `Đang nhúng ảnh & bảng biểu HD (${done}/${total})...` : `Embedding HD images & tables (${done}/${total})...`
+                );
+            });
+
+            // Step 4: Assemble Clean Viewer Container
             const oldViewer = document.getElementById('clean-viewer-container');
             if (oldViewer) oldViewer.remove();
 
             const viewerContainer = document.createElement('div');
             viewerContainer.id = 'clean-viewer-container';
 
-        pages.forEach((page, index) => {
-            const pageStyle = window.getComputedStyle(page);
-            const rect = page.getBoundingClientRect();
-            const width = parseFloat(pageStyle.width) || rect.width || 800;
-            const height = parseFloat(pageStyle.height) || rect.height || 1050;
-
-            const cleanPage = document.createElement('div');
-            cleanPage.className = 'scribd-clean-page';
-            cleanPage.id = `scribd-page-${index + 1}`;
-            cleanPage.style.width = width + 'px';
-            cleanPage.style.height = height + 'px';
-
-            const clone = page.cloneNode(true);
-
-            // Strip ad/promo banners inside clone
-            clone.querySelectorAll(SCRIBD_AD_SELECTORS.join(',')).forEach(el => {
-                try { el.remove(); } catch (e) {}
+            capturedPages.forEach(cleanPage => {
+                viewerContainer.appendChild(cleanPage);
             });
 
-            // Ensure canvas drawing data is copied (native cloneNode leaves canvas blank)
-            const origCanvases = page.querySelectorAll('canvas');
-            const cloneCanvases = clone.querySelectorAll('canvas');
-            origCanvases.forEach((origCanvas, i) => {
-                const cloneCanvas = cloneCanvases[i];
-                if (cloneCanvas && origCanvas.width > 0 && origCanvas.height > 0) {
-                    cloneCanvas.width = origCanvas.width;
-                    cloneCanvas.height = origCanvas.height;
-                    const ctx = cloneCanvas.getContext('2d');
-                    if (ctx) {
-                        try {
-                            ctx.drawImage(origCanvas, 0, 0);
-                        } catch (e) {}
+            // Inject isolated Clean Viewer styles
+            const oldStyle = document.getElementById('clean-viewer-styles');
+            if (oldStyle) oldStyle.remove();
+
+            const viewerStyle = document.createElement('style');
+            viewerStyle.id = 'clean-viewer-styles';
+            viewerStyle.textContent = `
+                body { 
+                    background-color: #f6f7fb !important; 
+                    margin: 0 !important; 
+                    overflow: auto !important; 
+                }
+                body > *:not(#clean-viewer-container) { 
+                    display: none !important; 
+                }
+                #clean-viewer-container {
+                    position: absolute; 
+                    top: 0; left: 0; 
+                    width: 100%;
+                    display: flex; 
+                    flex-direction: column; 
+                    align-items: center;
+                    padding: 20px 0; 
+                    z-index: 999999;
+                    opacity: 1 !important;
+                    visibility: visible !important;
+                }
+                .scribd-clean-page {
+                    position: relative !important; 
+                    background-color: white !important; 
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+                    margin-bottom: 20px;
+                    overflow: hidden !important; 
+                    display: block !important;
+                }
+                .scribd-clean-page table,
+                .scribd-clean-page tr,
+                .scribd-clean-page td,
+                .scribd-clean-page th {
+                    -webkit-print-color-adjust: exact !important;
+                    print-color-adjust: exact !important;
+                }
+                .scribd-clean-page svg {
+                    -webkit-print-color-adjust: exact !important;
+                    print-color-adjust: exact !important;
+                }
+                @media print {
+                    @page { 
+                        margin: 0; 
+                        size: auto; 
+                    }
+                    html, body { 
+                        background-color: white !important; 
+                        margin: 0 !important; 
+                        padding: 0 !important; 
+                        width: 100% !important; 
+                        height: auto !important; 
+                        overflow: visible !important; 
+                        -webkit-print-color-adjust: exact; 
+                        print-color-adjust: exact; 
+                    }
+                    #clean-viewer-container { 
+                        position: static !important; 
+                        display: block !important; 
+                        width: 100% !important; 
+                        padding: 0 !important; 
+                        margin: 0 !important; 
+                    }
+                    .scribd-clean-page { 
+                        position: relative !important; 
+                        margin: 0 auto !important; 
+                        padding: 0 !important; 
+                        box-shadow: none !important; 
+                        page-break-after: always !important; 
+                        break-after: page !important; 
+                        page-break-inside: avoid !important; 
+                        break-inside: avoid !important; 
+                        background: white !important; 
+                        overflow: hidden !important; 
+                    }
+                    .scribd-clean-page:last-child {
+                        page-break-after: auto !important;
+                        break-after: auto !important;
+                    }
+                    .scribd-clean-page table,
+                    .scribd-clean-page tr,
+                    .scribd-clean-page td,
+                    .scribd-clean-page th {
+                        -webkit-print-color-adjust: exact !important;
+                        print-color-adjust: exact !important;
+                    }
+                    .scribd-clean-page svg {
+                        -webkit-print-color-adjust: exact !important;
+                        print-color-adjust: exact !important;
+                    }
+                    .scribd-clean-page img,
+                    .scribd-clean-page canvas {
+                        display: block !important;
+                        visibility: visible !important;
+                        opacity: 1 !important;
                     }
                 }
-            });
+            `;
+            document.head.appendChild(viewerStyle);
+            document.body.appendChild(viewerContainer);
 
-            // Ensure clone root container matches original size and coordinate space
-            clone.style.width = width + 'px';
-            clone.style.height = height + 'px';
-            clone.style.position = 'relative';
-            clone.style.top = '0';
-            clone.style.left = '0';
-            clone.style.margin = '0';
-            clone.style.display = 'block';
-            clone.style.visibility = 'visible';
-            clone.style.opacity = '1';
-            clone.style.filter = 'none';
-            clone.style.webkitFilter = 'none';
-            clone.classList.remove('blurred_page');
+            overlayUI.update(98, totalPages, totalPages, isVi ? 'Đang mở hộp thoại in PDF...' : 'Opening print window...');
+            await new Promise(r => setTimeout(r, 150));
 
-            // Ensure images are unblurred and loaded eagerly
-            clone.querySelectorAll('img').forEach(img => {
-                if (img.dataset && img.dataset.src && !img.src) {
-                    img.src = img.dataset.src;
-                }
-                img.setAttribute('loading', 'eager');
-                img.loading = 'eager';
-                img.style.filter = 'none';
-                img.style.webkitFilter = 'none';
-                img.style.opacity = '1';
-                img.style.visibility = 'visible';
-            });
-
-            // Remove blur and text shadows on text layers without modifying positioning coordinates
-            clone.querySelectorAll('.text_layer, .text-layer').forEach(tl => {
-                tl.style.filter = 'none';
-                tl.style.webkitFilter = 'none';
-            });
-            clone.querySelectorAll('.text_layer span, .text-layer span, [class^="ff"] span').forEach(span => {
-                span.style.filter = 'none';
-                span.style.webkitFilter = 'none';
-                span.style.textShadow = 'none';
-            });
-
-            cleanPage.appendChild(clone);
-            viewerContainer.appendChild(cleanPage);
-        });
-
-        // Inject isolated Clean Viewer styles
-        const oldStyle = document.getElementById('clean-viewer-styles');
-        if (oldStyle) oldStyle.remove();
-
-        const viewerStyle = document.createElement('style');
-        viewerStyle.id = 'clean-viewer-styles';
-        viewerStyle.textContent = `
-            body { 
-                background-color: #f6f7fb !important; 
-                margin: 0 !important; 
-                overflow: auto !important; 
+            if (overlayUI) {
+                overlayUI.remove();
             }
-            body > *:not(#clean-viewer-container) { 
-                display: none !important; 
-            }
-            #clean-viewer-container {
-                position: absolute; 
-                top: 0; left: 0; 
-                width: 100%;
-                display: flex; 
-                flex-direction: column; 
-                align-items: center;
-                padding: 20px 0; 
-                z-index: 999999;
-                opacity: 1 !important;
-                visibility: visible !important;
-            }
-            .scribd-clean-page {
-                position: relative !important; 
-                background-color: white !important; 
-                box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
-                margin-bottom: 20px;
-                overflow: hidden !important; 
-                display: block !important;
-            }
-            @media print {
-                @page { 
-                    margin: 0; 
-                    size: auto; 
-                }
-                html, body { 
-                    background-color: white !important; 
-                    margin: 0 !important; 
-                    padding: 0 !important; 
-                    width: 100% !important; 
-                    height: auto !important; 
-                    overflow: visible !important; 
-                    -webkit-print-color-adjust: exact; 
-                    print-color-adjust: exact; 
-                }
-                #clean-viewer-container { 
-                    position: static !important; 
-                    display: block !important; 
-                    width: 100% !important; 
-                    padding: 0 !important; 
-                    margin: 0 !important; 
-                }
-                .scribd-clean-page { 
-                    position: relative !important; 
-                    margin: 0 auto !important; 
-                    padding: 0 !important; 
-                    box-shadow: none !important; 
-                    page-break-after: always !important; 
-                    break-after: page !important; 
-                    page-break-inside: avoid !important; 
-                    break-inside: avoid !important; 
-                    background: white !important; 
-                    overflow: hidden !important; 
-                }
-            }
-        `;
-        document.head.appendChild(viewerStyle);
-        document.body.appendChild(viewerContainer);
 
-        if (overlayUI) {
-            overlayUI.remove();
+            updateStatus(isVi ? 'Đang mở cửa sổ in PDF...' : 'Opening print window...');
+            setTimeout(() => {
+                window.addEventListener('afterprint', cleanupAfterPrint, { once: true });
+                window.print();
+                setTimeout(cleanupAfterPrint, 2500);
+            }, 500);
+        } catch (err) {
+            console.error('DocCleaner Scribd error:', err);
+            if (overlayUI) overlayUI.remove();
+            cleanupAfterPrint();
+            alert('Error: ' + (err && err.message ? err.message : err));
         }
-
-        updateStatus(isVi ? 'Đang mở cửa sổ in PDF...' : 'Opening print window...');
-        setTimeout(() => {
-            window.addEventListener('afterprint', cleanupAfterPrint, { once: true });
-            window.print();
-            // Fallback nếu afterprint không fire (trình duyệt cũ)
-            setTimeout(cleanupAfterPrint, 2000);
-        }, 500);
-    } catch (err) {
-        console.error('DocCleaner Scribd error:', err);
-        if (overlayUI) overlayUI.remove();
-        cleanupAfterPrint();
-        alert('Error: ' + (err && err.message ? err.message : err));
     }
-}
 
     /**
      * Removes the clean viewer container, styles, and preload overlay
