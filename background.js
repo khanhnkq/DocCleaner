@@ -23,14 +23,17 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
 
 async function clearTargetCookies(targetUrl) {
     try {
-        const allCookies = await chrome.cookies.getAll({});
-        const isScribd = targetUrl.includes('scribd.com');
+        const targetDomains = [];
+        if (targetUrl.includes('scribd.com')) {
+            targetDomains.push('scribd.com');
+        }
+        if (targetUrl.includes('studocu.com') || targetUrl.includes('studocu.vn')) {
+            targetDomains.push('studocu.com', 'studocu.vn');
+        }
 
-        for (const cookie of allCookies) {
-            const matchesStudocu = cookie.domain.includes('studocu');
-            const matchesScribd = isScribd && cookie.domain.includes('scribd');
-
-            if (matchesStudocu || matchesScribd) {
+        for (const domain of targetDomains) {
+            const cookies = await chrome.cookies.getAll({ domain });
+            for (const cookie of cookies) {
                 let cleanDomain = cookie.domain.startsWith('.') ? cookie.domain.substring(1) : cookie.domain;
                 const protocol = cookie.secure ? "https:" : "http:";
                 const url = `${protocol}//${cleanDomain}${cookie.path}`;

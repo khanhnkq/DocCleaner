@@ -172,12 +172,18 @@ document.getElementById('clearBtn').addEventListener('click', async () => {
         const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
         if (!tab || !tab.url) return;
 
-        const url = new URL(tab.url);
-        const allCookies = await chrome.cookies.getAll({});
-        let count = 0;
+        const targetDomains = [];
+        if (url.hostname.includes('scribd.com')) {
+            targetDomains.push('scribd.com');
+        }
+        if (url.hostname.includes('studocu.com') || url.hostname.includes('studocu.vn')) {
+            targetDomains.push('studocu.com', 'studocu.vn');
+        }
 
-        for (const cookie of allCookies) {
-            if (cookie.domain.includes('studocu') || cookie.domain.includes('scribd')) {
+        let count = 0;
+        for (const domain of targetDomains) {
+            const cookies = await chrome.cookies.getAll({ domain });
+            for (const cookie of cookies) {
                 let cleanDomain = cookie.domain.startsWith('.') ? cookie.domain.substring(1) : cookie.domain;
                 const protocol = cookie.secure ? "https:" : "http:";
                 const cookieUrl = `${protocol}//${cleanDomain}${cookie.path}`;

@@ -1,14 +1,15 @@
-# Privacy Policy for DocCleaner (Studocu & Scribd Helper)
+# Privacy Policy for DocCleaner - Document Reader & PDF Formatter
 
-**Effective Date:** July 22, 2026
+**Effective Date:** October 7, 2026
 
 ## 1. Data Collection and Usage
-**DocCleaner (Studocu & Scribd Helper)** does NOT collect, store, transmit, or share any personal user data, browsing history, or credentials to any external servers. All operations run 100% locally on the user's browser.
+**DocCleaner** does NOT collect, store, transmit, or share any personal user data, browsing history, or credentials to any external servers. All operations run 100% locally on the user's browser.
 
 ## 2. Permissions Used
-- **`cookies`**: Used locally on the user's device solely to clear session limit cookies for Studocu (`studocu.com`, `studocu.vn`) and Scribd (`scribd.com`) domains to improve viewing experience and bypass view limits.
-- **`scripting` & `activeTab`**: Used locally to insert ad-blocking CSS, unblur text formatting, and helper JavaScript to render clean printable PDF documents when requested by the user.
-- **`webNavigation`**: Used locally to trigger automatic cookie clearing on tab navigation.
+- **`storage`**: Used locally to save user preferences, such as selected interface language (English / Vietnamese).
+- **`cookies`**: Used locally on the user's device solely to clear session cache cookies for supported document domains (`studocu.com`, `studocu.vn`, `scribd.com`) to ensure clean document viewing states.
+- **`scripting` & `activeTab`**: Used locally to insert reading-mode CSS styling, remove clutter/banners, and run the client-side document preloader to render clean printable PDF documents when requested by the user.
+- **`webNavigation`**: Used locally to trigger clean layout styles on document page navigation.
 
 ## 3. Third-Party Services
 This extension does not connect to any third-party analytics, tracking, or advertising services. All ad-blocking and PDF formatting logic is executed client-side.
