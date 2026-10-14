@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <!-- Homepage EN -->
+  <url>
+    <loc>https://khanhnkq.github.io/DocCleaner/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://khanhnkq.github.io/DocCleaner/"/>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://khanhnkq.github.io/DocCleaner/vi/"/>
+  </url>
+
+  <!-- Homepage VI -->
+  <url>
+    <loc>https://khanhnkq.github.io/DocCleaner/vi/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://khanhnkq.github.io/DocCleaner/vi/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://khanhnkq.github.io/DocCleaner/"/>
+  </url>
+
+  <!-- Blog Hub VI -->
+  <url>
+    <loc>https://khanhnkq.github.io/DocCleaner/vi/blog/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 10 SEO Articles -->
+  <url>
+    <loc>https://khanhnkq.github.io/DocCleaner/vi/blog/cach-tai-studocu-mien-phi.html</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://khanhnkq.github.io/DocCleaner/vi/blog/tai-tai-lieu-studocu-mien-phi-pdf.html</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://khanhnkq.github.io/DocCleaner/vi/blog/doc-tai-lieu-scribd-mien-phi.html</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://khanhnkq.github.io/DocCleaner/vi/blog/in-studocu-khong-bi-trang-trang.html</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://khanhnkq.github.io/DocCleaner/vi/blog/doccleaner-tien-ich-studocu-free.html</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://khanhnkq.github.io/DocCleaner/vi/blog/cach-xem-tai-lieu-studocu-khong-bi-mo.html</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://khanhnkq.github.io/DocCleaner/vi/blog/top-cong-cu-studocu-scribd-mien-phi.html</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://khanhnkq.github.io/DocCleaner/vi/blog/chuyen-tai-lieu-studocu-thanh-trac-nghiem.html</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://khanhnkq.github.io/DocCleaner/vi/blog/tai-giao-trinh-scribd-mien-phi-a4.html</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://khanhnkq.github.io/DocCleaner/vi/blog/meo-on-thi-dai-hoc-studocu-scribd.html</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+</urlset>
