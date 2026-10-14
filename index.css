@@ -1,49 +1,36 @@
 /* ==========================================================================
-   DocCleaner Landing Page — Design System & Styles
-   Graphic Poster Theme meets Modern Deep Space Studio
+   DocCleaner Landing Page — Pure Flat Design System
+   STRICT RULES:
+   1. ONLY colors from the reference image:
+      - Navy Blue: #193582
+      - Deep Navy: #091b42
+      - Muted Navy: #5e6d8a
+      - Acid Lime Green: #c6eb34 (Hover: #d4f73e)
+      - Light Cream: #f6f7ef
+      - Pure White: #ffffff
+   2. NO SHADOW (box-shadow: none)
+   3. NO BORDER (border: none)
+   4. NO BLUR (filter: none, backdrop-filter: none)
    ========================================================================== */
 
 :root {
-  /* Core Colors */
-  --bg-deep: #07122b;
+  /* Strict Colors from Image Only */
   --bg-navy: #193582;
-  --bg-navy-dark: #091b42;
+  --text-navy: #091b42;
+  --text-muted: #5e6d8a;
   --card-cream: #f6f7ef;
   --card-white: #ffffff;
-  --card-surface-subtle: #f0f2eb;
-
-  /* Accents */
   --accent-lime: #c6eb34;
-  --accent-green: #58c474;
-  --accent-cyan: #06b6d4;
-  --accent-yellow: #ffdd00;
-  --accent-red: #ef4444;
-
-  /* Text Colors */
-  --text-dark: #091b42;
-  --text-dark-muted: #5e6d8a;
-  --text-light: #ffffff;
-  --text-light-muted: rgba(255, 255, 255, 0.72);
-  --text-light-dim: rgba(255, 255, 255, 0.45);
-
-  /* Borders & Glass */
-  --border-glass: rgba(255, 255, 255, 0.12);
-  --border-subtle: rgba(9, 27, 66, 0.08);
+  --accent-lime-hover: #d4f73e;
 
   /* Radii */
   --radius-pill: 9999px;
-  --radius-card: 20px;
-  --radius-badge: 18px;
   --radius-modal: 24px;
-
-  /* Shadows */
-  --shadow-tactile: 0 4px 14px rgba(0, 0, 0, 0.12);
-  --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.25);
-  --glow-lime: 0 0 24px rgba(198, 235, 52, 0.35);
-  --glow-cyan: 0 0 28px rgba(6, 182, 212, 0.35);
+  --radius-card: 20px;
+  --radius-badge: 16px;
 
   /* Typography */
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 /* Reset & Base */
@@ -51,13 +38,16 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  border: none;
+  box-shadow: none !important;
+  text-shadow: none !important;
 }
 
 html {
   scroll-behavior: smooth;
-  font-family: var(--font-sans);
-  background-color: var(--bg-deep);
-  color: var(--text-light);
+  font-family: var(--font-family);
+  background-color: var(--card-cream);
+  color: var(--text-navy);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -67,39 +57,12 @@ body {
   overflow-x: hidden;
   min-height: 100vh;
   line-height: 1.6;
+  background-color: var(--card-cream);
 }
 
-/* Accessibility Focus States */
-a:focus-visible, button:focus-visible, summary:focus-visible {
-  outline: 2px solid var(--accent-lime);
-  outline-offset: 4px;
-}
-
-/* Ambient Glow Blobs */
+/* No Blurs / Ambient Glows Disabled */
 .ambient-glow {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-  filter: blur(140px);
-  z-index: 0;
-  opacity: 0.45;
-}
-
-.glow-top {
-  top: -150px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 700px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(6, 182, 212, 0.5) 0%, rgba(25, 53, 130, 0) 70%);
-}
-
-.glow-middle {
-  top: 1200px;
-  right: -200px;
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(198, 235, 52, 0.25) 0%, rgba(88, 196, 116, 0) 70%);
+  display: none !important;
 }
 
 /* Layout Container */
@@ -108,26 +71,27 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   max-width: 1180px;
   margin: 0 auto;
   padding: 0 24px;
-  position: relative;
-  z-index: 1;
 }
 
-/* Navbar */
+/* ==========================================================================
+   Sticky Navbar (Flat Solid Cream, No Border, No Blur, No Shadow)
+   ========================================================================== */
 .navbar {
   position: sticky;
   top: 0;
   z-index: 1000;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  background: rgba(7, 18, 43, 0.82);
-  border-bottom: 1px solid var(--border-glass);
-  transition: all 0.3s ease;
+  background-color: var(--card-cream);
+  transition: background-color 0.2s ease;
+}
+
+.navbar.scrolled {
+  background-color: var(--card-white);
 }
 
 .nav-container {
   max-width: 1180px;
   margin: 0 auto;
-  padding: 16px 24px;
+  padding: 18px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -139,26 +103,26 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   align-items: center;
   gap: 10px;
   text-decoration: none;
-  color: var(--text-light);
+  color: var(--text-navy);
 }
 
 .brand-logo {
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
 }
 
 .brand-text {
-  font-size: 19px;
+  font-size: 20px;
   font-weight: 900;
   letter-spacing: -0.5px;
+  color: var(--text-navy);
 }
 
 .brand-badge {
-  font-size: 10px;
-  font-weight: 800;
-  background: var(--accent-lime);
-  color: var(--text-dark);
-  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 900;
+  background-color: var(--accent-lime);
+  color: var(--text-navy);
+  padding: 4px 10px;
   border-radius: var(--radius-pill);
   letter-spacing: 0.4px;
 }
@@ -170,15 +134,28 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 }
 
 .nav-link {
-  color: var(--text-light-muted);
+  color: var(--text-muted);
   text-decoration: none;
-  font-size: 14.5px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 700;
   transition: color 0.2s ease;
 }
 
 .nav-link:hover {
-  color: var(--accent-lime);
+  color: var(--bg-navy);
+}
+
+.nav-link-highlight {
+  color: var(--text-navy);
+  font-weight: 900;
+  background-color: var(--accent-lime);
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  transition: background-color 0.2s ease;
+}
+
+.nav-link-highlight:hover {
+  background-color: var(--accent-lime-hover);
 }
 
 .nav-actions {
@@ -189,129 +166,139 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 
 /* Language Toggle Button */
 .lang-toggle {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid var(--border-glass);
-  color: var(--text-light);
-  padding: 5px 12px;
+  background-color: var(--card-white);
+  color: var(--text-navy);
+  padding: 8px 14px;
   border-radius: var(--radius-pill);
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 12px;
+  font-size: 12.5px;
   font-weight: 800;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
 .lang-toggle:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: var(--accent-lime);
+  background-color: var(--accent-lime);
 }
 
 .lang-pill {
-  color: var(--accent-lime);
+  color: var(--text-navy);
   font-weight: 900;
 }
 
 .lang-divider {
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--text-muted);
 }
 
 .lang-opt {
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-muted);
 }
 
-/* Common Buttons */
+/* ==========================================================================
+   Buttons (Flat Exact Image Colors: Lime #c6eb34 & Navy #193582)
+   NO SHADOW, NO BORDER
+   ========================================================================== */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  border-radius: 16px;
+  border-radius: var(--radius-pill);
   font-size: 15px;
-  font-weight: 800;
+  font-weight: 900;
   text-decoration: none;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  border: none;
+  letter-spacing: -0.2px;
 }
 
+/* Primary Button: Exact Lime Button from Screenshot */
 .btn-primary {
-  background: var(--accent-lime);
-  color: var(--text-dark);
-  padding: 12px 24px;
-  box-shadow: 0 4px 14px rgba(198, 235, 52, 0.25);
+  background-color: var(--accent-lime);
+  color: var(--text-navy);
+  padding: 14px 28px;
 }
 
 .btn-primary:hover {
+  background-color: var(--accent-lime-hover);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(198, 235, 52, 0.45);
-  background: #d4f73e;
 }
 
+/* Secondary Button: Navy Background with White Text */
 .btn-secondary {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1.5px solid var(--border-glass);
-  color: var(--text-light);
-  padding: 12px 24px;
+  background-color: var(--bg-navy);
+  color: var(--card-white);
+  padding: 14px 28px;
 }
 
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.18);
-  border-color: rgba(255, 255, 255, 0.3);
+  background-color: var(--text-navy);
   transform: translateY(-2px);
 }
 
+/* Yellow/Coffee Button -> Using Lime from image */
 .btn-yellow {
-  background: var(--accent-yellow);
-  color: var(--text-dark);
-  padding: 12px 24px;
-  box-shadow: 0 4px 14px rgba(255, 221, 0, 0.3);
+  background-color: var(--accent-lime);
+  color: var(--text-navy);
+  padding: 14px 28px;
 }
 
 .btn-yellow:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(255, 221, 0, 0.45);
-  background: #ffe333;
-}
-
-.btn-ghost {
-  background: transparent;
-  border: 1.5px solid var(--border-glass);
-  color: var(--text-light);
-  padding: 12px 24px;
-}
-
-.btn-ghost:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.3);
+  background-color: var(--accent-lime-hover);
   transform: translateY(-2px);
 }
 
 .btn-sm {
-  padding: 8px 16px;
+  padding: 9px 20px;
   font-size: 13.5px;
-  border-radius: 12px;
 }
 
 .btn-lg {
-  padding: 15px 30px;
-  font-size: 16.5px;
-  border-radius: 18px;
+  padding: 16px 32px;
+  font-size: 16px;
 }
 
 .btn:active {
-  transform: translateY(0) scale(0.98);
+  transform: scale(0.98);
+}
+
+/* ==========================================================================
+   Unified Single-Color Icon Badges (Solid Lime #c6eb34 with Navy Icon)
+   NO BORDER, NO SHADOW
+   ========================================================================== */
+.unified-badge {
+  background-color: var(--accent-lime) !important;
+  color: var(--text-navy) !important;
+}
+
+.icon-badge {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-badge);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.icon-badge-sm {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 /* ==========================================================================
    Hero Section
    ========================================================================== */
 .hero-section {
-  padding: 90px 24px 60px;
+  padding: 80px 24px 50px;
   text-align: center;
-  position: relative;
-  z-index: 1;
 }
 
 .hero-container {
@@ -323,13 +310,12 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(25, 53, 130, 0.45);
-  border: 1px solid var(--border-glass);
-  padding: 6px 16px;
+  background-color: var(--bg-navy);
+  color: var(--card-white);
+  padding: 8px 18px;
   border-radius: var(--radius-pill);
   font-size: 13px;
-  font-weight: 700;
-  color: var(--accent-lime);
+  font-weight: 800;
   margin-bottom: 24px;
 }
 
@@ -338,36 +324,28 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   height: 8px;
   border-radius: 50%;
   background-color: var(--accent-lime);
-  box-shadow: 0 0 10px var(--accent-lime);
-  animation: pulse 1.8s infinite;
-}
-
-@keyframes pulse {
-  0% { transform: scale(0.95); opacity: 0.7; }
-  50% { transform: scale(1.3); opacity: 1; }
-  100% { transform: scale(0.95); opacity: 0.7; }
 }
 
 .hero-title {
-  font-size: 54px;
+  font-size: 56px;
   font-weight: 900;
   line-height: 1.15;
   letter-spacing: -1.5px;
+  color: var(--text-navy);
   margin-bottom: 22px;
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #c6eb34 0%, #58c474 50%, #06b6d4 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--bg-navy);
 }
 
 .hero-sub {
   font-size: 19px;
   line-height: 1.6;
-  color: var(--text-light-muted);
+  color: var(--text-muted);
   max-width: 720px;
   margin: 0 auto 36px;
+  font-weight: 600;
 }
 
 .hero-cta-group {
@@ -375,7 +353,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   align-items: center;
   justify-content: center;
   gap: 16px;
-  margin-bottom: 36px;
+  margin-bottom: 34px;
   flex-wrap: wrap;
 }
 
@@ -383,33 +361,39 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  font-size: 13.5px;
-  color: var(--text-light-muted);
-  margin-bottom: 50px;
+  gap: 20px;
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 46px;
   flex-wrap: wrap;
+  font-weight: 700;
 }
 
 .meta-item {
   display: flex;
   align-items: center;
   gap: 6px;
+  color: var(--text-navy);
+}
+
+.meta-item svg {
+  color: var(--bg-navy);
+  flex-shrink: 0;
 }
 
 .meta-divider {
-  color: rgba(255, 255, 255, 0.2);
+  color: var(--text-muted);
+  opacity: 0.4;
 }
 
 .hero-image-wrapper {
-  margin-top: 30px;
+  margin-top: 24px;
 }
 
 .hero-card-frame {
-  background: rgba(25, 53, 130, 0.25);
-  border: 1.5px solid var(--border-glass);
+  background-color: var(--card-white);
   border-radius: var(--radius-modal);
-  padding: 12px;
-  box-shadow: var(--shadow-card), 0 0 60px rgba(6, 182, 212, 0.15);
+  padding: 14px;
   overflow: hidden;
 }
 
@@ -421,24 +405,23 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 }
 
 /* ==========================================================================
-   Section Headers
+   Section Headers (Pill Badge: Lime Green with Navy Text)
    ========================================================================== */
 .section-header {
   text-align: center;
   max-width: 680px;
-  margin: 0 auto 56px;
+  margin: 0 auto 52px;
 }
 
 .section-pill {
   display: inline-block;
-  background: rgba(198, 235, 52, 0.12);
-  color: var(--accent-lime);
-  border: 1px solid rgba(198, 235, 52, 0.3);
-  font-size: 11.5px;
-  font-weight: 800;
+  background-color: var(--accent-lime);
+  color: var(--text-navy);
+  font-size: 12px;
+  font-weight: 900;
   letter-spacing: 0.6px;
   text-transform: uppercase;
-  padding: 5px 14px;
+  padding: 6px 16px;
   border-radius: var(--radius-pill);
   margin-bottom: 14px;
 }
@@ -448,29 +431,29 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   font-weight: 900;
   letter-spacing: -1px;
   line-height: 1.2;
+  color: var(--text-navy);
   margin-bottom: 14px;
 }
 
 .section-sub {
-  font-size: 16.5px;
-  color: var(--text-light-muted);
+  font-size: 17px;
+  color: var(--text-muted);
   line-height: 1.6;
+  font-weight: 600;
 }
 
 /* ==========================================================================
    Visual Comparison Section
    ========================================================================== */
 .preview-section {
-  padding: 90px 0;
+  padding: 80px 0;
 }
 
 .preview-card-frame {
-  background: rgba(25, 53, 130, 0.2);
-  border: 1.5px solid var(--border-glass);
+  background-color: var(--card-white);
   border-radius: var(--radius-modal);
-  padding: 12px;
-  box-shadow: var(--shadow-card);
-  margin-bottom: 40px;
+  padding: 14px;
+  margin-bottom: 36px;
 }
 
 .preview-image {
@@ -487,55 +470,50 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 }
 
 .comparison-card {
-  background: rgba(25, 53, 130, 0.25);
-  border: 1.5px solid var(--border-glass);
   border-radius: var(--radius-card);
-  padding: 28px;
+  padding: 32px;
   display: flex;
   gap: 20px;
   align-items: flex-start;
+  transition: transform 0.2s ease;
+}
+
+.comparison-card.challenge {
+  background-color: var(--card-white);
+  color: var(--text-navy);
+}
+
+.comparison-card.solution {
+  background-color: var(--bg-navy);
+  color: var(--card-white);
+}
+
+.comparison-card:hover {
+  transform: translateY(-3px);
 }
 
 .card-icon {
   width: 48px;
   height: 48px;
-  border-radius: 14px;
+  border-radius: var(--radius-badge);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 }
 
-.red-badge {
-  background: rgba(239, 68, 68, 0.15);
-  color: var(--accent-red);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-}
-
-.lime-badge {
-  background: var(--accent-lime);
-  color: var(--text-dark);
-}
-
-.cyan-badge {
-  background: var(--accent-cyan);
-  color: var(--text-dark);
-}
-
-.green-badge {
-  background: var(--accent-green);
-  color: var(--text-dark);
-}
-
-.yellow-badge {
-  background: var(--accent-yellow);
-  color: var(--text-dark);
-}
-
 .comparison-content h3 {
-  font-size: 19px;
-  font-weight: 800;
+  font-size: 20px;
+  font-weight: 900;
   margin-bottom: 14px;
+}
+
+.comparison-card.challenge .comparison-content h3 {
+  color: var(--text-navy);
+}
+
+.comparison-card.solution .comparison-content h3 {
+  color: var(--card-white);
 }
 
 .comp-list {
@@ -546,16 +524,34 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 }
 
 .comp-list li {
-  font-size: 14.5px;
-  color: var(--text-light-muted);
+  font-size: 15px;
   line-height: 1.5;
+  font-weight: 600;
+}
+
+.comparison-card.challenge .comp-list li {
+  color: var(--text-muted);
+}
+
+.comparison-card.solution .comp-list li {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.comparison-card.solution strong {
+  color: var(--card-white);
+  font-weight: 900;
+}
+
+.comparison-card.challenge strong {
+  color: var(--text-navy);
+  font-weight: 900;
 }
 
 /* ==========================================================================
-   Bento Grid Section
+   Bento Grid Section (Clean White Cards on Cream Canvas)
    ========================================================================== */
 .features-section {
-  padding: 90px 0;
+  padding: 80px 0;
 }
 
 .bento-grid {
@@ -573,60 +569,58 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 }
 
 .bento-card {
-  background: rgba(25, 53, 130, 0.3);
-  border: 1.5px solid var(--border-glass);
+  background-color: var(--card-white);
   border-radius: var(--radius-card);
-  padding: 32px;
+  padding: 34px;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  transition: all 0.22s ease;
+  transition: transform 0.2s ease;
 }
 
 .bento-card:hover {
-  transform: translateY(-4px);
-  background: rgba(25, 53, 130, 0.45);
-  border-color: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+  transform: translateY(-3px);
 }
 
 .bento-badge {
-  width: 50px;
-  height: 50px;
-  border-radius: 16px;
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-badge);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .bento-label {
-  font-size: 11px;
-  font-weight: 800;
+  font-size: 11.5px;
+  font-weight: 900;
   letter-spacing: 0.6px;
-  color: var(--accent-lime);
+  color: var(--bg-navy);
   display: block;
   margin-bottom: 6px;
+  text-transform: uppercase;
 }
 
 .bento-title {
   font-size: 21px;
-  font-weight: 800;
+  font-weight: 900;
   letter-spacing: -0.4px;
+  color: var(--text-navy);
   margin-bottom: 10px;
 }
 
 .bento-desc {
-  font-size: 14.5px;
-  color: var(--text-light-muted);
+  font-size: 15px;
+  color: var(--text-muted);
   line-height: 1.6;
+  font-weight: 600;
 }
 
 /* ==========================================================================
-   How It Works Steps
+   How It Works Steps (Navy Number Accent)
    ========================================================================== */
 .how-section {
-  padding: 90px 0;
+  padding: 80px 0;
 }
 
 .steps-grid {
@@ -636,39 +630,210 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 }
 
 .step-card {
-  background: rgba(25, 53, 130, 0.25);
-  border: 1.5px solid var(--border-glass);
+  background-color: var(--card-white);
   border-radius: var(--radius-card);
-  padding: 32px;
+  padding: 34px;
   position: relative;
+  transition: transform 0.2s ease;
+}
+
+.step-card:hover {
+  transform: translateY(-3px);
 }
 
 .step-num {
-  font-size: 38px;
+  font-size: 40px;
   font-weight: 900;
-  color: var(--accent-lime);
-  opacity: 0.8;
+  color: var(--bg-navy);
   margin-bottom: 16px;
   line-height: 1;
 }
 
 .step-title {
   font-size: 20px;
-  font-weight: 800;
+  font-weight: 900;
+  color: var(--text-navy);
   margin-bottom: 10px;
 }
 
 .step-desc {
-  font-size: 14.5px;
-  color: var(--text-light-muted);
+  font-size: 15px;
+  color: var(--text-muted);
   line-height: 1.6;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   Quizken.com Integration Section (Navy & Lime Studio Mockup)
+   ========================================================================== */
+.quizken-section {
+  padding: 80px 0;
+}
+
+.quizken-card-wrapper {
+  background-color: var(--card-white);
+  border-radius: var(--radius-modal);
+  padding: 56px 44px;
+  position: relative;
+}
+
+.quizken-header {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 48px;
+}
+
+.quizken-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 40px;
+  align-items: center;
+}
+
+.quizken-features {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.quizken-feat-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.quizken-feat-item .feat-text h3 {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--text-navy);
+  margin-bottom: 5px;
+}
+
+.quizken-feat-item .feat-text p {
+  font-size: 15px;
+  color: var(--text-muted);
+  line-height: 1.55;
+  font-weight: 600;
+}
+
+.quizken-cta-wrap {
+  margin-top: 10px;
+}
+
+/* Interactive Quiz Mockup Card: Flat Navy #193582 as in Reference */
+.quizken-mockup-card {
+  background-color: var(--bg-navy);
+  border-radius: var(--radius-card);
+  padding: 28px;
+  color: var(--card-white);
+}
+
+.mockup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.mockup-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  font-weight: 900;
+  color: var(--text-navy);
+  background-color: var(--accent-lime);
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+}
+
+.mockup-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--text-navy);
+}
+
+.mockup-timer {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.mockup-question {
+  font-size: 16px;
+  font-weight: 900;
+  color: var(--card-white);
+  line-height: 1.45;
+  margin-bottom: 18px;
+}
+
+.mockup-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.mockup-opt {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 15px;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.1);
+  font-size: 13.5px;
+  color: var(--card-white);
+  position: relative;
+  font-weight: 600;
+}
+
+.mockup-opt .opt-key {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 900;
+  color: var(--card-white);
+  flex-shrink: 0;
+}
+
+.mockup-opt.opt-selected {
+  background-color: var(--accent-lime);
+  color: var(--text-navy);
+  font-weight: 900;
+}
+
+.mockup-opt.opt-selected .opt-key {
+  background-color: var(--text-navy);
+  color: var(--accent-lime);
+}
+
+.opt-check {
+  margin-left: auto;
+  color: var(--text-navy);
+  flex-shrink: 0;
+}
+
+.mockup-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 14px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent-lime);
 }
 
 /* ==========================================================================
    FAQ Section
    ========================================================================== */
 .faq-section {
-  padding: 90px 0;
+  padding: 80px 0;
 }
 
 .faq-list {
@@ -680,22 +845,16 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 }
 
 .faq-item {
-  background: rgba(25, 53, 130, 0.25);
-  border: 1.5px solid var(--border-glass);
-  border-radius: 18px;
+  background-color: var(--card-white);
+  border-radius: var(--radius-card);
   overflow: hidden;
-  transition: all 0.2s ease;
-}
-
-.faq-item[open] {
-  background: rgba(25, 53, 130, 0.4);
-  border-color: rgba(198, 235, 52, 0.3);
 }
 
 .faq-question {
   padding: 22px 24px;
   font-size: 17px;
-  font-weight: 800;
+  font-weight: 900;
+  color: var(--text-navy);
   cursor: pointer;
   display: flex;
   justify-content: space-between;
@@ -710,7 +869,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 
 .faq-icon {
   transition: transform 0.25s ease;
-  color: var(--accent-lime);
+  color: var(--bg-navy);
   flex-shrink: 0;
 }
 
@@ -721,36 +880,34 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 .faq-answer {
   padding: 0 24px 22px;
   font-size: 15px;
-  color: var(--text-light-muted);
+  color: var(--text-muted);
   line-height: 1.65;
+  font-weight: 600;
 }
 
 /* ==========================================================================
    Support & Donate Section
    ========================================================================== */
 .support-section {
-  padding: 60px 0 90px;
+  padding: 60px 0 80px;
 }
 
 .support-card {
-  background: linear-gradient(135deg, rgba(25, 53, 130, 0.5) 0%, rgba(9, 27, 66, 0.8) 100%);
-  border: 1.5px solid var(--border-glass);
+  background-color: var(--card-white);
   border-radius: var(--radius-modal);
-  padding: 50px 40px;
+  padding: 48px 36px;
   text-align: center;
-  box-shadow: var(--shadow-card);
 }
 
 .support-pill {
   display: inline-block;
-  background: rgba(255, 221, 0, 0.15);
-  color: var(--accent-yellow);
-  border: 1px solid rgba(255, 221, 0, 0.3);
+  background-color: var(--accent-lime);
+  color: var(--text-navy);
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 900;
   letter-spacing: 0.6px;
   text-transform: uppercase;
-  padding: 4px 14px;
+  padding: 5px 14px;
   border-radius: var(--radius-pill);
   margin-bottom: 14px;
 }
@@ -758,14 +915,16 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 .support-title {
   font-size: 34px;
   font-weight: 900;
+  color: var(--text-navy);
   margin-bottom: 14px;
 }
 
 .support-desc {
   font-size: 16.5px;
-  color: var(--text-light-muted);
+  color: var(--text-muted);
   max-width: 620px;
   margin: 0 auto 30px;
+  font-weight: 600;
 }
 
 .support-actions {
@@ -776,40 +935,56 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 }
 
 /* ==========================================================================
-   Final CTA Box
+   Final CTA Box (100% IDENTICAL TO USER SCREENSHOT)
+   Background: #193582
+   Text: #ffffff & rgba(255, 255, 255, 0.85)
+   Button: #c6eb34 with #091b42 text
+   NO SHADOW, NO BORDER, NO BLUR
    ========================================================================== */
 .final-cta-section {
-  padding: 0 0 90px;
+  padding: 0 0 80px;
 }
 
 .final-cta-box {
-  background: radial-gradient(circle at top, rgba(25, 53, 130, 0.7) 0%, rgba(7, 18, 43, 0.95) 100%);
-  border: 1.5px solid rgba(198, 235, 52, 0.25);
+  background-color: var(--bg-navy);
   border-radius: var(--radius-modal);
-  padding: 60px 24px;
+  padding: 64px 28px;
   text-align: center;
-  box-shadow: 0 0 50px rgba(198, 235, 52, 0.1);
+  color: var(--card-white);
 }
 
 .final-title {
-  font-size: 38px;
+  font-size: 40px;
   font-weight: 900;
+  color: var(--card-white);
   margin-bottom: 14px;
   letter-spacing: -1px;
 }
 
 .final-sub {
-  font-size: 17px;
-  color: var(--text-light-muted);
-  margin-bottom: 30px;
+  font-size: 17.5px;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 32px;
+  font-weight: 600;
+}
+
+.final-cta-box .btn-primary {
+  background-color: var(--accent-lime);
+  color: var(--text-navy);
+  padding: 16px 36px;
+  font-size: 16.5px;
+}
+
+.final-cta-box .btn-primary:hover {
+  background-color: var(--accent-lime-hover);
+  transform: translateY(-2px);
 }
 
 /* ==========================================================================
-   Footer
+   Footer (Flat Clean White with Navy Brand & Muted Links)
    ========================================================================== */
 .footer {
-  border-top: 1px solid var(--border-glass);
-  background: rgba(4, 11, 28, 0.95);
+  background-color: var(--card-white);
   padding: 60px 0 30px;
   font-size: 14px;
 }
@@ -826,7 +1001,6 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   align-items: flex-start;
   gap: 40px;
   padding-bottom: 40px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   flex-wrap: wrap;
 }
 
@@ -835,22 +1009,23 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 }
 
 .footer-tagline {
-  color: var(--text-light-muted);
+  color: var(--text-muted);
   margin-top: 12px;
-  font-size: 13.5px;
+  font-size: 14px;
   line-height: 1.5;
+  font-weight: 600;
 }
 
 .footer-links {
   display: flex;
-  gap: 60px;
+  gap: 50px;
   flex-wrap: wrap;
 }
 
 .footer-col h4 {
   font-size: 14px;
-  font-weight: 800;
-  color: var(--text-light);
+  font-weight: 900;
+  color: var(--text-navy);
   margin-bottom: 14px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -858,27 +1033,29 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 
 .footer-col a {
   display: block;
-  color: var(--text-light-muted);
+  color: var(--text-muted);
   text-decoration: none;
-  font-size: 13.5px;
+  font-size: 14px;
   margin-bottom: 8px;
   transition: color 0.2s ease;
+  font-weight: 600;
 }
 
 .footer-col a:hover {
-  color: var(--accent-lime);
+  color: var(--bg-navy);
 }
 
 .footer-bottom {
   padding-top: 24px;
   text-align: center;
-  color: var(--text-light-dim);
-  font-size: 12.5px;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
 }
 
 .author-highlight {
-  color: var(--accent-lime);
-  font-weight: 800;
+  color: var(--bg-navy);
+  font-weight: 900;
 }
 
 /* ==========================================================================
@@ -899,6 +1076,10 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   }
   .steps-grid {
     grid-template-columns: 1fr;
+  }
+  .quizken-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
   }
 }
 
@@ -924,12 +1105,15 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   .bento-wide, .bento-tall {
     grid-column: span 1;
   }
+  .quizken-card-wrapper {
+    padding: 32px 20px;
+  }
   .footer-top {
     flex-direction: column;
     gap: 30px;
   }
   .footer-links {
-    gap: 40px;
+    gap: 36px;
   }
 }
 

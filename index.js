@@ -12,6 +12,7 @@ const translations = {
     navFeatures: "Features",
     navPreview: "Before & After",
     navHowItWorks: "How It Works",
+    navQuizken: "Quizken AI ✦",
     navFaq: "FAQ",
     navAddChrome: "Add to Chrome",
 
@@ -69,6 +70,25 @@ const translations = {
     step3Title: "Click 'Format for Print'",
     step3Desc: "Click the floating button at bottom-right. Wait moments for preloading, then choose 'Save as PDF'.",
 
+    // Quizken AI Integration
+    quizkenPill: "Next-Step Learning Ecosystem",
+    quizkenTitle: "Turn Clean Notes into Interactive AI Quizzes on Quizken.com",
+    quizkenSub: "Formatting your lecture notes is only step one. Upload your clean PDFs and study summaries to Quizken AI to automatically generate practice tests, flashcards, and exam simulations in seconds.",
+    quizkenFeat1Title: "Instant AI Exam Generator",
+    quizkenFeat1Desc: "Upload lecture notes or paste text to generate multiple-choice questions, true/false, and short answer tests instantly.",
+    quizkenFeat2Title: "Active Recall & Spaced Repetition",
+    quizkenFeat2Desc: "Retain complex definitions, formulas, and concepts 3x longer with smart self-paced practice rounds.",
+    quizkenFeat3Title: "100% Free & Student-Friendly",
+    quizkenFeat3Desc: "Seamlessly integrates into your study stack. Clean with DocCleaner, practice and test yourself on Quizken.com.",
+    quizkenCta: "Try Quizken AI Free",
+    quizkenMockSession: "Quizken AI Practice Session",
+    quizkenMockQuestion: "Which layout standard does DocCleaner automatically apply to ensure study documents print without blank pages?",
+    quizkenMockOptA: "Continuous virtual scroll with banner wrappers",
+    quizkenMockOptB: "Standard A4 page format with preloaded DOM assets",
+    quizkenMockOptC: "Compressed thumbnail preview with blurred paragraphs",
+    quizkenMockOptD: "Ad-supported high-density rasterization",
+    quizkenMockFooter: "Correct! Preloading ensures 100% of pages render cleanly.",
+
     // FAQ
     faqPill: "Frequently Asked Questions",
     faqTitle: "Everything You Need to Know",
@@ -98,7 +118,8 @@ const translations = {
     // Footer
     footerTagline: "Better Studocu & Scribd Reader · Clean print-ready formatting.",
     footerColProject: "Project",
-    footerColLegal: "Legal & Safety"
+    footerColLegal: "Legal & Safety",
+    footerColEcosystem: "Ecosystem"
   },
 
   vi: {
@@ -109,6 +130,7 @@ const translations = {
     navFeatures: "Tính Năng",
     navPreview: "Trước & Sau",
     navHowItWorks: "Cách Dùng",
+    navQuizken: "Quizken AI ✦",
     navFaq: "Hỏi Đáp",
     navAddChrome: "Thêm vào Chrome",
 
@@ -166,6 +188,25 @@ const translations = {
     step3Title: "Bấm 'Định Dạng In'",
     step3Desc: "Bấm nút nổi góc dưới bên phải. Chờ vài giây để hệ thống nạp đủ trang rồi chọn 'Lưu dưới dạng PDF'.",
 
+    // Quizken AI Integration
+    quizkenPill: "Hệ Sinh Thái Học Tập Thông Minh",
+    quizkenTitle: "Biến Tài Liệu Sạch Thành Đề Ôn Thi AI Trên Quizken.com",
+    quizkenSub: "Định dạng bài giảng đẹp chỉ là bước đầu. Tải tài liệu PDF hoặc nội dung tóm tắt lên Quizken AI để tự động sinh đề trắc nghiệm, tạo flashcard và luyện đề thi thử thần tốc.",
+    quizkenFeat1Title: "Tạo Đề Trắc Nghiệm Tự Động",
+    quizkenFeat1Desc: "Tải lên file bài giảng hoặc dán văn bản để AI tạo ngay các câu trắc nghiệm 4 đáp án bám sát kiến thức môn học.",
+    quizkenFeat2Title: "Ghi Nhớ Chủ Động (Active Recall)",
+    quizkenFeat2Desc: "Nhớ lâu gấp 3 lần các định nghĩa, công thức toán lý hóa và điều luật thông qua các vòng luyện tập tương tác.",
+    quizkenFeat3Title: "Miễn Phí & Dành Cho Sinh Viên",
+    quizkenFeat3Desc: "Bộ đôi hoàn hảo: làm sạch tài liệu với DocCleaner, giải đề và kiểm tra kiến thức trên Quizken.com.",
+    quizkenCta: "Dùng Thử Quizken AI Miễn Phí",
+    quizkenMockSession: "Phiên Luyện Đề Quizken AI",
+    quizkenMockQuestion: "DocCleaner áp dụng chuẩn định dạng nào để đảm bảo tài liệu Studocu/Scribd in ra không bị dính trang trắng?",
+    quizkenMockOptA: "Cuộn ảo liên tục kèm khung banner quảng cáo",
+    quizkenMockOptB: "Kích thước chuẩn A4 kèm cơ chế nạp sẵn DOM 100%",
+    quizkenMockOptC: "Chế độ xem trước ảnh thu nhỏ bị che mờ",
+    quizkenMockOptD: "Xuất file ảnh độ phân giải thấp kèm quảng cáo",
+    quizkenMockFooter: "Chính xác! Cơ chế nạp sẵn giúp 100% trang hiển thị sắc nét.",
+
     // FAQ
     faqPill: "Câu Hỏi Thường Gặp",
     faqTitle: "Giải Đáp Thắc Mắc",
@@ -195,7 +236,8 @@ const translations = {
     // Footer
     footerTagline: "Đọc Studocu & Scribd Tốt Hơn · Định dạng in PDF A4 sắc nét.",
     footerColProject: "Dự Án",
-    footerColLegal: "Pháp Lý & An Toàn"
+    footerColLegal: "Pháp Lý & An Toàn",
+    footerColEcosystem: "Hệ Sinh Thái"
   }
 };
 
@@ -223,17 +265,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 3. Navbar scroll elevation
+  // 3. Navbar scroll elevation class toggle
   const navbar = document.getElementById('navbar');
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 40) {
-      navbar.style.background = 'rgba(7, 18, 43, 0.95)';
-      navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.4)';
-    } else {
-      navbar.style.background = 'rgba(7, 18, 43, 0.82)';
-      navbar.style.boxShadow = 'none';
-    }
-  }, { passive: true });
+  if (navbar) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 30) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    }, { passive: true });
+  }
 });
 
 function applyLanguage(lang) {

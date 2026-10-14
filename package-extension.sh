@@ -44,6 +44,7 @@ zip -r -q "$OUTPUT_ZIP" . \
   -x "*.sh" \
   -x "bump-version.js" \
   -x "*.zip" \
+  -x "*.md" \
   -x "CHROMEWEBSTORE.md" \
   -x "README.md" \
   -x "PRIVACY_POLICY.md" \
