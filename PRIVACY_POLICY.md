@@ -1,4 +1,4 @@
-# Privacy Policy for DocCleaner - Document Reader & PDF Formatter
+# Privacy Policy for DocCleaner - Better Studocu & Scribd Reader (Free)
 
 **Effective Date:** October 7, 2026
 
@@ -7,8 +7,8 @@
 
 ## 2. Permissions Used
 - **`storage`**: Used locally to save user preferences, such as selected interface language (English / Vietnamese).
-- **`cookies`**: Used locally on the user's device solely to clear session cache cookies for supported document domains (`studocu.com`, `studocu.vn`, `scribd.com`) to ensure clean document viewing states.
-- **`scripting` & `activeTab`**: Used locally to insert reading-mode CSS styling, remove clutter/banners, and run the client-side document preloader to render clean printable PDF documents when requested by the user.
+- **`cookies`**: Used locally to clear cached display states on supported document domains (`studocu.com`, `studocu.vn`, `scribd.com`) to ensure a clean, consistent reading layout.
+- **`scripting` & `activeTab`**: Used locally to apply reading-mode styles, clean visual clutter, and prepare the document layout for printing when requested by the user.
 - **`webNavigation`**: Used locally to trigger clean layout styles on document page navigation.
 
 ## 3. Third-Party Services

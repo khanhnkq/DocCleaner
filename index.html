@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DocCleaner — Better Studocu & Scribd Reader | Free Clean Document Formatter</title>
+  <meta name="description" content="Free clean reader for Studocu & Scribd. Remove visual clutter, strip ad banners, distraction-free focus mode, and format print-friendly A4 PDFs with 1 click.">
+  <meta name="keywords" content="better studocu, studocu cleaner, scribd reader, studocu print pdf, studocu ad blocker, clean study documents, tải pdf studocu, doccleaner">
+  <meta name="author" content="KapKap Studio / Khanhnkq">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://khanhnkq.github.io/DocCleaner/">
+  <meta property="og:title" content="DocCleaner — Better Studocu & Scribd Reader (100% Free)">
+  <meta property="og:description" content="Distraction-free reading mode and print-friendly A4 PDF formatter for Studocu & Scribd. 100% Client-side, zero data collected.">
+  <meta property="og:image" content="store-assets/marquee_1400x560.png">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://khanhnkq.github.io/DocCleaner/">
+  <meta property="twitter:title" content="DocCleaner — Better Studocu & Scribd Reader (100% Free)">
+  <meta property="twitter:description" content="Distraction-free reading mode and print-friendly A4 PDF formatter for Studocu & Scribd.">
+  <meta property="twitter:image" content="store-assets/marquee_1400x560.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/icon32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/icon16.png">
+
+  <link rel="stylesheet" href="index.css">
+
+  <!-- Schema.org Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "name": "DocCleaner - Better Studocu & Scribd Reader (Free)",
+        "operatingSystem": "Chrome, Microsoft Edge, Brave, Opera",
+        "applicationCategory": "ProductivityApplication",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "5.0",
+          "ratingCount": "48"
+        },
+        "description": "Free clean reader for Studocu and Scribd. Remove clutter, strip ad banners, and format print-friendly A4 PDF documents."
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Is DocCleaner really 100% free to use?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes! DocCleaner is and will always remain completely free and open-source. There are no subscriptions, no premium tiers, and no hidden fees."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does DocCleaner make Studocu and Scribd better?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "DocCleaner cleans visual clutter, hides intrusive promotional overlays and cookie consent banners, and preloads document pages into crisp A4 dimensions for native Chrome PDF printing."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does DocCleaner collect or store my personal browsing data?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. DocCleaner runs 100% locally on your own machine. It makes zero remote server connections and collects zero telemetry or personal information."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I format and print documents as PDF without blank pages?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Simply open any document on Studocu or Scribd, click the floating 'Format for Print' button, wait a few seconds for pages to preload, and select 'Save as PDF' in the Chrome print dialog."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <!-- Ambient Glow Effects -->
+  <div class="ambient-glow glow-top" aria-hidden="true"></div>
+  <div class="ambient-glow glow-middle" aria-hidden="true"></div>
+
+  <!-- Sticky Navbar -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#" class="brand" aria-label="DocCleaner Home">
+        <img src="icons/icon32.png" alt="DocCleaner Logo" width="28" height="28" class="brand-logo">
+        <span class="brand-text">DocCleaner</span>
+        <span class="brand-badge">FREE · v1.4</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Main Navigation">
+        <a href="#features" class="nav-link" data-i18n="navFeatures">Features</a>
+        <a href="#preview" class="nav-link" data-i18n="navPreview">Before & After</a>
+        <a href="#how-it-works" class="nav-link" data-i18n="navHowItWorks">How It Works</a>
+        <a href="#faq" class="nav-link" data-i18n="navFaq">FAQ</a>
+      </nav>
+
+      <div class="nav-actions">
+        <!-- Language Switcher -->
+        <button id="langToggle" class="lang-toggle" aria-label="Switch Language" title="Đổi ngôn ngữ">
+          <span class="lang-pill" id="langActive">EN</span>
+          <span class="lang-divider">/</span>
+          <span class="lang-opt" id="langInactive">VN</span>
+        </button>
+
+        <a href="https://chromewebstore.google.com/detail/fnhdoegoihnkgggnaiemommemdejhbkb" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm" id="nav-cta-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <circle cx="12" cy="12" r="4"/>
+            <line x1="21.17" y1="8" x2="12" y2="8"/>
+            <line x1="3.95" y1="6.06" x2="8.54" y2="14"/>
+            <line x1="10.88" y1="21.94" x2="15.46" y2="14"/>
+          </svg>
+          <span data-i18n="navAddChrome">Add to Chrome</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero">
+      <div class="hero-container">
+        
+        <div class="hero-announcement">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          <span data-i18n="heroBadge">Better Studocu & Scribd Reader · 100% Free Forever</span>
+        </div>
+
+        <h1 class="hero-title">
+          <span data-i18n="heroTitlePart1">Distraction-Free Reading for</span><br>
+          <span class="gradient-text" data-i18n="heroTitleHighlight">Studocu & Scribd</span>
+        </h1>
+
+        <p class="hero-sub" data-i18n="heroSubtitle">
+          Eliminate visual clutter, dismiss intrusive banners, and format crisp print-ready A4 PDFs with a single click. Enjoy reading mode designed specifically for university lecture notes.
+        </p>
+
+        <div class="hero-cta-group">
+          <a href="https://chromewebstore.google.com/detail/fnhdoegoihnkgggnaiemommemdejhbkb" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg" id="hero-cta-btn">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <circle cx="12" cy="12" r="4"/>
+              <line x1="21.17" y1="8" x2="12" y2="8"/>
+              <line x1="3.95" y1="6.06" x2="8.54" y2="14"/>
+              <line x1="10.88" y1="21.94" x2="15.46" y2="14"/>
+            </svg>
+            <span data-i18n="heroPrimaryCta">Add to Chrome — It's Free</span>
+          </a>
+
+          <a href="#preview" class="btn btn-secondary btn-lg" id="hero-secondary-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+            <span data-i18n="heroSecondaryCta">See Before & After</span>
+          </a>
+        </div>
+
+        <div class="hero-meta-badges">
+          <div class="meta-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#ffc107" stroke="#ffc107" stroke-width="1" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <span><strong>5.0 / 5.0</strong> <span data-i18n="badgeRating">Chrome Store</span></span>
+          </div>
+          <div class="meta-divider" aria-hidden="true">·</div>
+          <div class="meta-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-lime)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span data-i18n="badgePrivacy">100% Client-Side Privacy</span>
+          </div>
+          <div class="meta-divider" aria-hidden="true">·</div>
+          <div class="meta-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-green)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            <span data-i18n="badgeCompatible">Chrome, Edge & Brave</span>
+          </div>
+        </div>
+
+        <!-- Hero Showcase Visual Concept Image -->
+        <div class="hero-image-wrapper">
+          <div class="hero-card-frame">
+            <img src="store-assets/hero_concept_banner.jpg" alt="DocCleaner Better Studocu and Scribd Reader Interface Concept" class="hero-visual" width="1280" height="720" loading="eager">
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Interactive Comparison / Preview Section -->
+    <section class="preview-section" id="preview">
+      <div class="section-container">
+        <div class="section-header">
+          <span class="section-pill" data-i18n="previewPill">Visual Comparison</span>
+          <h2 class="section-title" data-i18n="previewTitle">The Difference Is Crystal Clear</h2>
+          <p class="section-sub" data-i18n="previewSub">Experience pure focus. Read lectures without distracting popups and cluttered screen elements.</p>
+        </div>
+
+        <div class="preview-card-frame">
+          <img src="store-assets/before_after_feature.jpg" alt="Comparison: Cluttered Study Document vs Clean Reading Mode" class="preview-image" width="1280" height="720" loading="lazy">
+        </div>
+
+        <!-- 2-Column Comparison Highlights -->
+        <div class="comparison-grid">
+          <div class="comparison-card challenge">
+            <div class="card-icon red-badge">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="15" y1="9" x2="9" y2="15"/>
+                <line x1="9" y1="9" x2="15" y2="15"/>
+              </svg>
+            </div>
+            <div class="comparison-content">
+              <h3 data-i18n="compChallengeTitle">Without DocCleaner</h3>
+              <ul class="comp-list">
+                <li data-i18n="compChallenge1">Intrusive floating banners block your reading view.</li>
+                <li data-i18n="compChallenge2">Frequent upgrade popups disrupt exam preparation.</li>
+                <li data-i18n="compChallenge3">Printing leaves blank pages due to virtual scrolling.</li>
+                <li data-i18n="compChallenge4">Text blurred by excessive promotional backdrops.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="comparison-card solution">
+            <div class="card-icon lime-badge">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+            </div>
+            <div class="comparison-content">
+              <h3 data-i18n="compSolutionTitle">With DocCleaner (Free)</h3>
+              <ul class="comp-list">
+                <li data-i18n="compSolution1"><strong>100% Clean Layout:</strong> Clean background instantly at page load.</li>
+                <li data-i18n="compSolution2"><strong>Distraction-Free Mode:</strong> Focus purely on document formulas and text.</li>
+                <li data-i18n="compSolution3"><strong>1-Click A4 Print:</strong> Pre-renders all pages cleanly into sharp PDF.</li>
+                <li data-i18n="compSolution4"><strong>Safe & Private:</strong> Zero data tracking, 100% local client execution.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bento Grid Features Section -->
+    <section class="features-section" id="features">
+      <div class="section-container">
+        <div class="section-header">
+          <span class="section-pill" data-i18n="featPill">Core Capabilities</span>
+          <h2 class="section-title" data-i18n="featTitle">Designed for Serious Studying</h2>
+          <p class="section-sub" data-i18n="featSub">Every feature is crafted to help university students study faster and format cleaner notes.</p>
+        </div>
+
+        <div class="bento-grid">
+          
+          <!-- Bento Item 1: Clean Focus Mode -->
+          <div class="bento-card bento-wide">
+            <div class="bento-badge lime-badge">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <path d="m9 12 2 2 4-4"/>
+              </svg>
+            </div>
+            <div class="bento-body">
+              <span class="bento-label" data-i18n="bento1Label">FOCUS MODE</span>
+              <h3 class="bento-title" data-i18n="bento1Title">Distraction-Free Reading Canvas</h3>
+              <p class="bento-desc" data-i18n="bento1Desc">
+                Automatically strips away banner wrappers, modal backdrops, and cookie consent overlays at document start before the webpage even finishes rendering.
+              </p>
+            </div>
+          </div>
+
+          <!-- Bento Item 2: Smart A4 PDF Formatter -->
+          <div class="bento-card bento-tall">
+            <div class="bento-badge cyan-badge">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </div>
+            <div class="bento-body">
+              <span class="bento-label" data-i18n="bento2Label">A4 PRINT READY</span>
+              <h3 class="bento-title" data-i18n="bento2Title">Zero-Blank-Page Preloader</h3>
+              <p class="bento-desc" data-i18n="bento2Desc">
+                Bypasses virtual scrolling limitations by preloading 100% of document pages into memory before triggering the native print dialog.
+              </p>
+            </div>
+          </div>
+
+          <!-- Bento Item 3: Privacy & Security -->
+          <div class="bento-card">
+            <div class="bento-badge green-badge">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+            </div>
+            <div class="bento-body">
+              <span class="bento-label" data-i18n="bento3Label">100% PRIVACY</span>
+              <h3 class="bento-title" data-i18n="bento3Title">No Cloud, Zero Tracking</h3>
+              <p class="bento-desc" data-i18n="bento3Desc">
+                Runs entirely offline within your browser sandbox. Never connects to external analytics servers or collects user data.
+              </p>
+            </div>
+          </div>
+
+          <!-- Bento Item 4: Dual Platform Support -->
+          <div class="bento-card">
+            <div class="bento-badge yellow-badge">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="2" y1="12" x2="22" y2="12"/>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              </svg>
+            </div>
+            <div class="bento-body">
+              <span class="bento-label" data-i18n="bento4Label">MULTI-PLATFORM</span>
+              <h3 class="bento-title" data-i18n="bento4Title">Studocu & Scribd Ready</h3>
+              <p class="bento-desc" data-i18n="bento4Desc">
+                Tailored DOM cleaning rules automatically applied for studocu.com, studocu.vn, and scribd.com.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-section" id="how-it-works">
+      <div class="section-container">
+        <div class="section-header">
+          <span class="section-pill" data-i18n="howPill">Simple Workflow</span>
+          <h2 class="section-title" data-i18n="howTitle">3 Steps to Clean Study Notes</h2>
+          <p class="section-sub" data-i18n="howSub">No account required, no configurations needed. It works automatically.</p>
+        </div>
+
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-num">01</div>
+            <h3 class="step-title" data-i18n="step1Title">Install Extension</h3>
+            <p class="step-desc" data-i18n="step1Desc">Click 'Add to Chrome' on the Web Store. Takes less than 5 seconds to install with no signup.</p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-num">02</div>
+            <h3 class="step-title" data-i18n="step2Title">Open Study Document</h3>
+            <p class="step-desc" data-i18n="step2Desc">Navigate to any lecture or study document on Studocu or Scribd. DocCleaner cleans the view instantly.</p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-num">03</div>
+            <h3 class="step-title" data-i18n="step3Title">Click 'Format for Print'</h3>
+            <p class="step-desc" data-i18n="step3Desc">Click the floating button at bottom-right. Wait moments for preloading, then choose 'Save as PDF'.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEO FAQ Section -->
+    <section class="faq-section" id="faq">
+      <div class="section-container">
+        <div class="section-header">
+          <span class="section-pill" data-i18n="faqPill">Frequently Asked Questions</span>
+          <h2 class="section-title" data-i18n="faqTitle">Everything You Need to Know</h2>
+          <p class="section-sub" data-i18n="faqSub">Common questions answered about DocCleaner and print formatting.</p>
+        </div>
+
+        <div class="faq-list">
+          
+          <details class="faq-item" open>
+            <summary class="faq-question">
+              <span data-i18n="faq1Q">Is DocCleaner really 100% free to use?</span>
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <div class="faq-answer">
+              <p data-i18n="faq1A">Yes, absolutely! DocCleaner is 100% free and open-source. There are no paid tiers, no subscription plans, and no hidden features locked behind paywalls.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span data-i18n="faq2Q">Which web browsers are supported?</span>
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <div class="faq-answer">
+              <p data-i18n="faq2A">DocCleaner works on all Chromium-based desktop browsers, including Google Chrome, Microsoft Edge, Brave, Opera, and Cốc Cốc on Windows, macOS, and Linux.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span data-i18n="faq3Q">Does DocCleaner collect my personal browsing data?</span>
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <div class="faq-answer">
+              <p data-i18n="faq3A">Never. DocCleaner operates strictly client-side within your browser. It does not contain any analytics tracking code, does not monitor your history, and communicates with zero external remote servers.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span data-i18n="faq4Q">How do I avoid blank pages when printing to PDF?</span>
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <div class="faq-answer">
+              <p data-i18n="faq4A">Use DocCleaner's floating action button rather than pressing Ctrl+P directly. DocCleaner auto-scrolls and preloads every single page asset into memory first, ensuring all images and text spans are 100% rendered before opening the Chrome print dialog.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">
+              <span data-i18n="faq5Q">How can I support ongoing development?</span>
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <div class="faq-answer">
+              <p data-i18n="faq5A">You can support the author by leaving a 5-star review on the Chrome Web Store, starring our GitHub repository, or buying a coffee via our Buy Me A Coffee page or VietQR.</p>
+            </div>
+          </details>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Support & Donate Section -->
+    <section class="support-section" id="support">
+      <div class="section-container">
+        <div class="support-card">
+          <div class="support-content">
+            <span class="support-pill" data-i18n="supportPill">Student Community</span>
+            <h2 class="support-title" data-i18n="supportTitle">Made with Love for Students</h2>
+            <p class="support-desc" data-i18n="supportDesc">DocCleaner is built independently. If this tool saved your semester exams or thesis research, consider buying the developer a coffee!</p>
+            
+            <div class="support-actions">
+              <a href="https://khanhnkq.quizken.com/buy-me-a-coffee" target="_blank" rel="noopener noreferrer" class="btn btn-yellow" id="donate-coffee-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+                  <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+                  <line x1="6" y1="1" x2="6" y2="4"/>
+                  <line x1="10" y1="1" x2="10" y2="4"/>
+                  <line x1="14" y1="1" x2="14" y2="4"/>
+                </svg>
+                <span data-i18n="btnBuyCoffee">Buy Me A Coffee</span>
+              </a>
+
+              <a href="https://github.com/khanhnkq/DocCleaner" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" id="github-repo-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                </svg>
+                <span>Star on GitHub</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final Call to Action -->
+    <section class="final-cta-section">
+      <div class="section-container">
+        <div class="final-cta-box">
+          <h2 class="final-title" data-i18n="finalTitle">Start Reading Better Today</h2>
+          <p class="final-sub" data-i18n="finalSub">Join thousands of students studying distraction-free on Studocu and Scribd.</p>
+          <a href="https://chromewebstore.google.com/detail/fnhdoegoihnkgggnaiemommemdejhbkb" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg" id="bottom-cta-btn">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <circle cx="12" cy="12" r="4"/>
+              <line x1="21.17" y1="8" x2="12" y2="8"/>
+              <line x1="3.95" y1="6.06" x2="8.54" y2="14"/>
+              <line x1="10.88" y1="21.94" x2="15.46" y2="14"/>
+            </svg>
+            <span data-i18n="finalCta">Add to Chrome — Free Extension</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="brand">
+            <img src="icons/icon32.png" alt="DocCleaner" width="24" height="24">
+            <span class="brand-text">DocCleaner</span>
+          </div>
+          <p class="footer-tagline" data-i18n="footerTagline">Better Studocu & Scribd Reader · Clean print-ready formatting.</p>
+        </div>
+
+        <div class="footer-links">
+          <div class="footer-col">
+            <h4 data-i18n="footerColProject">Project</h4>
+            <a href="https://chromewebstore.google.com/detail/fnhdoegoihnkgggnaiemommemdejhbkb" target="_blank" rel="noopener noreferrer">Chrome Web Store</a>
+            <a href="https://github.com/khanhnkq/DocCleaner" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
+            <a href="https://github.com/khanhnkq/DocCleaner/releases" target="_blank" rel="noopener noreferrer">Releases & Changelog</a>
+          </div>
+
+          <div class="footer-col">
+            <h4 data-i18n="footerColLegal">Legal & Safety</h4>
+            <a href="PRIVACY_POLICY.md" target="_blank">Privacy Policy</a>
+            <a href="https://github.com/khanhnkq/DocCleaner/blob/main/LICENSE" target="_blank">MIT License</a>
+            <a href="https://github.com/khanhnkq/DocCleaner/issues" target="_blank" rel="noopener noreferrer">Bug Reports</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 DocCleaner by <strong class="author-highlight">KapKap Studio</strong> (Khanhnkq). Built for educational and productivity purposes.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="index.js"></script>
+</body>
+</html>

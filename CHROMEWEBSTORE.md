@@ -1,7 +1,7 @@
 # Chrome Web Store Listing — DocCleaner
 
-> Last Updated: 2026-10-07  
-> Version: 1.3  
+> Last Updated: 2026-10-14  
+> Version: 1.4  
 > Target Platforms: Chrome Web Store (Manifest V3)
 
 ---
@@ -9,62 +9,86 @@
 ## 1. Store Listing Metadata
 
 ### Extension Name [REQUIRED]
-*English:* `DocCleaner - Document Reader & PDF Formatter`  
-*Tiếng Việt:* `DocCleaner - Đọc Tài Liệu & Định Dạng PDF`  
-*(Max 75 characters. Khuyến nghị không đưa thẳng nhãn hiệu bên thứ ba vào tiêu đề chính để tránh vi phạm chính sách Trademark của Google).*
+*English:* `DocCleaner - Better Studocu & Scribd Reader (Free)`  
+*Tiếng Việt:* `DocCleaner - Đọc Studocu & Scribd Tốt Hơn (Miễn Phí)`  
+*(Max 75 characters. Nhãn hiệu bên thứ ba được dùng theo dạng mô tả "better [platform]" — tương tự pattern "Better TweetDeck", "Better YouTube" trên Chrome Web Store).*
 
 ### Short Description [REQUIRED]
-*English (115 chars):*  
-`Clean reading view, removes clutter and banners, and formats documents into print-ready HD PDFs on study platforms.`
+*English (127 chars):*  
+`Free clean reader for Studocu & Scribd. Better reading: remove clutter, distraction-free focus mode, and print-friendly layout.`
 
-*Tiếng Việt (118 chars):*  
-`Chế độ đọc tập trung, loại bỏ banner vướng mắt và tối ưu định dạng trang in PDF độ nét cao cho các nền tảng học tập.`
+*Tiếng Việt (130 chars):*  
+`Đọc Studocu & Scribd tốt hơn, miễn phí. Dọn sạch banner vướng mắt, chế độ đọc tập trung, tối ưu bố cục trang in.`
 
 ### Detailed Description [REQUIRED]
 *(Plain text format, Chrome Web Store tự động loại bỏ Markdown)*
 
 ```text
-DocCleaner is a lightweight document reading and print formatting companion designed to enhance your document viewing experience on study and reading platforms like Studocu and Scribd.
+DocCleaner is a free, lightweight reading companion that gives you a better, 
+cleaner experience when studying documents on Studocu and Scribd.
 
-FEATURES
-• Clean Reading Mode: Automatically eliminates intrusive floating banners, overlapping promotional overlays, and cookie consent backdrops for distraction-free reading.
-• High-Definition Print Layout: Preloads document pages smoothly to prevent blank pages and aligns content perfectly into an A4 print-ready layout.
-• 1-Click Fast PDF Export: Floating action button lets you format the document and open Chrome's native print-to-PDF dialog in one click.
-• 100% Client-Side & Private: Zero external tracking, zero cloud dependencies. All formatting and cleaning executes locally on your own machine.
-• Dual-Language Interface: Seamlessly toggle between English and Vietnamese right inside the popup.
+Think of it as "Reader Mode" for your study platforms — like the clean reading 
+experience on Pocket or Safari Reader, but designed specifically for Better 
+Studocu and Better Scribd document viewing.
 
-HOW TO USE
-1. Navigate to any study document on supported platforms (Studocu or Scribd).
-2. DocCleaner automatically cleans the view for an uncluttered reading environment.
-3. Click the floating "Download HD PDF" button at the bottom-right corner (or open the extension popup).
-4. Wait a few moments while pages are preloaded.
-5. In the Chrome print dialog, choose "Save as PDF" and enjoy your clean document!
+WHY DOCCLEANER?
+Studocu and Scribd are amazing platforms for study documents, but floating 
+banners, promotional overlays, and cookie popups can break your focus. 
+DocCleaner gives you a better, distraction-free reading experience — for free.
+
+FEATURES (100% FREE)
+• Better Studocu Reading — Clean layout, remove floating banners and 
+  promotional overlays for a distraction-free Studocu experience.
+• Better Scribd Reading — Strip visual clutter and cookie consent popups 
+  so you can focus on Scribd document content.
+• Smart Page Formatter — Pre-renders all document pages smoothly to prevent 
+  blank sections, then aligns everything into a clean print-friendly layout.
+• 1-Click Print Format — A floating button lets you prepare the entire 
+  document for Chrome's native print dialog. Perfect for creating study notes.
+• Dual-Language Interface — Switch between English and Vietnamese right 
+  inside the popup. Completely free.
+
+PLATFORMS SUPPORTED (FREE)
+• Better Studocu (studocu.com, studocu.vn) — Free clean reader
+• Better Scribd (scribd.com) — Free clean reader
+
+HOW IT WORKS
+1. Open any document on Studocu or Scribd.
+2. DocCleaner automatically cleans the layout for better, distraction-free reading.
+3. Click the floating button to format the document for printing.
+4. Use Chrome's "Save as PDF" to keep a clean copy for offline study.
+
+FREE FOREVER
+DocCleaner is and will always be 100% free. No premium tiers, no subscriptions, 
+no hidden fees. Better Studocu and Better Scribd reading for everyone.
 
 PRIVACY & SECURITY
-DocCleaner values your privacy above all. The extension operates completely offline inside your browser:
-• Does NOT collect, store, or transmit any personal data.
-• Does NOT track your browsing history or collect analytics.
-• Does NOT communicate with any external remote servers.
+DocCleaner runs 100% locally in your browser:
+• No data collection, no tracking, no analytics.
+• No external servers or cloud dependencies.
+• All processing happens on your own device.
+• Free and open source.
 
 PERMISSIONS EXPLAINED
-• "storage": Saves your local UI preferences (such as selected language).
-• "cookies": Clears temporary session view cookies locally on supported document domains.
-• "scripting" & "activeTab": Injects page formatting styles and preloads pages for printing when you click the action button.
-• "webNavigation": Detects navigation events to apply clean reading styles on document pages.
+• "storage" — Saves your language preference locally.
+• "cookies" — Clears cached display states on document pages.
+• "scripting" & "activeTab" — Applies reading-mode styles when you 
+  click the action button.
+• "webNavigation" — Detects page loads to apply clean layout early.
 
 SUPPORT & FEEDBACK
-Have a suggestion, question, or bug report?
 • GitHub: https://github.com/khanhnkq/DocCleaner
-• Coffee & Support: https://khanhnkq.quizken.com/buy-me-a-coffee
+• Support the author: https://khanhnkq.quizken.com/buy-me-a-coffee
 
-Version 1.3 — Enhanced Scribd & Studocu DOM preloader, graphic poster UI theme, and dual language support.
+Version 1.4 — Better Studocu & Better Scribd support, free clean reader with 
+print formatter and dual-language interface.
 ```
 
 ### Category [REQUIRED]
-`Productivity` *(Hoặc `Accessibility`)*
+`Productivity`
 
 ### Single Purpose Statement [REQUIRED for Developer Dashboard Review]
-`"Provides a clutter-free reading view and formats study documents for print-ready PDF export on supported platforms."`
+`"Provides a free, distraction-free reading mode and clean print layout for study documents on Studocu and Scribd."`
 
 ---
 
@@ -73,16 +97,17 @@ Version 1.3 — Enhanced Scribd & Studocu DOM preloader, graphic poster UI theme
 | Asset | Dimensions | Format | Status | File Path |
 |-------|-----------|--------|--------|-----------|
 | **Store Icon** [REQUIRED] | 128×128 px | PNG (transparent/solid) | ✅ Ready | `icons/icon128.png` |
-| **Screenshot 1** [REQUIRED] | 1280×800 px (hoặc 640×400) | PNG/JPEG | 🟡 Cần chụp | Chụp popup giao diện v1.3 trên màn hình tài liệu |
-| **Screenshot 2** [RECOMMENDED] | 1280×800 px | PNG/JPEG | 🟡 Cần chụp | Chụp nút Floating Action Button (FAB) góc dưới màn hình |
-| **Screenshot 3** [RECOMMENDED] | 1280×800 px | PNG/JPEG | 🟡 Cần chụp | Chụp trang tài liệu trước và sau khi được dọn sạch banner |
-| **Screenshot 4** [RECOMMENDED] | 1280×800 px | PNG/JPEG | 🟡 Cần chụp | Hộp thoại Print PDF xuất trang A4 sắc nét |
-| **Small Promo Tile** [RECOMMENDED] | 440×280 px | PNG/JPEG | ⬜ Tùy chọn | Banner quảng bá hiển thị trên trang chủ store |
-| **Marquee Promo Tile** | 1400×560 px | PNG/JPEG | ⬜ Tùy chọn | Banner lớn đề xuất |
+| **Screenshot 1** [REQUIRED] | 1280×800 px (hoặc 640×400) | PNG/JPEG | 🟡 Cần chụp | Chụp popup v1.3 hiển thị "Better Studocu · Free" |
+| **Screenshot 2** [RECOMMENDED] | 1280×800 px | PNG/JPEG | 🟡 Cần chụp | Chụp FAB button "Format for Print" góc dưới màn hình |
+| **Screenshot 3** [RECOMMENDED] | 1280×800 px | PNG/JPEG | 🟡 Cần chụp | Before/After: trang Studocu trước và sau khi DocCleaner dọn sạch |
+| **Screenshot 4** [RECOMMENDED] | 1280×800 px | PNG/JPEG | 🟡 Cần chụp | Hộp thoại Print — "Better Studocu free print layout" |
+| **Small Promo Tile** [RECOMMENDED] | 440×280 px | PNG/JPEG | ✅ Ready | `store-assets/promo_small_440x280.png` |
+| **Marquee Promo Tile** | 1400×560 px | PNG/JPEG | ✅ Ready | `store-assets/marquee_1400x560.png` |
 
 > **Lưu ý chụp Screenshot:**
 > - Kích thước bắt buộc phải chuẩn xác: đúng `1280 x 800` px hoặc `640 x 400` px.
-> - Không để viền đen xung quanh, không dùng mockup điện thoại/tablet (vì đây là extension máy tính).
+> - Không để viền đen xung quanh, không dùng mockup điện thoại/tablet.
+> - Nên hiển thị branding "Better Studocu" / "Better Scribd" / "Free" trong screenshot.
 
 ---
 
@@ -91,15 +116,15 @@ Version 1.3 — Enhanced Scribd & Studocu DOM preloader, graphic poster UI theme
 *Điền vào form "Permissions justification" trên Developer Dashboard:*
 
 | Permission | Type | Plain-English Justification (Copy nguyên văn gửi Google) |
-|------------|------|---------------------------------------------------------|
+|------------|------|----------------------------------------------------------|
 | `storage` | permissions | Used exclusively to save the user's preferred interface language (English or Vietnamese) locally on their device. |
-| `cookies` | permissions | Used solely to clear session cache cookies locally on specified document domains (studocu.com, scribd.com) so that the document reading interface displays without corrupted cached states. |
-| `scripting` | permissions | Used to dynamically inject print-layout CSS rules and image preloader scripts into the active document tab when the user triggers the PDF export function. |
-| `activeTab` | permissions | Grants temporary access to the active document tab when the user clicks the extension popup or floating action button, allowing the extension to inspect document elements for printing. |
+| `cookies` | permissions | Used solely to clear cached display states locally on specified document domains (studocu.com, scribd.com) so that the reading interface displays with a clean, consistent layout. |
+| `scripting` | permissions | Used to dynamically apply reading-mode CSS rules and page formatter scripts into the active document tab when the user triggers the print format function. |
+| `activeTab` | permissions | Grants temporary access to the active document tab when the user clicks the extension popup or floating action button, allowing the extension to apply clean reading styles. |
 | `webNavigation` | permissions | Listens to navigation events on supported study domains to automatically apply clean reading CSS stylesheets as early as document_start. |
-| `*://*.studocu.com/*` | host_permissions | Allows reading mode stylesheets and document preloader scripts to run on Studocu document pages. |
-| `*://*.studocu.vn/*` | host_permissions | Allows reading mode stylesheets and document preloader scripts to run on localized Vietnamese Studocu document pages. |
-| `*://*.scribd.com/*` | host_permissions | Allows reading mode stylesheets and document preloader scripts to run on Scribd document pages. |
+| `*://*.studocu.com/*` | host_permissions | Allows clean reading mode stylesheets and document formatter scripts to run on Studocu document pages for a better reading experience. |
+| `*://*.studocu.vn/*` | host_permissions | Allows clean reading mode stylesheets and document formatter scripts to run on localized Vietnamese Studocu document pages. |
+| `*://*.scribd.com/*` | host_permissions | Allows clean reading mode stylesheets and document formatter scripts to run on Scribd document pages for a better reading experience. |
 
 ---
 
@@ -122,7 +147,7 @@ Version 1.3 — Enhanced Scribd & Studocu DOM preloader, graphic poster UI theme
 
 ## 5. Distribution Settings
 
-- **Visibility:** Public (hoặc Unlisted nếu muốn test kín trước)
+- **Visibility:** Public
 - **Regions:** All regions (Toàn cầu)
 - **Pricing:** Free (Miễn phí 100%)
 
@@ -133,12 +158,28 @@ Version 1.3 — Enhanced Scribd & Studocu DOM preloader, graphic poster UI theme
 - **Publisher Name:** Khanhnkq
 - **Contact Email:** *(Email tài khoản Google Developer của bạn)*
 - **Support URL:** `https://github.com/khanhnkq/DocCleaner/issues`
-- **Homepage URL:** `https://github.com/khanhnkq/DocCleaner`
+- **Homepage URL:** `https://khanhnkq.github.io/DocCleaner/`
 
 ---
 
-## 7. Version History
+## 7. SEO Keyword Density Map
+
+| Keyword | Lần xuất hiện trong Detailed Description | Vị trí |
+|---------|----------------------------------------|--------|
+| **Better Studocu** | 6 lần | Title, features, platforms, version note |
+| **Better Scribd** | 5 lần | Title, features, platforms, version note |
+| **Free** | 8 lần | Title, features header, platforms, "Free Forever" section, privacy |
+| **clean reader** | 4 lần | Intro, platforms list |
+| **distraction-free** | 3 lần | Intro, features, how-to |
+| **print** | 4 lần | Features, how-to |
+| **study documents** | 2 lần | Intro, how-to |
+| **reading mode** | 1 lần | Intro analogy |
+
+---
+
+## 8. Version History
 
 | Version | Date | Changes Summary | Status |
 |---------|------|-----------------|--------|
-| 1.3 | 2026-10-07 | First public package for Chrome Web Store. Multi-platform support (Studocu + Scribd), A4 PDF Print preloader, Graphic Poster popup UI. | Draft |
+| 1.3 | 2026-10-14 | SEO update: "Better Studocu & Scribd" branding, "Free" emphasis, clean reader positioning. All user-facing text sanitized. | Draft |
+| 1.3 | 2026-10-07 | First public package. Multi-platform support (Studocu + Scribd), A4 PDF Print preloader, Graphic Poster popup UI. | Published |

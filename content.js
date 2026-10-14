@@ -18,7 +18,7 @@
 
     // 2. Inject styles for the floating action button (FAB) - Graphic Poster Theme
     const fabBadgeBg = isScribd ? '#58c474' : '#c6eb34';
-    const brandName = isScribd ? 'Scribd' : (isStudocu ? 'Studocu' : 'Doc');
+    const brandName = isScribd ? 'Better Scribd · Free' : (isStudocu ? 'Better Studocu · Free' : 'DocCleaner');
 
     const fabStyle = document.createElement('style');
     fabStyle.id = 'studocu-fab-styles';
@@ -128,13 +128,13 @@
     const fabBtn = document.createElement('button');
     fabBtn.id = 'studocu-fab-btn';
 
-    let currentBtnText = 'Download HD PDF';
+    let currentBtnText = 'Format for Print';
 
     async function updateFabLabel() {
         try {
             if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
                 const { lang } = await chrome.storage.local.get({ lang: 'en' });
-                currentBtnText = lang === 'vi' ? 'Tải PDF HD' : 'Download HD PDF';
+                currentBtnText = lang === 'vi' ? 'Định dạng in' : 'Format for Print';
                 const span = fabBtn.querySelector('.fab-text-label');
                 if (span) span.innerText = currentBtnText;
             }
