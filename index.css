@@ -413,6 +413,19 @@ body {
   opacity: 0.4;
 }
 
+.visitor-badge {
+  color: var(--text-navy);
+  font-weight: 700;
+  cursor: default;
+}
+
+.visitor-badge strong {
+  color: var(--text-navy);
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.2px;
+}
+
 .hero-image-wrapper {
   margin-top: 24px;
 }
