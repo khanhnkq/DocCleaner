@@ -52,6 +52,7 @@ zip -r -q "$OUTPUT_ZIP" . \
   -x "index.html" \
   -x "index.css" \
   -x "index.js" \
+  -x "vi/*" \
   -x "store-assets/*" \
   -x "analytics/*" \
   -x "scratch/*"
