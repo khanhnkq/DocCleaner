@@ -11,7 +11,7 @@
 
 set -euo pipefail
 
-PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$PROJECT_DIR"
 
 echo "=========================================="
@@ -19,8 +19,8 @@ echo "🚀 DocCleaner Build & Package Pipeline"
 echo "=========================================="
 
 # 1. Run version bump script (unless --no-bump or keep is requested)
-if [ -f "bump-version.js" ]; then
-  node bump-version.js "${1:-auto}"
+if [ -f "scripts/bump-version.js" ]; then
+  node scripts/bump-version.js "${1:-auto}"
 fi
 
 # 2. Extract updated version from manifest.json
@@ -35,29 +35,28 @@ echo "------------------------------------------"
 # Remove existing build zip with this name if exists
 rm -f "$OUTPUT_ZIP"
 
-# 3. Create clean ZIP excluding dev tools, git, docs, and assets
+# 3. Create clean ZIP excluding dev tools, git, docs, scripts, and website assets
 zip -r -q "$OUTPUT_ZIP" . \
   -x ".git/*" \
   -x ".gitignore" \
   -x ".DS_Store" \
   -x "*/.DS_Store" \
   -x "*.sh" \
-  -x "bump-version.js" \
   -x "*.zip" \
   -x "*.md" \
-  -x "CHROMEWEBSTORE.md" \
-  -x "README.md" \
-  -x "PRIVACY_POLICY.md" \
-  -x "DESIGN_SYSTEM.md" \
+  -x "docs/*" \
+  -x "scripts/*" \
   -x "index.html" \
   -x "index.css" \
   -x "index.js" \
   -x "sitemap.xml" \
   -x "robots.txt" \
+  -x "uninstall.html" \
   -x "vi/*" \
   -x "store-assets/*" \
   -x "analytics/*" \
-  -x "scratch/*"
+  -x "scratch/*" \
+  -x ".gemini/*"
 
 # 4. Verification
 if [ -f "$OUTPUT_ZIP" ]; then

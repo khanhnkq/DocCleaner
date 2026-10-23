@@ -4,7 +4,7 @@ An intelligent, lightweight Chrome Extension designed for a **better, distractio
 
 Think of it as **"Reader Mode" for your study platforms** — like Pocket or Safari Reader, but tailored specifically for **Better Studocu** and **Better Scribd** document viewing.
 
-> **Version:** `v1.4` (Better Studocu & Better Scribd Support · 100% Free)  
+> **Version:** `v1.5` (Better Studocu & Better Scribd Support · 100% Free)  
 > 🌐 **Official Website:** [https://khanhnkq.github.io/DocCleaner/](https://khanhnkq.github.io/DocCleaner/)
 
 ---
@@ -36,7 +36,7 @@ Think of it as **"Reader Mode" for your study platforms** — like Pocket or Saf
 ## 🛠 Installation Guide
 
 ### Option 1: Download `.zip` File (Recommended for Users)
-1. Download **`DocCleaner-v1.4.zip`** from [Releases](https://github.com/khanhnkq/DocCleaner/releases/tag/v1.3).
+1. Download **`DocCleaner-v1.5.zip`** from [Releases](https://github.com/khanhnkq/DocCleaner/releases/tag/v1.3).
 2. Extract the ZIP file to a local folder.
 3. Open `chrome://extensions/` ➔ Enable **Developer mode** in the top-right corner.
 4. Click **Load unpacked** and select the extracted folder.
@@ -66,6 +66,16 @@ DocCleaner runs **100% locally in your browser**:
 - ❌ **NO** external servers or cloud dependencies.
 - ❌ **NO** analytics or third-party scripts.
 - ✅ **100% Free and Open Source**.
+
+---
+
+## 📚 Development & Plans
+
+- 🎨 [Design System & Visual Guidelines](docs/DESIGN_SYSTEM.md)
+- 📋 [Uninstall Flow & Feedback Plan](docs/plans/UNINSTALL_FEATURE_PLAN.md)
+- 🎨 [Color Palette Fix Plan](docs/plans/color_palette_fix_plan.md)
+- 🏪 [Chrome Web Store Listing Copy](docs/CHROMEWEBSTORE.md)
+- 🔒 [Privacy Policy](docs/PRIVACY_POLICY.md)
 
 ---
 

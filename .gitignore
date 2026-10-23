@@ -1,4 +1,35 @@
-*.zip
-Studocu-Helper-v1.2/
+# Operating System Files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+
+# Build Artifacts & Distribution Packages
+*.zip
+dist/
+build/
+out/
+Studocu-Helper-v1.2/
+
+# Analytics & Private Metrics Reports
 analytics/
+
+# Editor & IDE Directories
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs & Temporary Files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+scratch/
+tmp/
+temp/
+.gemini/

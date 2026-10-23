@@ -15,11 +15,11 @@
 const fs = require('fs');
 const path = require('path');
 
-const ROOT_DIR = __dirname;
+const ROOT_DIR = path.resolve(__dirname, '..');
 const MANIFEST_PATH = path.join(ROOT_DIR, 'manifest.json');
 const POPUP_PATH = path.join(ROOT_DIR, 'popup.html');
 const README_PATH = path.join(ROOT_DIR, 'README.md');
-const STORE_PATH = path.join(ROOT_DIR, 'CHROMEWEBSTORE.md');
+const STORE_PATH = path.join(ROOT_DIR, 'docs', 'CHROMEWEBSTORE.md');
 
 function calculateNextVersion(currentVersion, bumpType = 'auto') {
     if (!bumpType || bumpType === 'auto') {

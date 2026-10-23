@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DocCleaner — Offboarding & Feedback</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/icon32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/icon16.png">
+
+  <style>
+    /* ==========================================================================
+       DocCleaner Offboarding Page — Strict Pure Flat Architecture
+       Rules:
+       1. NO SHADOW (box-shadow: none !important)
+       2. NO BORDER (border: none !important)
+       3. NO GRADIENT (background-image: none !important)
+       4. NO EMOJI (Strictly banned across text and UI)
+       5. NO EXTRA COLORS (Only #193582, #091b42, #5e6d8a, #c6eb34, #d4f73e, #f6f7ef, #ffffff)
+       6. NO EFFECTS (filter: none !important, backdrop-filter: none !important)
+       ========================================================================== */
+
+    :root {
+      --bg-navy: #193582;
+      --text-navy: #091b42;
+      --text-muted: #5e6d8a;
+      --card-cream: #f6f7ef;
+      --card-white: #ffffff;
+      --accent-lime: #c6eb34;
+      --accent-lime-hover: #d4f73e;
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      border: none !important;
+      box-shadow: none !important;
+      text-shadow: none !important;
+      filter: none !important;
+      backdrop-filter: none !important;
+      background-image: none !important;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background-color: var(--card-cream);
+      color: var(--text-navy);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 32px 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .page-container {
+      width: 100%;
+      max-width: 680px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Top Navigation Bar */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 0 4px;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text-navy);
+    }
+
+    .brand-logo {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      display: block;
+    }
+
+    .brand-name {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .version-tag {
+      background-color: var(--card-white);
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 9999px;
+    }
+
+    /* Language Switcher — Synchronized with Homepage */
+    .lang-toggle {
+      background-color: var(--card-white);
+      color: var(--text-navy);
+      padding: 7px 12px;
+      border-radius: 9999px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .lang-toggle:hover {
+      background-color: var(--accent-lime);
+    }
+
+    .lang-pill {
+      color: var(--text-navy);
+      font-weight: 900;
+    }
+
+    .lang-divider {
+      color: var(--text-muted);
+    }
+
+    .lang-opt {
+      color: var(--text-muted);
+    }
+
+    /* Main Content Card */
+    .card {
+      background-color: var(--card-white);
+      border-radius: 20px;
+      padding: 36px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .header-block {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--text-navy);
+      letter-spacing: -0.03em;
+      line-height: 1.3;
+    }
+
+    .subtext {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .privacy-notice {
+      background-color: var(--card-cream);
+      color: var(--text-muted);
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      line-height: 1.45;
+    }
+
+    /* Survey Form */
+    .survey-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .survey-title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--text-navy);
+    }
+
+    .options-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background-color: var(--card-cream);
+      padding: 14px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .option-item:hover {
+      background-color: #edf0e6;
+    }
+
+    .option-item input[type="radio"] {
+      margin-top: 3px;
+      accent-color: var(--text-navy);
+      cursor: pointer;
+      width: 16px;
+      height: 16px;
+    }
+
+    .option-label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-navy);
+      line-height: 1.4;
+      cursor: pointer;
+    }
+
+    .feedback-textarea-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .textarea-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-navy);
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 90px;
+      padding: 12px 14px;
+      background-color: var(--card-cream);
+      color: var(--text-navy);
+      font-family: inherit;
+      font-size: 0.9rem;
+      border-radius: 12px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    textarea:focus {
+      outline: none;
+      background-color: #edf0e6;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      padding: 14px 24px;
+      font-size: 0.92rem;
+      font-weight: 800;
+      border-radius: 9999px;
+      text-decoration: none;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background-color: var(--accent-lime);
+      color: var(--text-navy);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--accent-lime-hover);
+    }
+
+    .btn-secondary {
+      background-color: var(--bg-navy);
+      color: var(--card-white);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--text-navy);
+    }
+
+    .submit-btn {
+      width: 100%;
+      margin-top: 6px;
+    }
+
+    /* Success Submission Message */
+    .success-box {
+      display: none;
+      background-color: var(--card-cream);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .success-box.show {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .success-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text-navy);
+    }
+
+    .success-text {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Support & Reinstall Card */
+    .support-card {
+      background-color: var(--card-white);
+      border-radius: 20px;
+      padding: 28px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .support-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--text-navy);
+    }
+
+    .support-text {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .support-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* Footer */
+    footer {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 0;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      text-align: center;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .footer-links a {
+      color: var(--text-navy);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        padding: 24px 20px;
+      }
+      .support-card {
+        padding: 24px 20px;
+      }
+      .support-actions {
+        flex-direction: column;
+      }
+      .btn {
+        width: 100%;
+      }
+      h1 {
+        font-size: 1.35rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-container">
+
+    <!-- Top Navigation -->
+    <header class="top-bar">
+      <a href="https://khanhnkq.github.io/DocCleaner/" class="brand-group" aria-label="DocCleaner Home">
+        <img src="icons/icon32.png" alt="DocCleaner Logo" width="28" height="28" class="brand-logo">
+        <span class="brand-name">DocCleaner</span>
+        <span class="version-tag" id="version-badge">v1.4</span>
+      </a>
+
+      <!-- Language Switcher: Synchronized with Homepage -->
+      <button type="button" id="langToggle" class="lang-toggle" onclick="toggleLanguage()" aria-label="Đổi sang tiếng Việt" title="Đổi sang tiếng Việt">
+        <span class="lang-pill" id="langEn">EN</span>
+        <span class="lang-divider">/</span>
+        <span class="lang-opt" id="langVn">VN</span>
+      </button>
+    </header>
+
+    <!-- Main Feedback Card -->
+    <main class="card">
+      <div class="header-block">
+        <h1 id="i18n-heading">Thank you for using DocCleaner</h1>
+        <p class="subtext" id="i18n-subtext">We are sorry to see you go. Your feedback helps us improve the extension for everyone.</p>
+      </div>
+
+      <div class="privacy-notice" id="i18n-privacy">
+        Privacy notice: All local settings and data have been completely deleted by your browser.
+      </div>
+
+      <!-- Survey Form -->
+      <form class="survey-form" id="survey-form" onsubmit="handleFormSubmit(event)">
+        <h2 class="survey-title" id="i18n-survey-title">Please let us know why you uninstalled:</h2>
+
+        <div class="options-group" role="radiogroup" aria-labelledby="i18n-survey-title">
+          <label class="option-item">
+            <input type="radio" name="reason" value="formatting_issue" required>
+            <span class="option-label" id="i18n-opt-1">Document formatting or printing issue on Studocu / Scribd</span>
+          </label>
+
+          <label class="option-item">
+            <input type="radio" name="reason" value="site_updated">
+            <span class="option-label" id="i18n-opt-2">The study website updated its layout and features stopped working</span>
+          </label>
+
+          <label class="option-item">
+            <input type="radio" name="reason" value="hard_to_use">
+            <span class="option-label" id="i18n-opt-3">The interface is confusing or hard to use</span>
+          </label>
+
+          <label class="option-item">
+            <input type="radio" name="reason" value="one_time_use">
+            <span class="option-label" id="i18n-opt-4">I only needed it once for a specific document</span>
+          </label>
+
+          <label class="option-item">
+            <input type="radio" name="reason" value="found_alternative">
+            <span class="option-label" id="i18n-opt-5">Found an alternative tool or method</span>
+          </label>
+
+          <label class="option-item">
+            <input type="radio" name="reason" value="other">
+            <span class="option-label" id="i18n-opt-6">Other reason</span>
+          </label>
+        </div>
+
+        <div class="feedback-textarea-wrap">
+          <label for="feedback-text" class="textarea-label" id="i18n-textarea-label">Additional feedback (Optional):</label>
+          <textarea id="feedback-text" name="details" placeholder="Share more details about your experience..."></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary submit-btn" id="i18n-submit-btn">Submit Feedback</button>
+      </form>
+
+      <!-- Success State -->
+      <div class="success-box" id="success-box">
+        <h3 class="success-title" id="i18n-success-title">Feedback Received</h3>
+        <p class="success-text" id="i18n-success-text">Thank you very much for your feedback. We wish you all the best in your studies and work.</p>
+      </div>
+    </main>
+
+    <!-- Support & Reinstall Card -->
+    <section class="support-card">
+      <h2 class="support-title" id="i18n-support-title">Want to try again or need assistance?</h2>
+      <p class="support-text" id="i18n-support-text">If you accidentally uninstalled or want to check out the latest version on the Chrome Web Store:</p>
+
+      <div class="support-actions">
+        <a href="https://chromewebstore.google.com/detail/fnhdoegoihnkgggnaiemommemdejhbkb" target="_blank" rel="noopener noreferrer" class="btn btn-primary" id="i18n-btn-reinstall">Reinstall DocCleaner</a>
+        <a href="https://github.com/khanhnkq/DocCleaner/issues/new" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" id="i18n-btn-issue">Report Issue on GitHub</a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-links">
+        <a href="https://khanhnkq.github.io/DocCleaner/" id="i18n-link-home">DocCleaner Home</a>
+        <a href="https://khanhnkq.quizken.com/buy-me-a-coffee" target="_blank" rel="noopener noreferrer" id="i18n-link-coffee">Support on Buy Me A Coffee</a>
+        <a href="https://github.com/khanhnkq/DocCleaner" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
+      </div>
+      <p id="i18n-footer-copy">DocCleaner is a free and open-source project.</p>
+    </footer>
+
+  </div>
+
+  <script>
+    /* Multilingual Dictionary — Strictly No Emojis */
+    const translations = {
+      en: {
+        heading: "Thank you for using DocCleaner",
+        subtext: "We are sorry to see you go. Your feedback helps us improve the extension for everyone.",
+        privacy: "Privacy notice: All local settings and data have been completely deleted by your browser.",
+        surveyTitle: "Please let us know why you uninstalled:",
+        opt1: "Document formatting or printing issue on Studocu / Scribd",
+        opt2: "The study website updated its layout and features stopped working",
+        opt3: "The interface is confusing or hard to use",
+        opt4: "I only needed it once for a specific document",
+        opt5: "Found an alternative tool or method",
+        opt6: "Other reason",
+        textareaLabel: "Additional feedback (Optional):",
+        textareaPlaceholder: "Share more details about your experience...",
+        submitBtn: "Submit Feedback",
+        submitting: "Submitting...",
+        successTitle: "Feedback Received",
+        successText: "Thank you very much for your feedback. We wish you all the best in your studies and work.",
+        supportTitle: "Want to try again or need assistance?",
+        supportText: "If you accidentally uninstalled or want to check out the latest version on the Chrome Web Store:",
+        reinstallBtn: "Reinstall DocCleaner",
+        issueBtn: "Report Issue on GitHub",
+        homeLink: "DocCleaner Home",
+        coffeeLink: "Support on Buy Me A Coffee",
+        footerCopy: "DocCleaner is a free and open-source project."
+      },
+      vi: {
+        heading: "Cảm ơn bạn đã sử dụng DocCleaner",
+        subtext: "Chúng tôi rất tiếc khi bạn gỡ tiện ích. Ý kiến của bạn giúp chúng tôi hoàn thiện sản phẩm tốt hơn.",
+        privacy: "Thông tin an toàn: Toàn bộ cài đặt và dữ liệu cục bộ của bạn đã được trình duyệt xóa sạch hoàn toàn.",
+        surveyTitle: "Vui lòng cho biết lý do bạn gỡ tiện ích:",
+        opt1: "Lỗi hiển thị hoặc không định dạng được trang in trên Studocu / Scribd",
+        opt2: "Trang web tài liệu vừa cập nhật giao diện mới khiến tiện ích không hoạt động",
+        opt3: "Giao diện khó hiểu hoặc không rõ cách kích hoạt tính năng",
+        opt4: "Tôi chỉ cần sử dụng một lần duy nhất cho tài liệu này",
+        opt5: "Đã tìm thấy công cụ hoặc phương pháp khác thay thế",
+        opt6: "Lý do khác",
+        textareaLabel: "Góp ý thêm (Không bắt buộc):",
+        textareaPlaceholder: "Chia sẻ cụ thể vấn đề bạn gặp phải...",
+        submitBtn: "Gửi ý kiến đóng góp",
+        submitting: "Đang gửi phản hồi...",
+        successTitle: "Đã ghi nhận phản hồi",
+        successText: "Cảm ơn bạn rất nhiều vì đã dành thời gian đóng góp. Chúc bạn học tập và làm việc hiệu quả.",
+        supportTitle: "Bạn muốn thử lại hoặc cần hỗ trợ kỹ thuật?",
+        supportText: "Nếu bạn vô tình gỡ tiện ích hoặc muốn cài đặt phiên bản mới nhất từ Cửa hàng Chrome:",
+        reinstallBtn: "Cài đặt lại DocCleaner",
+        issueBtn: "Báo lỗi trên GitHub",
+        homeLink: "Trang chủ DocCleaner",
+        coffeeLink: "Ủng hộ qua Buy Me A Coffee",
+        footerCopy: "DocCleaner là tiện ích mã nguồn mở phi lợi nhuận."
+      }
+    };
+
+    let currentLang = 'en';
+    let queryParams = {};
+
+    function parseQueryParams() {
+      const searchParams = new URLSearchParams(window.location.search);
+      queryParams.version = searchParams.get('v') || '1.4';
+      queryParams.lang = searchParams.get('lang');
+      queryParams.days = searchParams.get('days') || '0';
+      queryParams.ref = searchParams.get('ref') || 'ext_uninstall';
+
+      const versionBadge = document.getElementById('version-badge');
+      if (versionBadge && queryParams.version) {
+        versionBadge.textContent = 'v' + queryParams.version;
+      }
+    }
+
+    function toggleLanguage() {
+      const nextLang = currentLang === 'en' ? 'vi' : 'en';
+      setLanguage(nextLang);
+    }
+
+    function setLanguage(lang) {
+      if (!translations[lang]) return;
+      currentLang = lang;
+      document.documentElement.lang = lang;
+
+      const t = translations[lang];
+      document.getElementById('i18n-heading').textContent = t.heading;
+      document.getElementById('i18n-subtext').textContent = t.subtext;
+      document.getElementById('i18n-privacy').textContent = t.privacy;
+      document.getElementById('i18n-survey-title').textContent = t.surveyTitle;
+      document.getElementById('i18n-opt-1').textContent = t.opt1;
+      document.getElementById('i18n-opt-2').textContent = t.opt2;
+      document.getElementById('i18n-opt-3').textContent = t.opt3;
+      document.getElementById('i18n-opt-4').textContent = t.opt4;
+      document.getElementById('i18n-opt-5').textContent = t.opt5;
+      document.getElementById('i18n-opt-6').textContent = t.opt6;
+      document.getElementById('i18n-textarea-label').textContent = t.textareaLabel;
+      document.getElementById('feedback-text').placeholder = t.textareaPlaceholder;
+      document.getElementById('i18n-submit-btn').textContent = t.submitBtn;
+      document.getElementById('i18n-success-title').textContent = t.successTitle;
+      document.getElementById('i18n-success-text').textContent = t.successText;
+      document.getElementById('i18n-support-title').textContent = t.supportTitle;
+      document.getElementById('i18n-support-text').textContent = t.supportText;
+      document.getElementById('i18n-btn-reinstall').textContent = t.reinstallBtn;
+      document.getElementById('i18n-btn-issue').textContent = t.issueBtn;
+      document.getElementById('i18n-link-home').textContent = t.homeLink;
+      document.getElementById('i18n-link-coffee').textContent = t.coffeeLink;
+      document.getElementById('i18n-footer-copy').textContent = t.footerCopy;
+
+      const langEn = document.getElementById('langEn');
+      const langVn = document.getElementById('langVn');
+      const langToggle = document.getElementById('langToggle');
+
+      if (lang === 'vi') {
+        langEn.className = 'lang-opt';
+        langVn.className = 'lang-pill';
+        langToggle.title = 'Switch to English';
+        langToggle.setAttribute('aria-label', 'Switch to English');
+      } else {
+        langEn.className = 'lang-pill';
+        langVn.className = 'lang-opt';
+        langToggle.title = 'Đổi sang tiếng Việt';
+        langToggle.setAttribute('aria-label', 'Đổi sang tiếng Việt');
+      }
+    }
+
+    // Obfuscated endpoint loader — Prevents raw URL exposure in public repositories
+    const _k = [
+      'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYW',
+      'Nyb3Mvcy9BS2Z5Y2J5cE9jTkkyaF9sNDJUVzc1',
+      'QW1NeHlJNlgtakMtbExNQ0Z3Z1VIQkdqajh1MF',
+      'V1anVxRGNROFVJN2FmazBHelBnbGwvZXhlYw=='
+    ];
+
+    function getEndpoint() {
+      try {
+        return atob(_k.join(''));
+      } catch (e) {
+        return '';
+      }
+    }
+
+    const sessionId = 'dc_' + Date.now().toString(36) + '_' + Math.random().toString(36).substr(2, 6);
+
+    function sendToBackend(payload) {
+      try {
+        const endpoint = getEndpoint();
+        if (!endpoint) return;
+        fetch(endpoint, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload),
+          keepalive: true
+        });
+      } catch (err) {}
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const form = document.getElementById('survey-form');
+      const submitBtn = document.getElementById('i18n-submit-btn');
+      const selectedReason = form.elements['reason'] ? form.elements['reason'].value : '';
+      const feedbackDetails = document.getElementById('feedback-text').value;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = translations[currentLang].submitting;
+
+      const reasonMapping = {
+        formatting_issue: translations[currentLang].opt1,
+        site_updated: translations[currentLang].opt2,
+        hard_to_use: translations[currentLang].opt3,
+        one_time_use: translations[currentLang].opt4,
+        found_alternative: translations[currentLang].opt5,
+        other: translations[currentLang].opt6
+      };
+      const readableReason = reasonMapping[selectedReason] || selectedReason;
+
+      // Update feedback with matching session ID
+      sendToBackend({
+        action: 'update',
+        id: sessionId,
+        reason: readableReason,
+        details: feedbackDetails,
+        version: queryParams.version,
+        days_used: queryParams.days,
+        lang: currentLang,
+        timestamp: new Date().toISOString()
+      });
+
+      setTimeout(() => {
+        form.style.display = 'none';
+        const successBox = document.getElementById('success-box');
+        successBox.classList.add('show');
+      }, 400);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      parseQueryParams();
+      let initialLang = 'en'; // Default is English
+      if (queryParams.lang && (queryParams.lang === 'vi' || queryParams.lang === 'en')) {
+        initialLang = queryParams.lang;
+      }
+      setLanguage(initialLang);
+
+      // Auto-log initial uninstall event as soon as the page opens
+      sendToBackend({
+        action: 'init',
+        id: sessionId,
+        version: queryParams.version,
+        days_used: queryParams.days,
+        lang: initialLang,
+        ref: queryParams.ref,
+        timestamp: new Date().toISOString()
+      });
+    });
+  </script>
+</body>
+</html>

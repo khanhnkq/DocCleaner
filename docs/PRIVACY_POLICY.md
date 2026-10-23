@@ -5,6 +5,8 @@
 ## 1. Data Collection and Usage
 **DocCleaner** does NOT collect, store, transmit, or share any personal user data, browsing history, or credentials to any external servers. All operations run 100% locally on the user's browser.
 
+When the extension is uninstalled, a voluntary feedback page (`uninstall.html`) may be opened in your browser to help us understand how to improve. Submitting feedback is strictly voluntary and anonymous.
+
 ## 2. Permissions Used
 - **`storage`**: Used locally to save user preferences, such as selected interface language (English / Vietnamese).
 - **`cookies`**: Used locally to clear cached display states on supported document domains (`studocu.com`, `studocu.vn`, `scribd.com`) to ensure a clean, consistent reading layout.

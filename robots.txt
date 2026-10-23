@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /uninstall.html
 
 Sitemap: https://khanhnkq.github.io/DocCleaner/sitemap.xml

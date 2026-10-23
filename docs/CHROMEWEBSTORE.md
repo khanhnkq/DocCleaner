@@ -1,7 +1,7 @@
 # Chrome Web Store Listing — DocCleaner
 
 > Last Updated: 2026-10-14  
-> Version: 1.4  
+> Version: 1.5  
 > Target Platforms: Chrome Web Store (Manifest V3)
 
 ---
@@ -80,7 +80,7 @@ SUPPORT & FEEDBACK
 • GitHub: https://github.com/khanhnkq/DocCleaner
 • Support the author: https://khanhnkq.quizken.com/buy-me-a-coffee
 
-Version 1.4 — Better Studocu & Better Scribd support, free clean reader with 
+Version 1.5 — Better Studocu & Better Scribd support, free clean reader with 
 print formatter and dual-language interface.
 ```
 
