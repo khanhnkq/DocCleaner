@@ -166,4 +166,24 @@ aside button,
     display: none !important;
     visibility: hidden !important;
     opacity: 0 !important;
-}
+}
+
+/* ==========================================================================
+   DEFAULT PRINT SAFETY SUPPRESSION
+   ========================================================================== */
+@media print {
+    #studocu-fab-btn,
+    #doccleaner-reader-bar,
+    .global_header,
+    #header_search_input,
+    .promo_wrapper,
+    .promo_border,
+    .page_blur_promo,
+    .page_blur_promo_wrapper,
+    .between_page_portal_root,
+    [class*="paywall_overlay"],
+    [class*="PaywallOverlay"] {
+        display: none !important;
+    }
+}
+

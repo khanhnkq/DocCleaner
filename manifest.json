@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "DocCleaner - Better Studocu & Scribd Reader (Free)",
-  "version": "1.5",
+  "version": "1.6.0",
   "description": "Free clean reader for Studocu & Scribd. Better reading: remove clutter, distraction-free focus mode, and print-friendly layout.",
   "permissions": [
     "storage",
@@ -49,12 +49,19 @@
     {
       "matches": [
         "*://*.studocu.com/*",
-        "*://*.studocu.vn/*",
+        "*://*.studocu.vn/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_end"
+    },
+    {
+      "matches": [
         "*://*.scribd.com/*"
       ],
       "js": [
-        "scribd_handler.js",
-        "content.js"
+        "scribd_handler.js"
       ],
       "run_at": "document_end"
     }

@@ -4,6 +4,73 @@
 (function () {
     'use strict';
 
+    // Module-level tracking for transient Blob Object URLs to prevent RAM bloat
+    let scribdObjectUrls = [];
+
+    function revokeScribdObjectUrls() {
+        if (scribdObjectUrls.length > 0) {
+            scribdObjectUrls.forEach(url => {
+                try {
+                    URL.revokeObjectURL(url);
+                } catch (e) {}
+            });
+            scribdObjectUrls = [];
+        }
+    }
+
+    /**
+     * Accurately measures the browser's CSS pixel equivalent for A4 dimensions (210mm x 296mm).
+     * Uses a 296mm height (1mm safety margin below 297mm) to prevent 1px subpixel overflow.
+     */
+    function getA4DimensionsPx() {
+        const probe = document.createElement('div');
+        probe.style.cssText = 'position:absolute;left:-9999px;top:-9999px;width:210mm;height:296mm;visibility:hidden;pointer-events:none;';
+        document.body.appendChild(probe);
+        const rect = probe.getBoundingClientRect();
+        const w = rect.width || (210 * 96 / 25.4);
+        const h = rect.height || (296 * 96 / 25.4);
+        probe.remove();
+        return { a4WidthPx: w, a4HeightPx: h };
+    }
+
+    /**
+     * Wraps a captured page DOM node in an exact A4 container with mathematical scaling.
+     */
+    function wrapInA4Page(contentNode, origWidth, origHeight, pageIndex, a4W, a4H) {
+        const validA4W = (typeof a4W === 'number' && isFinite(a4W) && a4W > 0) ? a4W : (210 * 96 / 25.4);
+        const validA4H = (typeof a4H === 'number' && isFinite(a4H) && a4H > 0) ? a4H : (296 * 96 / 25.4);
+        const validOrigW = (typeof origWidth === 'number' && isFinite(origWidth) && origWidth > 0) ? origWidth : validA4W;
+        const validOrigH = (typeof origHeight === 'number' && isFinite(origHeight) && origHeight > 0) ? origHeight : validA4H;
+
+        const scaleW = validA4W / validOrigW;
+        const scaleH = validA4H / validOrigH;
+        const scaleRatio = Math.min(scaleW, scaleH);
+        const safeScale = Math.floor(scaleRatio * 10000) / 10000;
+
+        const scaledW = validOrigW * safeScale;
+        const scaledH = validOrigH * safeScale;
+        const offsetX = Math.max(0, (validA4W - scaledW) / 2);
+        const offsetY = Math.max(0, (validA4H - scaledH) / 2);
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'clean-page-wrapper';
+        wrapper.dataset.pageIndex = pageIndex.toString();
+
+        const scaledContainer = document.createElement('div');
+        scaledContainer.className = 'scaled-content';
+        scaledContainer.style.width = validOrigW + 'px';
+        scaledContainer.style.height = validOrigH + 'px';
+        scaledContainer.style.transformOrigin = 'top left';
+        scaledContainer.style.transform = `translate(${offsetX.toFixed(2)}px, ${offsetY.toFixed(2)}px) scale(${safeScale.toFixed(4)})`;
+
+        scaledContainer.appendChild(contentNode);
+        contentNode.style.width = validOrigW + 'px';
+        contentNode.style.height = validOrigH + 'px';
+        contentNode.style.margin = '0 auto';
+        wrapper.appendChild(scaledContainer);
+        return wrapper;
+    }
+
     // List of CSS selectors targeting Scribd ads, promos, paywalls, and popups
     const SCRIBD_AD_SELECTORS = [
         '.promo_wrapper',
@@ -120,25 +187,41 @@
     function initScribdAdBlocker() {
         removeScribdAds();
 
+        const SCRIBD_IGNORE_SELECTOR = '#clean-viewer-container, #studocu-fab-btn, #scribd-preload-overlay, #studocu-preload-overlay, #clean-reader-bar, #doccleaner-reader-bar, #clean-viewer-styles';
+
         const observer = new MutationObserver((mutations) => {
             let shouldClean = false;
             for (const mutation of mutations) {
-                // Ignore mutations caused by our own Clean Viewer or FAB button
-                if (mutation.target && (
-                    mutation.target.id === 'clean-viewer-container' ||
-                    mutation.target.id === 'studocu-fab-btn' ||
-                    (mutation.target.closest && (mutation.target.closest('#clean-viewer-container') || mutation.target.closest('#studocu-fab-btn')))
-                )) {
+                const targetEl = mutation.target && mutation.target.nodeType === 1 
+                    ? mutation.target 
+                    : (mutation.target && mutation.target.parentElement);
+
+                // Explicitly ignore mutations originating from or inside any DocCleaner UI component
+                if (targetEl && targetEl.closest && targetEl.closest(SCRIBD_IGNORE_SELECTOR)) {
                     continue;
                 }
-                if (mutation.addedNodes.length > 0) {
-                    shouldClean = true;
-                    break;
+
+                // Check if any added node is from outside DocCleaner
+                if (mutation.addedNodes && mutation.addedNodes.length > 0) {
+                    for (const node of mutation.addedNodes) {
+                        if (node.nodeType === 1) {
+                            if (!node.matches(SCRIBD_IGNORE_SELECTOR) && (!node.closest || !node.closest(SCRIBD_IGNORE_SELECTOR))) {
+                                shouldClean = true;
+                                break;
+                            }
+                        } else if (node.nodeType === 3) {
+                            if (!node.parentElement || !node.parentElement.closest(SCRIBD_IGNORE_SELECTOR)) {
+                                shouldClean = true;
+                                break;
+                            }
+                        }
+                    }
                 }
+                if (shouldClean) break;
             }
             if (shouldClean) {
                 if (cleanDebounceTimer) clearTimeout(cleanDebounceTimer);
-                cleanDebounceTimer = setTimeout(removeScribdAds, 150);
+                cleanDebounceTimer = setTimeout(removeScribdAds, 300);
             }
         });
 
@@ -315,7 +398,7 @@
 
                 currentScroll += scrollStep;
                 window.scrollTo({ top: currentScroll, behavior: 'instant' });
-                removeScribdAds();
+                // removeScribdAds() decoupled from 15ms scroll loop to prevent layout thrashing
 
                 // Count pages currently in DOM
                 const currentPages = document.querySelectorAll('.outer_page, .document_page, div[id^="outer_page_"]');
@@ -407,10 +490,13 @@
     }
 
     /**
-     * Embeds all image URLs as Data URIs (Base64) into RAM.
-     * Guarantees 100% print preview reliability without missing assets, blank images, or broken tables.
+     * Embeds all image URLs as transient Blob Object URLs into memory.
+     * Guarantees 100% print preview reliability without missing assets, blank images, or memory bloat.
      */
     async function embedImagesAsDataUris(pagesList, onProgress) {
+        // Revoke any previous Blob URLs before starting new embedding pass
+        revokeScribdObjectUrls();
+
         const urls = [];
         const urlMap = {};
 
@@ -442,15 +528,9 @@
                     if (res.ok) {
                         const blob = await res.blob();
                         if (blob && blob.size > 0) {
-                            const dataUri = await new Promise((resolve) => {
-                                const reader = new FileReader();
-                                reader.onload = () => resolve(reader.result);
-                                reader.onerror = () => resolve(null);
-                                reader.readAsDataURL(blob);
-                            });
-                            if (dataUri) {
-                                urlMap[url] = dataUri;
-                            }
+                            const objectUrl = URL.createObjectURL(blob);
+                            urlMap[url] = objectUrl;
+                            scribdObjectUrls.push(objectUrl);
                         }
                     }
                 } catch (err) {}
@@ -467,7 +547,7 @@
         }
         await Promise.all(workers);
 
-        // Replace img src attributes with Data URIs
+        // Replace img src attributes with transient Blob Object URLs
         pagesList.forEach(p => {
             p.querySelectorAll('img').forEach(img => {
                 const s = img.getAttribute('src');
@@ -483,6 +563,11 @@
      * Main action executed when clicking "Tải PDF HD" on Scribd
      */
     async function runScribdCleaner(statusCallback) {
+        if (document.getElementById('clean-viewer-container')) {
+            window.print();
+            return;
+        }
+
         const updateStatus = (msg) => {
             if (typeof statusCallback === 'function') statusCallback(msg);
         };
@@ -522,6 +607,9 @@
                 updateStatus(isVi ? `Đang nạp trang... ${percent}%` : `Loading pages... ${percent}%`);
             }, overlayUI, isVi);
 
+            // Post-settle cleanup: scrub any ad containers injected during scroll before cloning
+            removeScribdAds();
+
             // Re-query pages after lazy loading
             pages = document.querySelectorAll('.outer_page, .document_page, div[id^="outer_page_"]');
             if (pages.length === 0) {
@@ -530,6 +618,7 @@
 
             const totalPages = pages.length;
             const capturedPages = [];
+            const { a4WidthPx, a4HeightPx } = getA4DimensionsPx();
 
             // Step 2: Targeted page-by-page readiness check & deep capture
             for (let i = 0; i < totalPages; i++) {
@@ -543,9 +632,12 @@
                 await waitForScribdPageReady(page);
 
                 const pageStyle = window.getComputedStyle(page);
-                const rect = page.getBoundingClientRect();
-                const width = parseFloat(pageStyle.width) || rect.width || 800;
-                const height = parseFloat(pageStyle.height) || rect.height || 1050;
+                const rect = page.getBoundingClientRect ? page.getBoundingClientRect() : { width: 0, height: 0 };
+                const parsedW = parseFloat(pageStyle.width);
+                const width = (parsedW > 0) ? parsedW : (rect.width > 0 ? rect.width : 800);
+
+                const parsedH = parseFloat(pageStyle.height);
+                const height = (parsedH > 0) ? parsedH : (rect.height > 0 ? rect.height : 1050);
 
                 const cleanPage = document.createElement('div');
                 cleanPage.className = 'scribd-clean-page';
@@ -642,7 +734,8 @@
                 });
 
                 cleanPage.appendChild(clone);
-                capturedPages.push(cleanPage);
+                const a4Wrapper = wrapInA4Page(cleanPage, width, height, i + 1, a4WidthPx, a4HeightPx);
+                capturedPages.push(a4Wrapper);
 
                 const progress = 45 + Math.floor(((i + 1) / totalPages) * 30);
                 overlayUI.update(
@@ -656,7 +749,7 @@
             // Restore scroll position
             window.scrollTo({ top: initialScrollY, behavior: 'instant' });
 
-            // Step 3: Embed All Images as Data URIs (Base64) to Guarantee 100% Print Reliability
+            // Step 3: Embed All Images as Transient Blob Object URLs to Guarantee 100% Print Reliability
             overlayUI.update(76, totalPages, totalPages, isVi ? 'Đang chuyển đổi & nhúng ảnh HD/bảng biểu vào RAM...' : 'Embedding HD images & tables into RAM...');
 
             await embedImagesAsDataUris(capturedPages, (done, total) => {
@@ -687,69 +780,235 @@
             const viewerStyle = document.createElement('style');
             viewerStyle.id = 'clean-viewer-styles';
             viewerStyle.textContent = `
+                /* On-Screen Reader Mode */
                 body { 
                     background-color: #f6f7fb !important; 
                     margin: 0 !important; 
-                    overflow: auto !important; 
+                    overflow-x: auto !important; 
+                    overflow-y: auto !important; 
                 }
-                body > *:not(#clean-viewer-container) { 
+                body > *:not(#clean-viewer-container):not(#doccleaner-reader-bar) { 
                     display: none !important; 
                 }
-                #clean-viewer-container {
-                    position: absolute; 
-                    top: 0; left: 0; 
-                    width: 100%;
-                    display: flex; 
-                    flex-direction: column; 
-                    align-items: center;
-                    padding: 20px 0; 
-                    z-index: 999999;
-                    opacity: 1 !important;
-                    visibility: visible !important;
+
+                /* Fixed Top Reader Bar */
+                #doccleaner-reader-bar {
+                    position: fixed !important;
+                    top: 0 !important;
+                    left: 0 !important;
+                    width: 100% !important;
+                    height: 54px !important;
+                    background: #091b42 !important;
+                    border-bottom: 1.5px solid rgba(255, 255, 255, 0.14) !important;
+                    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35) !important;
+                    z-index: 2147483647 !important;
+                    display: flex !important;
+                    align-items: center !important;
+                    justify-content: space-between !important;
+                    padding: 0 20px !important;
+                    box-sizing: border-box !important;
+                    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+                    user-select: none !important;
                 }
+
+                #doccleaner-reader-bar .dc-bar-brand {
+                    display: flex !important;
+                    align-items: center !important;
+                    gap: 10px !important;
+                }
+                #doccleaner-reader-bar .dc-logo {
+                    font-size: 15.5px !important;
+                    font-weight: 800 !important;
+                    color: #ffffff !important;
+                    letter-spacing: -0.2px !important;
+                }
+                #doccleaner-reader-bar .dc-badge {
+                    font-size: 10.5px !important;
+                    font-weight: 900 !important;
+                    padding: 3px 8px !important;
+                    border-radius: 8px !important;
+                    letter-spacing: 0.3px !important;
+                    text-transform: uppercase !important;
+                }
+                #doccleaner-reader-bar .dc-badge.studocu {
+                    background-color: #c6eb34 !important;
+                    color: #091b42 !important;
+                }
+                #doccleaner-reader-bar .dc-badge.scribd {
+                    background-color: #58c474 !important;
+                    color: #091b42 !important;
+                }
+
+                #doccleaner-reader-bar .dc-bar-meta {
+                    display: flex !important;
+                    align-items: center !important;
+                }
+                #doccleaner-reader-bar #dc-page-counter {
+                    font-size: 13px !important;
+                    font-weight: 600 !important;
+                    color: rgba(246, 247, 239, 0.9) !important;
+                    background: rgba(255, 255, 255, 0.09) !important;
+                    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+                    padding: 4px 14px !important;
+                    border-radius: 999px !important;
+                }
+
+                #doccleaner-reader-bar .dc-bar-actions {
+                    display: flex !important;
+                    align-items: center !important;
+                    gap: 10px !important;
+                }
+                #doccleaner-reader-bar .dc-btn-primary {
+                    border: none !important;
+                    font-size: 13px !important;
+                    font-weight: 800 !important;
+                    padding: 7px 16px !important;
+                    border-radius: 12px !important;
+                    cursor: pointer !important;
+                    display: flex !important;
+                    align-items: center !important;
+                    gap: 6px !important;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+                    transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+                    outline: none !important;
+                }
+                #doccleaner-reader-bar .dc-btn-primary.studocu {
+                    background-color: #c6eb34 !important;
+                    color: #091b42 !important;
+                }
+                #doccleaner-reader-bar .dc-btn-primary.scribd {
+                    background-color: #58c474 !important;
+                    color: #091b42 !important;
+                }
+                #doccleaner-reader-bar .dc-btn-primary:hover {
+                    transform: translateY(-1.5px) !important;
+                    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3) !important;
+                }
+                #doccleaner-reader-bar .dc-btn-primary:active {
+                    transform: translateY(0) scale(0.98) !important;
+                }
+
+                #doccleaner-reader-bar .dc-btn-secondary {
+                    background: rgba(255, 255, 255, 0.12) !important;
+                    color: #f6f7ef !important;
+                    border: 1.5px solid rgba(255, 255, 255, 0.18) !important;
+                    font-size: 13px !important;
+                    font-weight: 600 !important;
+                    padding: 7px 14px !important;
+                    border-radius: 12px !important;
+                    cursor: pointer !important;
+                    display: flex !important;
+                    align-items: center !important;
+                    gap: 6px !important;
+                    transition: background 0.15s ease !important;
+                    outline: none !important;
+                }
+                #doccleaner-reader-bar .dc-btn-secondary:hover {
+                    background: rgba(255, 255, 255, 0.22) !important;
+                }
+
+                /* Clean Viewer Container & Centered A4 Pages */
+                #clean-viewer-container {
+                    position: absolute !important; 
+                    top: 0 !important; 
+                    left: 0 !important; 
+                    width: 100% !important; 
+                    display: flex !important; 
+                    flex-direction: column !important; 
+                    align-items: center !important; 
+                    padding: 74px 0 40px 0 !important; /* 54px bar + 20px top padding */
+                    z-index: 99999 !important; 
+                    opacity: 1 !important; 
+                    visibility: visible !important; 
+                    background-color: #f6f7fb !important; 
+                    box-sizing: border-box !important;
+                }
+
+                /* Outer A4 Page Wrapper */
+                .clean-page-wrapper {
+                    width: 210mm !important;
+                    height: 296mm !important;
+                    max-height: 296mm !important;
+                    background: #ffffff !important;
+                    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12) !important;
+                    margin: 0 auto 24px auto !important;
+                    position: relative !important;
+                    overflow: hidden !important;
+                    box-sizing: border-box !important;
+                }
+
+                /* Scaled Inner Content */
+                .clean-page-wrapper .scaled-content {
+                    transform-origin: top left !important;
+                    position: absolute !important;
+                    top: 0 !important;
+                    left: 0 !important;
+                    overflow: hidden !important;
+                }
+
                 .scribd-clean-page {
-                    position: relative !important; 
-                    background-color: white !important; 
-                    box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
-                    margin-bottom: 20px;
-                    overflow: hidden !important; 
+                    position: relative !important;
+                    background-color: white !important;
+                    box-shadow: none !important;
+                    margin: 0 auto !important;
+                    overflow: hidden !important;
                     display: block !important;
                 }
                 .scribd-clean-page table,
                 .scribd-clean-page tr,
                 .scribd-clean-page td,
-                .scribd-clean-page th {
-                    -webkit-print-color-adjust: exact !important;
-                    print-color-adjust: exact !important;
-                }
+                .scribd-clean-page th,
                 .scribd-clean-page svg {
                     -webkit-print-color-adjust: exact !important;
                     print-color-adjust: exact !important;
                 }
+
+                /* ==========================================================================
+                   PRINT ENGINE NORMALIZATION (Zero Blank Pages)
+                   ========================================================================== */
                 @media print {
                     @page { 
+                        size: A4 portrait;
                         margin: 0; 
-                        size: auto; 
                     }
                     html, body { 
-                        background-color: white !important; 
-                        margin: 0 !important; 
+                        width: 210mm !important;
+                        height: 100% !important;
+                        background: #ffffff !important; 
+                        margin: 0 auto !important; 
                         padding: 0 !important; 
-                        width: 100% !important; 
-                        height: auto !important; 
                         overflow: visible !important; 
-                        -webkit-print-color-adjust: exact; 
-                        print-color-adjust: exact; 
+                        position: static !important; 
+                        -webkit-print-color-adjust: exact !important; 
+                        print-color-adjust: exact !important; 
                     }
+                    
+                    /* Strictly hide Reader Bar and all other website nodes */
+                    #doccleaner-reader-bar {
+                        display: none !important;
+                    }
+                    body > *:not(#clean-viewer-container) { 
+                        display: none !important; 
+                    }
+                    
                     #clean-viewer-container { 
                         position: static !important; 
                         display: block !important; 
-                        width: 100% !important; 
+                        width: 210mm !important; 
+                        height: auto !important; 
+                        max-height: none !important; 
                         padding: 0 !important; 
-                        margin: 0 !important; 
+                        margin: 0 auto !important; 
+                        opacity: 1 !important; 
+                        visibility: visible !important; 
+                        overflow: visible !important; 
+                        background: #ffffff !important; 
                     }
-                    .scribd-clean-page { 
-                        position: relative !important; 
+                    
+                    .clean-page-wrapper { 
+                        width: 210mm !important; 
+                        height: 296mm !important; 
+                        max-height: 296mm !important; 
                         margin: 0 auto !important; 
                         padding: 0 !important; 
                         box-shadow: none !important; 
@@ -757,13 +1016,24 @@
                         break-after: page !important; 
                         page-break-inside: avoid !important; 
                         break-inside: avoid !important; 
-                        background: white !important; 
                         overflow: hidden !important; 
+                        position: relative !important; 
+                        box-sizing: border-box !important; 
+                        background: #ffffff !important; 
                     }
-                    .scribd-clean-page:last-child {
-                        page-break-after: auto !important;
-                        break-after: auto !important;
+                    
+                    .clean-page-wrapper:last-child { 
+                        page-break-after: avoid !important; 
+                        break-after: avoid !important; 
                     }
+                    
+                    .clean-page-wrapper .scaled-content { 
+                        transform-origin: top left !important; 
+                        position: absolute !important; 
+                        top: 0 !important; 
+                        left: 0 !important; 
+                    }
+
                     .scribd-clean-page table,
                     .scribd-clean-page tr,
                     .scribd-clean-page td,
@@ -786,6 +1056,78 @@
             document.head.appendChild(viewerStyle);
             document.body.appendChild(viewerContainer);
 
+            // Inject Reader Bar
+            const oldBar = document.getElementById('doccleaner-reader-bar');
+            if (oldBar) oldBar.remove();
+
+            const readerBar = document.createElement('div');
+            readerBar.id = 'doccleaner-reader-bar';
+            readerBar.innerHTML = `
+                <div class="dc-bar-brand">
+                    <span class="dc-logo">DocCleaner</span>
+                    <span class="dc-badge scribd">${isVi ? 'Chế độ đọc' : 'Reader Mode'}</span>
+                </div>
+                <div class="dc-bar-meta">
+                    <span id="dc-page-counter">${isVi ? `Trang 1 / ${totalPages}` : `Page 1 of ${totalPages}`}</span>
+                </div>
+                <div class="dc-bar-actions">
+                    <button id="dc-print-btn" class="dc-btn-primary scribd" title="${isVi ? 'In hoặc lưu PDF (Ctrl/Cmd + P)' : 'Print or save document (Ctrl/Cmd + P)'}">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                            <rect x="6" y="14" width="12" height="8"></rect>
+                        </svg>
+                        <span>${isVi ? 'In / Lưu PDF (A4)' : 'Print / Save PDF (A4)'}</span>
+                    </button>
+                    <button id="dc-close-btn" class="dc-btn-secondary" title="${isVi ? 'Thoát chế độ đọc (Esc)' : 'Exit reader mode and return to original page (Esc)'}">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                        <span>${isVi ? 'Thoát' : 'Exit Clean View'}</span>
+                    </button>
+                </div>
+            `;
+            document.body.appendChild(readerBar);
+
+            // Setup interaction events
+            document.getElementById('dc-print-btn').addEventListener('click', () => {
+                window.print();
+            });
+            document.getElementById('dc-close-btn').addEventListener('click', () => {
+                cleanupScribdReaderMode();
+            });
+
+            // Escape key listener
+            const keyHandler = (e) => {
+                if (e.key === 'Escape' || e.keyCode === 27) {
+                    cleanupScribdReaderMode();
+                }
+            };
+            window.addEventListener('keydown', keyHandler);
+            window.__dcScribdKeyHandler = keyHandler;
+
+            // Dynamic Page Counter via IntersectionObserver
+            const counterEl = document.getElementById('dc-page-counter');
+            if (counterEl && 'IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting) {
+                            const idx = entry.target.dataset.pageIndex;
+                            if (idx) {
+                                counterEl.textContent = isVi 
+                                    ? `Trang ${idx} / ${totalPages}`
+                                    : `Page ${idx} of ${totalPages}`;
+                            }
+                        }
+                    }
+                }, {
+                    threshold: 0.2
+                });
+                document.querySelectorAll('.clean-page-wrapper').forEach(el => observer.observe(el));
+                window.__dcScribdCounterObserver = observer;
+            }
+
             overlayUI.update(98, totalPages, totalPages, isVi ? 'Đang mở hộp thoại in PDF...' : 'Opening print window...');
             await new Promise(r => setTimeout(r, 150));
 
@@ -795,34 +1137,47 @@
 
             updateStatus(isVi ? 'Đang mở cửa sổ in PDF...' : 'Opening print window...');
             setTimeout(() => {
-                window.addEventListener('afterprint', cleanupAfterPrint, { once: true });
                 window.print();
-                setTimeout(cleanupAfterPrint, 2500);
-            }, 500);
+            }, 350);
         } catch (err) {
             console.error('DocCleaner Scribd error:', err);
             if (overlayUI) overlayUI.remove();
-            cleanupAfterPrint();
+            cleanupScribdReaderMode();
             alert('Error: ' + (err && err.message ? err.message : err));
         }
     }
 
     /**
-     * Removes the clean viewer container, styles, and preload overlay
-     * to restore the original page UI after printing.
+     * Removes the clean viewer container, reader bar, styles, and preload overlay
+     * to restore the original page UI after reading or printing.
      */
-    function cleanupAfterPrint() {
+    function cleanupScribdReaderMode() {
+        if (window.__dcScribdCounterObserver) {
+            window.__dcScribdCounterObserver.disconnect();
+            window.__dcScribdCounterObserver = null;
+        }
+        if (window.__dcScribdKeyHandler) {
+            window.removeEventListener('keydown', window.__dcScribdKeyHandler);
+            window.__dcScribdKeyHandler = null;
+        }
+        const bar = document.getElementById('doccleaner-reader-bar');
         const viewer = document.getElementById('clean-viewer-container');
         const style = document.getElementById('clean-viewer-styles');
         const overlay = document.getElementById('scribd-preload-overlay');
+        if (bar) bar.remove();
         if (viewer) viewer.remove();
         if (style) style.remove();
         if (overlay) overlay.remove();
+        revokeScribdObjectUrls();
     }
 
-    // Export functions to window scope for router in content.js
+    // Export functions to window scope
     window.initScribdAdBlocker = initScribdAdBlocker;
     window.runScribdCleaner = runScribdCleaner;
     window.removeScribdAds = removeScribdAds;
-    window.cleanupAfterPrint = cleanupAfterPrint;
+    window.cleanupAfterPrint = cleanupScribdReaderMode;
+    window.cleanupScribdReaderMode = cleanupScribdReaderMode;
+
+    // Self-initialize ad blocker on Scribd document pages
+    initScribdAdBlocker();
 })();
