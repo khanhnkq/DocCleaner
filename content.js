@@ -24,10 +24,10 @@
     fabStyle.id = 'studocu-fab-styles';
     fabStyle.textContent = `
         #studocu-fab-btn {
-            position: fixed;
-            bottom: 28px;
-            right: 28px;
-            z-index: 999999;
+            position: fixed !important;
+            bottom: 28px !important;
+            right: 28px !important;
+            z-index: 2147483647 !important;
             background-color: #193582;
             color: #f6f7ef;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -199,13 +199,20 @@
         }
     });
 
-    if (document.body) {
-        document.body.appendChild(fabBtn);
-    } else {
-        document.addEventListener('DOMContentLoaded', () => {
+    const attachFab = () => {
+        if (!document.getElementById('studocu-fab-btn') && document.body) {
             document.body.appendChild(fabBtn);
-        });
+        }
+    };
+
+    if (document.body) {
+        attachFab();
+    } else {
+        document.addEventListener('DOMContentLoaded', attachFab);
     }
+
+    // Continuous safeguard for dynamic SPA route transitions (Scribd & Studocu)
+    setInterval(attachFab, 1500);
 })();
 
 // ==========================================================================

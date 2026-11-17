@@ -61,7 +61,8 @@
         "*://*.scribd.com/*"
       ],
       "js": [
-        "scribd_handler.js"
+        "scribd_handler.js",
+        "content.js"
       ],
       "run_at": "document_end"
     }
