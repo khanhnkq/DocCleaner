@@ -46,6 +46,7 @@ zip -r -q "$OUTPUT_ZIP" . \
   -x "*.md" \
   -x "docs/*" \
   -x "scripts/*" \
+  -x "dist/*" \
   -x "index.html" \
   -x "index.css" \
   -x "index.js" \
@@ -60,6 +61,8 @@ zip -r -q "$OUTPUT_ZIP" . \
 
 # 4. Verification
 if [ -f "$OUTPUT_ZIP" ]; then
+  mkdir -p dist
+  cp "$OUTPUT_ZIP" "dist/$OUTPUT_ZIP"
   FILE_SIZE=$(du -h "$OUTPUT_ZIP" | cut -f1)
   echo "✅ Package created successfully: ${OUTPUT_ZIP} (${FILE_SIZE})"
   echo ""
