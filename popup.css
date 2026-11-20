@@ -603,12 +603,13 @@ button.card-item:hover .card-body {
 }
 
 .dc-launch-btn {
-  background-color: var(--primary-blue);
-  color: #ffffff;
+  background-color: var(--cream);
+  color: var(--navy);
 }
 
 .dc-launch-btn:hover {
-  background-color: var(--navy);
+  background-color: var(--lime);
+  color: var(--navy);
 }
 
 /* Empty State */
