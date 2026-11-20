@@ -1,33 +1,191 @@
+/* ==========================================================================
+   DocCleaner - Pure Flat Graphic Poster Viewer Styles
+   Zero Shadows, Zero Blur, Crisp 1.5px Solid Borders
+   ========================================================================== */
+
 body { 
     background-color: #f6f7fb !important; 
     margin: 0 !important; 
     overflow: auto !important; 
 }
 
-body > *:not(#clean-viewer-container) { 
+body > *:not(#clean-viewer-container):not(#doccleaner-reader-bar):not(#dc-study-toast) { 
     display: none !important; 
 }
 
+/* ==========================================================================
+   Fixed Top Reader Bar - Pure Flat Graphic Poster Theme
+   ========================================================================== */
+#doccleaner-reader-bar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 54px !important;
+    background: #091b42 !important;
+    border-bottom: 1.5px solid #091b42 !important;
+    box-shadow: none !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+    z-index: 2147483647 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0 20px !important;
+    box-sizing: border-box !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    user-select: none !important;
+}
+
+#doccleaner-reader-bar .dc-bar-brand {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+#doccleaner-reader-bar .dc-logo {
+    font-size: 15.5px !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    letter-spacing: -0.2px !important;
+}
+
+#doccleaner-reader-bar .dc-badge {
+    font-size: 10.5px !important;
+    font-weight: 900 !important;
+    padding: 3px 8px !important;
+    border-radius: 6px !important;
+    letter-spacing: 0.3px !important;
+    text-transform: uppercase !important;
+    border: 1.5px solid #091b42 !important;
+    box-shadow: none !important;
+    filter: none !important;
+}
+
+#doccleaner-reader-bar .dc-badge.studocu {
+    background-color: #c6eb34 !important;
+    color: #091b42 !important;
+}
+
+#doccleaner-reader-bar .dc-badge.scribd {
+    background-color: #58c474 !important;
+    color: #091b42 !important;
+}
+
+#doccleaner-reader-bar .dc-bar-meta {
+    display: flex !important;
+    align-items: center !important;
+}
+
+#doccleaner-reader-bar #dc-page-counter {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #f6f7ef !important;
+    background: #193582 !important;
+    border: 1.5px solid #091b42 !important;
+    padding: 4px 14px !important;
+    border-radius: 999px !important;
+    box-shadow: none !important;
+    filter: none !important;
+}
+
+#doccleaner-reader-bar .dc-bar-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+#doccleaner-reader-bar .dc-btn-primary {
+    border: 1.5px solid #091b42 !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    padding: 7px 16px !important;
+    border-radius: 10px !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    box-shadow: none !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+    transition: transform 0.15s ease !important;
+    outline: none !important;
+}
+
+#doccleaner-reader-bar .dc-btn-primary.studocu {
+    background-color: #c6eb34 !important;
+    color: #091b42 !important;
+}
+
+#doccleaner-reader-bar .dc-btn-primary.scribd {
+    background-color: #58c474 !important;
+    color: #091b42 !important;
+}
+
+#doccleaner-reader-bar .dc-btn-primary:hover {
+    transform: translateY(-1.5px) !important;
+    box-shadow: none !important;
+}
+
+#doccleaner-reader-bar .dc-btn-primary:active {
+    transform: translateY(0) scale(0.98) !important;
+    box-shadow: none !important;
+}
+
+#doccleaner-reader-bar .dc-btn-secondary {
+    background: #193582 !important;
+    color: #f6f7ef !important;
+    border: 1.5px solid #091b42 !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    padding: 7px 14px !important;
+    border-radius: 10px !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    box-shadow: none !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+    transition: background 0.15s ease !important;
+    outline: none !important;
+}
+
+#doccleaner-reader-bar .dc-btn-secondary:hover {
+    background: #2546a3 !important;
+    box-shadow: none !important;
+}
+
+/* ==========================================================================
+   Clean Viewer Container & Pages
+   ========================================================================== */
 #clean-viewer-container {
-    position: absolute; 
-    top: 0; 
-    left: 0; 
-    width: 100%;
-    display: flex; 
-    flex-direction: column; 
-    align-items: center;
-    padding: 30px 0; 
-    z-index: 9999;
+    position: absolute !important; 
+    top: 0 !important; 
+    left: 0 !important; 
+    width: 100% !important;
+    display: flex !important; 
+    flex-direction: column !important; 
+    align-items: center !important;
+    padding: 74px 0 40px 0 !important; 
+    z-index: 99999 !important;
+    box-shadow: none !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+    background-color: #f6f7fb !important;
+    box-sizing: border-box !important;
 }
 
 .std-page {
     position: relative !important; 
-    background-color: white;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
-    margin-bottom: 20px;
+    background-color: #ffffff !important;
+    box-shadow: none !important; 
+    border: 1.5px solid #091b42 !important;
+    margin-bottom: 20px !important;
     display: block !important; 
     overflow: hidden !important; 
-    border: none !important;
+    filter: none !important;
+    backdrop-filter: none !important;
 }
 
 .std-page::after {
@@ -37,9 +195,73 @@ body > *:not(#clean-viewer-container) {
     left: 0; 
     width: 100%; 
     height: 4px;
-    background-color: white !important; 
+    background-color: #ffffff !important; 
     z-index: 9999; 
     pointer-events: none;
+    box-shadow: none !important;
+}
+
+.clean-page-wrapper {
+    width: 210mm !important;
+    height: 296mm !important;
+    max-height: 296mm !important;
+    background: #ffffff !important;
+    border: 1.5px solid #091b42 !important;
+    box-shadow: none !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+    margin: 0 auto 24px auto !important;
+    position: relative !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+}
+
+.clean-page-wrapper .scaled-content {
+    transform-origin: top left !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    overflow: hidden !important;
+    box-shadow: none !important;
+    filter: none !important;
+}
+
+.scribd-clean-page {
+    position: relative !important;
+    background-color: #ffffff !important;
+    box-shadow: none !important;
+    border: 1.5px solid #091b42 !important;
+    margin: 0 auto !important;
+    overflow: hidden !important;
+    display: block !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+}
+
+/* ==========================================================================
+   Study Shelf Auto-Save Toast - Graphic Poster Theme
+   ========================================================================== */
+#dc-study-toast {
+    position: fixed !important;
+    top: 24px !important;
+    right: 24px !important;
+    z-index: 2147483647 !important;
+    background-color: #f6f7ef !important;
+    color: #091b42 !important;
+    border: 1.5px solid #091b42 !important;
+    border-radius: 12px !important;
+    padding: 10px 18px !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    box-shadow: none !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+    text-shadow: none !important;
+    user-select: none !important;
+    pointer-events: none !important;
+    transition: opacity 0.25s ease, transform 0.25s ease !important;
+    box-sizing: border-box !important;
 }
 
 /* Ensure cloned page content is visible and not clipped */
@@ -53,6 +275,7 @@ body > *:not(#clean-viewer-container) {
     opacity: 1 !important;
     filter: none !important;
     -webkit-filter: none !important;
+    box-shadow: none !important;
 }
 
 .std-page .pc {
@@ -61,19 +284,23 @@ body > *:not(#clean-viewer-container) {
     clip-path: none !important;
 }
 
+/* ==========================================================================
+   Print Engine Normalization
+   ========================================================================== */
 @media print {
     @page { 
         margin: 0; 
-        size: auto; 
+        size: A4 portrait; 
     }
     
     body { 
-        background-color: white !important; 
+        background-color: #ffffff !important; 
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
     }
 
-    /* Hide Scribd & Studocu headers, sidebars, popups when printing directly */
+    #doccleaner-reader-bar,
+    #dc-study-toast,
     .global_header,
     #header_search_input,
     .promo_wrapper,
@@ -94,19 +321,30 @@ body > *:not(#clean-viewer-container) {
         width: 100% !important; 
         padding: 0 !important; 
         margin: 0 !important; 
+        box-shadow: none !important;
+        filter: none !important;
+        backdrop-filter: none !important;
     }
     
     .std-page,
+    .clean-page-wrapper,
     .scribd-clean-page,
     .outer_page,
     .document_page {
         margin: 0 auto !important; 
         margin-bottom: 0 !important;
         box-shadow: none !important;
+        filter: none !important;
+        backdrop-filter: none !important;
         page-break-after: always !important;
-        break-after: always !important;
+        break-after: page !important;
         page-break-inside: avoid !important;
         break-inside: avoid !important;
         border: none !important;
+    }
+
+    .clean-page-wrapper:last-child {
+        page-break-after: avoid !important;
+        break-after: avoid !important;
     }
 }

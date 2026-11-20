@@ -3,6 +3,8 @@
 // ==========================================================================
 
 (function initWelcome() {
+  'use strict';
+
   let currentStep = 0;
   const totalSteps = 3;
   let currentLang = 'en';
@@ -61,6 +63,54 @@
       btnFinish: "✓ Đã hiểu! Bắt đầu dùng",
       footerTag: "100% Miễn phí & Riêng tư",
       footerHome: "Trang chủ chính thức"
+    },
+    es: {
+      step1Nav: "Abrir Documento",
+      step2Nav: "Hacer Clic",
+      step3Nav: "Imprimir PDF A4",
+      step1Tag: "Paso 1 de 3",
+      step1Title: "Abre cualquier documento de Studocu o Scribd",
+      step1Desc: "Navega a cualquier página de documento en Studocu o Scribd. DocCleaner se activa automáticamente en segundo plano sin necesidad de iniciar sesión.",
+      step1Tip: "Busca el botón flotante \"Formato para Imprimir\" en la esquina inferior derecha de la página.",
+      step2Tag: "Paso 2 de 3",
+      step2Title: "Haz clic para iniciar el Modo Lectura Limpia",
+      step2Desc: "Al hacer clic se eliminan anuncios y superposiciones, organizando el documento en hojas A4 centradas y sin distracciones.",
+      step2Tip: "La barra superior permanece fija durante la lectura. Presiona Esc o haz clic en \"Salir\" para cerrarla.",
+      step3Tag: "Paso 3 de 3",
+      step3Title: "Guarda o imprime un PDF A4 limpio",
+      step3Desc: "Haz clic en \"Imprimir / Guardar PDF (A4)\" en la barra superior. El diálogo de impresión se abrirá con páginas centradas y escaladas.",
+      step3Tip: "En el diálogo de Chrome, establece los Márgenes en \"Ninguno\" y marca \"Gráficos de fondo\" para la mejor calidad.",
+      tipLabel: "Consejo",
+      btnSkip: "Omitir Tour",
+      btnPrev: "← Atrás",
+      btnNext: "Siguiente →",
+      btnFinish: "✓ ¡Entendido! Empezar a Usar",
+      footerTag: "100% Gratis y Privado",
+      footerHome: "Sitio Web Oficial"
+    },
+    fr: {
+      step1Nav: "Ouvrir Document",
+      step2Nav: "Cliquer le Bouton",
+      step3Nav: "Imprimer PDF A4",
+      step1Tag: "Étape 1 sur 3",
+      step1Title: "Ouvrez un document Studocu ou Scribd",
+      step1Desc: "Naviguez vers n'importe quelle page sur Studocu ou Scribd. DocCleaner s'active automatiquement en arrière-plan sans connexion requise.",
+      step1Tip: "Repérez le bouton flottant \"Formater pour Imprimer\" en bas à droite de la page.",
+      step2Tag: "Étape 2 sur 3",
+      step2Title: "Cliquez pour lancer la Lecture Épurée",
+      step2Desc: "En cliquant sur le bouton, supprimez les bannières et visualisez le document sous forme de pages A4 centrées et nettes.",
+      step2Tip: "La barre supérieure reste affichée pendant la lecture. Appuyez sur Échap ou cliquez sur \"Quitter\" à tout moment.",
+      step3Tag: "Étape 3 sur 3",
+      step3Title: "Enregistrez ou imprimez un PDF A4 propre",
+      step3Desc: "Cliquez sur \"Imprimer / Enregistrer PDF (A4)\" dans la barre supérieure. La boîte de dialogue s'ouvre avec les pages centrées.",
+      step3Tip: "Dans Chrome, réglez Marges sur \"Aucune\" et cochez \"Graphiques d'arrière-plan\" pour une qualité optimale.",
+      tipLabel: "Astuce",
+      btnSkip: "Passer le Tour",
+      btnPrev: "← Retour",
+      btnNext: "Suivant →",
+      btnFinish: "✓ Compris ! Commencer",
+      footerTag: "100% Gratuit & Privé",
+      footerHome: "Site Officiel"
     }
   };
 
@@ -72,8 +122,6 @@
   const skipBtn = document.getElementById('skipBtn');
   const stepIndicators = document.querySelectorAll('.step-indicator');
   const langToggle = document.getElementById('langToggle');
-  const langViOpt = document.getElementById('langViOpt');
-  const langEnOpt = document.getElementById('langEnOpt');
 
   function updateStepUI() {
     elapsedTime = 0;
@@ -153,9 +201,19 @@
     }
   }
 
+  function normalizeLang(lang) {
+    if (!lang) return 'en';
+    const clean = String(lang).toLowerCase().trim().replace(/_/g, '-');
+    if (clean === 'vn' || clean.startsWith('vn-')) return 'vi';
+    if (['en', 'vi', 'es', 'fr'].includes(clean)) return clean;
+    const primary = clean.split('-')[0];
+    if (['en', 'vi', 'es', 'fr'].includes(primary)) return primary;
+    return 'en';
+  }
+
   function applyLanguage(lang) {
-    currentLang = lang === 'vi' ? 'vi' : 'en';
-    const dict = translations[currentLang];
+    currentLang = normalizeLang(lang);
+    const dict = translations[currentLang] || translations.en;
 
     document.querySelectorAll('[data-i18n]').forEach((el) => {
       const key = el.getAttribute('data-i18n');
@@ -164,23 +222,19 @@
       }
     });
 
-    if (langViOpt && langEnOpt) {
-      if (currentLang === 'vi') {
-        langViOpt.classList.add('active');
-        langViOpt.style.color = '#091b42';
-        langViOpt.style.fontWeight = '900';
-        langEnOpt.classList.remove('active');
-        langEnOpt.style.color = '#5e6d8a';
-        langEnOpt.style.fontWeight = '700';
+    // Update language pills in header
+    document.querySelectorAll('#langToggle .lang-opt').forEach((opt) => {
+      const optLang = opt.getAttribute('data-lang');
+      if (normalizeLang(optLang) === currentLang) {
+        opt.classList.add('active');
+        opt.style.color = '#091b42';
+        opt.style.fontWeight = '900';
       } else {
-        langEnOpt.classList.add('active');
-        langEnOpt.style.color = '#091b42';
-        langEnOpt.style.fontWeight = '900';
-        langViOpt.classList.remove('active');
-        langViOpt.style.color = '#5e6d8a';
-        langViOpt.style.fontWeight = '700';
+        opt.classList.remove('active');
+        opt.style.color = '#5e6d8a';
+        opt.style.fontWeight = '700';
       }
-    }
+    });
 
     // Save language preference to chrome.storage
     if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
@@ -197,16 +251,16 @@
         const stored = await chrome.storage.local.get('lang');
         if (stored.lang) {
           preferredLang = stored.lang;
-        } else if (navigator.language && navigator.language.toLowerCase().startsWith('vi')) {
-          preferredLang = 'vi';
+        } else if (navigator.language) {
+          preferredLang = navigator.language;
         }
       } catch (e) {
-        if (navigator.language && navigator.language.toLowerCase().startsWith('vi')) {
-          preferredLang = 'vi';
+        if (navigator.language) {
+          preferredLang = navigator.language;
         }
       }
-    } else if (navigator.language && navigator.language.toLowerCase().startsWith('vi')) {
-      preferredLang = 'vi';
+    } else if (typeof navigator !== 'undefined' && navigator.language) {
+      preferredLang = navigator.language;
     }
 
     applyLanguage(preferredLang);
@@ -214,7 +268,6 @@
 
   function finishOnboarding() {
     stopAutoplay();
-    // If opened via extension, close the tab or redirect
     if (typeof chrome !== 'undefined' && chrome.tabs && chrome.tabs.getCurrent) {
       chrome.tabs.getCurrent((tab) => {
         if (tab && tab.id) {
@@ -265,10 +318,22 @@
     });
   });
 
+  // Language switcher options listener
+  document.querySelectorAll('#langToggle .lang-opt').forEach((opt) => {
+    opt.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const targetLang = opt.getAttribute('data-lang');
+      if (targetLang) {
+        applyLanguage(targetLang);
+      }
+    });
+  });
+
   if (langToggle) {
     langToggle.addEventListener('click', () => {
-      const nextLang = currentLang === 'en' ? 'vi' : 'en';
-      applyLanguage(nextLang);
+      const order = ['vi', 'en', 'es', 'fr'];
+      const nextIdx = (order.indexOf(currentLang) + 1) % order.length;
+      applyLanguage(order[nextIdx]);
     });
   }
 
@@ -283,17 +348,19 @@
   }
 
   // Keyboard accessibility
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight' && currentStep < totalSteps - 1) {
-      currentStep++;
-      updateStepUI();
-    } else if (e.key === 'ArrowLeft' && currentStep > 0) {
-      currentStep--;
-      updateStepUI();
-    } else if (e.key === 'Escape') {
-      finishOnboarding();
-    }
-  });
+  if (typeof window !== 'undefined') {
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' && currentStep < totalSteps - 1) {
+        currentStep++;
+        updateStepUI();
+      } else if (e.key === 'ArrowLeft' && currentStep > 0) {
+        currentStep--;
+        updateStepUI();
+      } else if (e.key === 'Escape') {
+        finishOnboarding();
+      }
+    });
+  }
 
   // Initialize
   detectInitialLanguage();

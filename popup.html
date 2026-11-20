@@ -10,7 +10,7 @@
 
 <body>
   <div class="app-container">
-    <!-- Header Block -->
+    <!-- Header Block with 4-Pill Language Switch -->
     <header class="header-card">
       <div class="header-main">
         <div class="header-brand">
@@ -22,8 +22,9 @@
       <div class="header-right">
         <div class="lang-switch" id="langSwitch" title="Switch Language / Đổi Ngôn Ngữ">
           <span class="lang-opt" data-lang="vi">VN</span>
-          <span class="lang-divider">/</span>
           <span class="lang-opt active" data-lang="en">EN</span>
+          <span class="lang-opt" data-lang="es">ES</span>
+          <span class="lang-opt" data-lang="fr">FR</span>
         </div>
         <div class="header-badge">
           <span class="badge-tag">PRO</span>
@@ -32,81 +33,134 @@
       </div>
     </header>
 
-    <!-- Uniform Cards List -->
-    <main class="card-list">
-      <!-- Item 1: Current Active Web Page -->
-      <div class="card-item info-card">
-        <div class="card-badge" id="status-badge">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-            stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10" />
-            <polyline points="12 6 12 12 16 14" />
-          </svg>
+    <!-- Segmented Tab Bar -->
+    <div class="segmented-tabs">
+      <button id="tab-actions" class="tab-btn active" data-i18n="tabActions">Quick Actions</button>
+      <button id="tab-recents" class="tab-btn" data-i18n="tabRecents">Study Shelf</button>
+    </div>
+
+    <!-- Tab Panel 1: Quick Actions -->
+    <div id="panel-actions" class="tab-panel active">
+      <main class="card-list">
+        <!-- Current Active Web Page -->
+        <div class="card-item info-card">
+          <div class="card-badge" id="status-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+          </div>
+          <div class="card-body">
+            <span class="card-label" data-i18n="currentWebsite">Current Website</span>
+            <span class="card-title" id="platform-name">Detecting...</span>
+          </div>
         </div>
-        <div class="card-body">
-          <span class="card-label" data-i18n="currentWebsite">Current Website</span>
-          <span class="card-title" id="platform-name">Detecting...</span>
+
+        <!-- Print Formatter Button -->
+        <button id="checkBtn" class="card-item btn-card">
+          <div class="card-badge lime-badge">
+            <svg class="btn-icon-download" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            <svg class="btn-icon-spinner" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round">
+              <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-opacity="0.25" stroke-width="2.8" fill="none"></circle>
+              <path d="M12 3a9 9 0 0 1 9 9" stroke="currentColor" stroke-width="2.8" fill="none"></path>
+            </svg>
+          </div>
+          <div class="card-body">
+            <span class="card-title" data-i18n="downloadPdfTitle">Format for Print (1-Click)</span>
+            <span class="card-desc" id="pdf-btn-desc" data-i18n="downloadPdfDesc">Clean layout & open print dialog</span>
+          </div>
+        </button>
+
+        <!-- Clean View & Clutter Cleaner -->
+        <button id="clearBtn" class="card-item btn-card">
+          <div class="card-badge green-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              <path d="m9 12 2 2 4-4" />
+            </svg>
+          </div>
+          <div class="card-body">
+            <span class="card-title" data-i18n="unblurTitle">Clean View & Remove Clutter</span>
+            <span class="card-desc" data-i18n="unblurDesc">Strip banners & refresh page layout</span>
+          </div>
+        </button>
+
+        <!-- Lab PC Mode Switch -->
+        <div class="lab-mode-card">
+          <div class="lab-mode-left">
+            <span class="lab-mode-title" data-i18n="labModeToggle">Lab / Campus PC Mode</span>
+            <span id="lab-mode-badge" class="lab-mode-badge" style="display: none;" data-i18n="labModeActiveBadge">LAB MODE ACTIVE</span>
+          </div>
+          <label class="toggle-switch" title="Toggle Lab PC Mode">
+            <input type="checkbox" id="toggle-lab-mode">
+            <span class="slider"></span>
+          </label>
         </div>
+
+        <!-- Clean & Burn Emergency Action Button -->
+        <button id="btn-clean-burn" class="card-item burn-card">
+          <div class="card-badge red-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
+            </svg>
+          </div>
+          <div class="card-body">
+            <span class="card-title" data-i18n="btnCleanAndBurn">🔥 Clean & Burn Session</span>
+            <span class="card-desc">Wipe history, storage & cookies</span>
+          </div>
+        </button>
+
+        <!-- Buy Me A Coffee Button -->
+        <button id="coffeeBtn" class="card-item coffee-card">
+          <div class="card-badge yellow-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
+              <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" />
+              <line x1="6" y1="1" x2="6" y2="4" />
+              <line x1="10" y1="1" x2="10" y2="4" />
+              <line x1="14" y1="1" x2="14" y2="4" />
+            </svg>
+          </div>
+          <div class="card-body">
+            <span class="card-title" data-i18n="coffeeTitle">Buy the Author a Coffee</span>
+            <span class="card-desc" data-i18n="coffeeDesc">Support ongoing development</span>
+          </div>
+        </button>
+      </main>
+    </div>
+
+    <!-- Tab Panel 2: Study Shelf -->
+    <div id="panel-recents" class="tab-panel" style="display: none;">
+      <!-- Sub-filter pills -->
+      <div class="filter-pills">
+        <button id="filter-all" class="filter-pill active" data-i18n="filterAll">All Docs</button>
+        <button id="filter-starred" class="filter-pill" data-i18n="filterStarred">Starred ⭐</button>
       </div>
 
-      <!-- Item 2: Print Formatter Button -->
-      <button id="checkBtn" class="card-item btn-card">
-        <div class="card-badge lime-badge">
-          <svg class="btn-icon-download" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-            stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-            <polyline points="7 10 12 15 17 10" />
-            <line x1="12" y1="15" x2="12" y2="3" />
-          </svg>
-          <svg class="btn-icon-spinner" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round">
-            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-opacity="0.25" stroke-width="2.8" fill="none"></circle>
-            <path d="M12 3a9 9 0 0 1 9 9" stroke="currentColor" stroke-width="2.8" fill="none"></path>
-          </svg>
-        </div>
-        <div class="card-body">
-          <span class="card-title" data-i18n="downloadPdfTitle">Format for Print (1-Click)</span>
-          <span class="card-desc" id="pdf-btn-desc" data-i18n="downloadPdfDesc">Clean layout & open print dialog</span>
-        </div>
-      </button>
+      <!-- Shelf docs list container -->
+      <div id="recent-docs-list" class="recent-docs-container"></div>
 
-      <!-- Item 3: Clean View & Clutter Cleaner -->
-      <button id="clearBtn" class="card-item btn-card">
-        <div class="card-badge green-badge">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-            stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-            <path d="m9 12 2 2 4-4" />
-          </svg>
-        </div>
-        <div class="card-body">
-          <span class="card-title" data-i18n="unblurTitle">Clean View & Remove Clutter</span>
-          <span class="card-desc" data-i18n="unblurDesc">Strip banners & refresh page layout</span>
-        </div>
-      </button>
-
-      <!-- Item 4: Buy Me A Coffee Button -->
-      <button id="coffeeBtn" class="card-item coffee-card">
-        <div class="card-badge yellow-badge">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-            stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
-            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" />
-            <line x1="6" y1="1" x2="6" y2="4" />
-            <line x1="10" y1="1" x2="10" y2="4" />
-            <line x1="14" y1="1" x2="14" y2="4" />
-          </svg>
-        </div>
-        <div class="card-body">
-          <span class="card-title" data-i18n="coffeeTitle">Buy the Author a Coffee</span>
-          <span class="card-desc" data-i18n="coffeeDesc">Support ongoing development</span>
-        </div>
-      </button>
-    </main>
+      <!-- Empty state container -->
+      <div id="shelf-empty-state" class="shelf-empty-container" style="display: none;">
+        <div class="empty-shelf-icon">📚</div>
+        <div class="empty-shelf-title" id="empty-state-title" data-i18n="emptyRecentsTitle">Your Study Shelf is empty</div>
+        <div class="empty-shelf-desc" id="empty-state-desc" data-i18n="emptyRecentsDesc">Documents you format or clean will automatically be saved here.</div>
+      </div>
+    </div>
 
     <!-- Footer Status Banner -->
     <div id="status" class="status-banner">
       <span class="status-dot"></span>
-      <span id="status-text" data-i18n="statusReady">Ready</span>
+      <span id="status-text" data-i18n="statusReady">Ready — 100% Free</span>
     </div>
 
     <!-- Credit -->
@@ -115,6 +169,7 @@
     </footer>
   </div>
 
+  <script src="i18n.js"></script>
   <script src="popup.js"></script>
 </body>
 

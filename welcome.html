@@ -21,9 +21,13 @@
       </div>
 
       <div class="lang-toggle" id="langToggle" role="button" tabindex="0" title="Switch Language / Đổi Ngôn Ngữ">
-        <span class="lang-opt" id="langViOpt">VN</span>
+        <span class="lang-opt" id="langViOpt" data-lang="vi">VN</span>
         <span class="lang-divider">/</span>
-        <span class="lang-opt active" id="langEnOpt">EN</span>
+        <span class="lang-opt active" id="langEnOpt" data-lang="en">EN</span>
+        <span class="lang-divider">/</span>
+        <span class="lang-opt" id="langEsOpt" data-lang="es">ES</span>
+        <span class="lang-divider">/</span>
+        <span class="lang-opt" id="langFrOpt" data-lang="fr">FR</span>
       </div>
     </header>
 
@@ -88,7 +92,7 @@
                   <path d="M221 158l-8 0m5-4l4 4-4 4" stroke="#091b42" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </g>
 
-                <!-- DocCleaner Floating Action Button (FAB) Highlight (Clicks periodically) -->
+                <!-- DocCleaner Floating Action Button (FAB) Highlight -->
                 <g class="anim-fab-btn">
                   <rect x="236" y="140" width="160" height="36" rx="10" fill="#193582"/>
                   <rect x="242" y="145" width="26" height="26" rx="6" fill="#c6eb34"/>
@@ -123,7 +127,7 @@
                 <!-- Browser Window Frame -->
                 <rect x="10" y="10" width="420" height="190" rx="14" fill="#091b42"/>
 
-                <!-- Document Body: Centered A4 Pages that scroll gently -->
+                <!-- Document Body: Centered A4 Pages -->
                 <g class="anim-paper-scroll">
                   <rect x="125" y="66" width="190" height="126" rx="6" fill="#f6f7ef"/>
                   <rect x="142" y="78" width="90" height="9" rx="3" fill="#091b42"/>
@@ -147,7 +151,7 @@
                   <rect x="180" y="32" width="80" height="18" rx="9" fill="#091b42"/>
                   <text x="194" y="44" fill="#c6eb34" font-size="9" font-family="sans-serif" font-weight="700">Page 1 of 18</text>
 
-                  <!-- Reader Actions with subtle pulse -->
+                  <!-- Reader Actions -->
                   <g class="anim-print-action">
                     <rect x="290" y="31" width="76" height="20" rx="6" fill="#c6eb34"/>
                     <text x="302" y="44" fill="#091b42" font-size="9.5" font-family="sans-serif" font-weight="800">Print A4 PDF</text>
@@ -181,7 +185,7 @@
                 <!-- Print Preview Modal Frame -->
                 <rect x="30" y="24" width="380" height="162" rx="10" fill="#f6f7ef"/>
 
-                <!-- Left Column: A4 Sheet Preview (Floating Animation) -->
+                <!-- Left Column: A4 Sheet Preview -->
                 <g class="anim-a4-sheet">
                   <rect x="46" y="38" width="95" height="134" rx="4" fill="#ffffff" stroke="#193582" stroke-width="1.5"/>
                   <rect x="56" y="50" width="50" height="7" rx="2" fill="#091b42"/>
@@ -200,7 +204,7 @@
                 <rect x="160" y="38" width="234" height="134" rx="8" fill="#ffffff"/>
                 <text x="174" y="58" fill="#091b42" font-size="11" font-family="sans-serif" font-weight="800">Recommended Print Settings</text>
 
-                <!-- Setting Item 1: Margins = None with Animated Drawing Checkmark -->
+                <!-- Setting Item 1: Margins = None -->
                 <g class="anim-check-group-1">
                   <rect x="174" y="72" width="16" height="16" rx="4" fill="#58c474"/>
                   <path class="anim-check-path" d="M178 80l3 3 5-5" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -208,7 +212,7 @@
                   <text x="198" y="93" fill="#5e6d8a" font-size="8.5" font-family="sans-serif">Zero blank pages & centered layout</text>
                 </g>
 
-                <!-- Setting Item 2: Background Graphics = Checked with Animated Drawing Checkmark -->
+                <!-- Setting Item 2: Background Graphics = Checked -->
                 <g class="anim-check-group-2">
                   <rect x="174" y="104" width="16" height="16" rx="4" fill="#58c474"/>
                   <path class="anim-check-path check-delay" d="M178 112l3 3 5-5" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -216,7 +220,7 @@
                   <text x="198" y="125" fill="#5e6d8a" font-size="8.5" font-family="sans-serif">Retains high-res notes & graphics</text>
                 </g>
 
-                <!-- Destination Pill with Animated Bouncing Arrow -->
+                <!-- Destination Pill -->
                 <g class="anim-dest-pill">
                   <rect x="174" y="136" width="140" height="22" rx="6" fill="#193582"/>
                   <text x="186" y="150" fill="#f6f7ef" font-size="9" font-family="sans-serif" font-weight="700">Destination: Save as PDF</text>
@@ -259,6 +263,7 @@
     </footer>
   </div>
 
+  <script src="i18n.js"></script>
   <script src="welcome.js"></script>
 </body>
 </html>

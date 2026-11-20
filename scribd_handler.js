@@ -18,6 +18,307 @@
         }
     }
 
+    // =========================================================================
+    // DocCleaner Phase 2 - Scribd Metadata Extraction & Purge Handler
+    // =========================================================================
+
+    /**
+     * Deterministic 32-bit hash function (DJB2 variant)
+     */
+    function computeDeterministicHash(str) {
+        let hash = 0;
+        if (!str || typeof str !== 'string') return '0';
+        for (let i = 0; i < str.length; i++) {
+            hash = ((hash << 5) - hash) + str.charCodeAt(i);
+            hash |= 0;
+        }
+        return Math.abs(hash).toString(16);
+    }
+
+    /**
+     * Normalizes document title using centralized i18n sanitizer or fallback regex
+     */
+    function cleanDocTitle(rawTitle, platform) {
+        if (!rawTitle) return '';
+        let title = String(rawTitle).trim();
+        if (typeof window !== 'undefined' && typeof window.sanitizeTitle === 'function') {
+            title = window.sanitizeTitle(title);
+        } else if (typeof sanitizeTitle === 'function') {
+            title = sanitizeTitle(title);
+        } else {
+            if (platform === 'scribd') {
+                title = title.replace(/\s*\|\s*Scribd.*$/i, '').trim();
+            } else {
+                title = title.replace(/\s*-\s*Studocu.*$/i, '').trim();
+            }
+        }
+        return title;
+    }
+
+    /**
+     * Normalizes canonical URL (strips query parameters, hash anchors, and trailing slashes)
+     */
+    function getCanonicalUrl() {
+        const loc = (typeof window !== 'undefined' && window.location) ? window.location : (typeof location !== 'undefined' ? location : null);
+        if (!loc) return '';
+        let url = '';
+        if (loc.origin && loc.pathname) {
+            const cleanPath = loc.pathname.replace(/\/+$/, '') || '/';
+            url = loc.origin + cleanPath;
+        } else if (loc.href) {
+            url = loc.href.split('?')[0].split('#')[0];
+        }
+        if (!url) return '';
+        return url.replace(/(?<!^https?:\/\/[^\/]+)\/+$/, '');
+    }
+
+    /**
+     * Extracts document metadata for Scribd & Studocu
+     * Conforms strictly to DocCleanerDocument interface
+     * @param {string} [platform] - 'scribd' or 'studocu'
+     * @returns {Object} DocCleanerDocument
+     */
+    function extractPageMetadata(platform) {
+        const loc = (typeof window !== 'undefined' && window.location) ? window.location : (typeof location !== 'undefined' ? location : null);
+        const hostname = (loc && loc.hostname) ? loc.hostname.toLowerCase() : '';
+        const resolvedPlatform = platform || (hostname.includes('studocu.com') || hostname.includes('studocu.vn') ? 'studocu' : 'scribd');
+
+        const canonicalUrl = getCanonicalUrl();
+        let title = '';
+        let pageCount = 0;
+
+        const doc = (typeof document !== 'undefined') ? document : null;
+
+        if (resolvedPlatform === 'scribd') {
+            // Scribd Title hierarchy:
+            // 1. .document_title, [class*="DocumentTitle"]
+            // 2. meta[property="og:title"]
+            // 3. h1
+            // 4. document.title fallback
+            const docTitleEl = doc && doc.querySelector ? doc.querySelector('.document_title, [class*="DocumentTitle"]') : null;
+            if (docTitleEl && (docTitleEl.innerText || docTitleEl.textContent)) {
+                title = docTitleEl.innerText || docTitleEl.textContent;
+            } else {
+                const ogMeta = doc && doc.querySelector ? doc.querySelector('meta[property="og:title"]') : null;
+                const ogContent = ogMeta ? (ogMeta.getAttribute('content') || ogMeta.content) : null;
+                if (ogContent) {
+                    title = ogContent;
+                } else {
+                    const h1 = doc && doc.querySelector ? doc.querySelector('h1') : null;
+                    if (h1 && (h1.innerText || h1.textContent)) {
+                        title = h1.innerText || h1.textContent;
+                    } else if (doc && doc.title) {
+                        title = doc.title;
+                    }
+                }
+            }
+
+            // Scribd Page count hierarchy:
+            // 1. .page_counter, [class*="page_counter"] regex /of\s+(\d+)/i
+            // 2. .outer_page, .document_page length
+            // 3. Fallback 0
+            const counterEl = doc && doc.querySelector ? doc.querySelector('.page_counter, [class*="page_counter"]') : null;
+            if (counterEl) {
+                const txt = counterEl.innerText || counterEl.textContent || '';
+                const m = txt.match(/of\s+(\d+)/i);
+                if (m && m[1]) {
+                    const parsed = parseInt(m[1], 10);
+                    if (!isNaN(parsed) && parsed > 0) pageCount = parsed;
+                }
+            }
+            if (pageCount === 0) {
+                const pages = doc && doc.querySelectorAll ? doc.querySelectorAll('.outer_page, .document_page') : [];
+                if (pages && pages.length > 0) {
+                    pageCount = pages.length;
+                }
+            }
+        } else {
+            // Studocu Title hierarchy fallback
+            const h1 = doc && doc.querySelector ? doc.querySelector('h1[data-qa="document-title"]') : null;
+            if (h1 && (h1.innerText || h1.textContent)) {
+                title = h1.innerText || h1.textContent;
+            } else {
+                const ogMeta = doc && doc.querySelector ? doc.querySelector('meta[property="og:title"]') : null;
+                const ogContent = ogMeta ? (ogMeta.getAttribute('content') || ogMeta.content) : null;
+                if (ogContent) {
+                    title = ogContent;
+                } else {
+                    let nextTitle = '';
+                    const nextScript = doc ? (doc.getElementById ? doc.getElementById('__NEXT_DATA__') : (doc.querySelector ? doc.querySelector('#__NEXT_DATA__') : null)) : null;
+                    if (nextScript && nextScript.textContent) {
+                        try {
+                            const parsed = JSON.parse(nextScript.textContent);
+                            nextTitle = parsed?.props?.pageProps?.document?.title || '';
+                        } catch (e) {}
+                    }
+                    if (nextTitle) {
+                        title = nextTitle;
+                    } else if (doc && doc.title) {
+                        title = doc.title;
+                    }
+                }
+            }
+
+            const pageNodes = doc && doc.querySelectorAll ? doc.querySelectorAll('.pf, div[data-page-index]') : [];
+            if (pageNodes && pageNodes.length > 0) {
+                pageCount = pageNodes.length;
+            } else {
+                const metaCountEl = doc && doc.querySelector ? doc.querySelector('meta[name="doc:page_count"]') : null;
+                const metaCount = metaCountEl ? (metaCountEl.getAttribute('content') || metaCountEl.content) : null;
+                const parsedCount = metaCount ? parseInt(metaCount, 10) : NaN;
+                if (!isNaN(parsedCount) && parsedCount > 0) {
+                    pageCount = parsedCount;
+                }
+            }
+        }
+
+        const sanitizedTitle = cleanDocTitle(title, resolvedPlatform);
+        const prefix = resolvedPlatform === 'scribd' ? 'scr_' : 'stu_';
+        const id = `${prefix}${computeDeterministicHash(canonicalUrl)}`;
+
+        return {
+            id,
+            title: sanitizedTitle,
+            canonicalUrl,
+            platform: resolvedPlatform,
+            pageCount: pageCount || 0,
+            lastOpenedAt: Date.now(),
+            isStarred: false
+        };
+    }
+
+    /**
+     * Displays a 3-second floating toast #dc-study-toast following Graphic Poster styling rules:
+     * 1.5px solid #091b42, #f6f7ef background, #091b42 text, no box-shadow, auto-dismiss after 3s.
+     */
+    async function showStudyShelfToast() {
+        try {
+            if (typeof document === 'undefined' || !document.body) return;
+            const existing = document.getElementById('dc-study-toast');
+            if (existing) {
+                try { existing.remove(); } catch (e) {}
+            }
+
+            let toastText = '📚 Saved to your Study Shelf';
+            let lang = 'en';
+            if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+                try {
+                    const data = await chrome.storage.local.get(['lang']);
+                    if (data && data.lang) lang = data.lang;
+                } catch (e) {}
+            }
+
+            if (typeof window !== 'undefined' && typeof window.t === 'function') {
+                toastText = window.t(lang, 'toastDocSaved') || toastText;
+            } else if (typeof t === 'function') {
+                toastText = t(lang, 'toastDocSaved') || toastText;
+            }
+
+            const toast = document.createElement('div');
+            toast.id = 'dc-study-toast';
+            toast.textContent = toastText;
+            toast.style.cssText = `
+                position: fixed !important;
+                top: 24px !important;
+                right: 24px !important;
+                z-index: 2147483647 !important;
+                background-color: #f6f7ef !important;
+                color: #091b42 !important;
+                border: 1.5px solid #091b42 !important;
+                border-radius: 12px !important;
+                padding: 10px 18px !important;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+                font-size: 13.5px !important;
+                font-weight: 700 !important;
+                box-shadow: none !important;
+                filter: none !important;
+                backdrop-filter: none !important;
+                text-shadow: none !important;
+                user-select: none !important;
+                pointer-events: none !important;
+                transition: opacity 0.25s ease, transform 0.25s ease !important;
+                opacity: 1 !important;
+            `;
+
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                if (toast) {
+                    toast.style.opacity = '0';
+                    toast.style.transform = 'translateY(-6px)';
+                    setTimeout(() => {
+                        if (toast.parentNode) toast.remove();
+                    }, 250);
+                }
+            }, 3000);
+        } catch (err) {
+            console.warn('[DocCleaner] showStudyShelfToast error:', err);
+        }
+    }
+
+    /**
+     * Checks if current URL is a valid Scribd document
+     */
+    function isScribdDocumentUrl() {
+        const loc = (typeof window !== 'undefined' && window.location) ? window.location : (typeof location !== 'undefined' ? location : null);
+        const href = loc ? (loc.href || loc.pathname || '') : '';
+        const doc = (typeof document !== 'undefined') ? document : null;
+        return href.includes('/document/') || href.includes('/doc/') || Boolean(doc && doc.querySelector && doc.querySelector('.document_title, [class*="DocumentTitle"], .outer_page, .document_page'));
+    }
+
+    let lastScribdRecordedUrl = '';
+
+    /**
+     * Dispatches RECORD_RECENT_DOC to background and shows toast
+     */
+    function autoRecordDocument(platform = 'scribd') {
+        try {
+            if (!isScribdDocumentUrl()) return;
+            const metadata = extractPageMetadata(platform);
+            if (!metadata || !metadata.title || !metadata.canonicalUrl) return;
+
+            if (lastScribdRecordedUrl === metadata.canonicalUrl) {
+                return;
+            }
+            lastScribdRecordedUrl = metadata.canonicalUrl;
+
+            if (typeof chrome !== 'undefined' && chrome.runtime && typeof chrome.runtime.sendMessage === 'function') {
+                chrome.runtime.sendMessage({ action: 'RECORD_RECENT_DOC', doc: metadata }, () => {
+                    if (chrome.runtime.lastError) {}
+                });
+            }
+
+            showStudyShelfToast();
+        } catch (err) {
+            console.warn('[DocCleaner] Scribd autoRecordDocument error:', err);
+        }
+    }
+
+    // Memory Purge Listener for PURGE_TRANSIENT_MEMORY
+    if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.onMessage) {
+        chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+            if (message && message.action === 'PURGE_TRANSIENT_MEMORY') {
+                revokeScribdObjectUrls();
+                const container = document.getElementById('clean-viewer-container');
+                const bar = document.getElementById('doccleaner-reader-bar');
+                if (container) container.remove();
+                if (bar) bar.remove();
+                cleanupScribdReaderMode();
+                if (typeof sendResponse === 'function') {
+                    sendResponse({ status: 'PURGED' });
+                }
+                return true;
+            }
+        });
+    }
+
+    // Auto-record debounced 500ms after load
+    if (typeof setTimeout !== 'undefined') {
+        setTimeout(() => {
+            autoRecordDocument('scribd');
+        }, 500);
+    }
+
     /**
      * Accurately measures the browser's CSS pixel equivalent for A4 dimensions (210mm x 296mm).
      * Uses a 296mm height (1mm safety margin below 297mm) to prevent 1px subpixel overflow.
@@ -253,9 +554,11 @@
             left: 0 !important;
             width: 100vw !important;
             height: 100vh !important;
-            background: rgba(9, 27, 66, 0.94) !important;
-            backdrop-filter: blur(14px) !important;
-            -webkit-backdrop-filter: blur(14px) !important;
+            background: #091b42 !important;
+            box-shadow: none !important;
+            filter: none !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
             z-index: 2147483647 !important;
             display: flex !important;
             align-items: center !important;
@@ -270,13 +573,13 @@
         overlay.innerHTML = `
             <div style="
                 background: #11224d;
-                border: 1.5px solid rgba(255, 255, 255, 0.15);
+                border: 1.5px solid #091b42;
                 border-radius: 20px;
                 padding: 32px 36px;
                 max-width: 440px;
                 width: 90%;
                 text-align: center;
-                box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55), 0 0 35px rgba(88, 196, 116, 0.2);
+                box-shadow: none;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
@@ -568,6 +871,11 @@
             return;
         }
 
+        // Auto-record document on clean reader activation
+        try {
+            autoRecordDocument('scribd');
+        } catch (e) {}
+
         const updateStatus = (msg) => {
             if (typeof statusCallback === 'function') statusCallback(msg);
         };
@@ -799,8 +1107,10 @@
                     width: 100% !important;
                     height: 54px !important;
                     background: #091b42 !important;
-                    border-bottom: 1.5px solid rgba(255, 255, 255, 0.14) !important;
-                    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35) !important;
+                    border-bottom: 1.5px solid #091b42 !important;
+                    box-shadow: none !important;
+                    filter: none !important;
+                    backdrop-filter: none !important;
                     z-index: 2147483647 !important;
                     display: flex !important;
                     align-items: center !important;
@@ -826,9 +1136,12 @@
                     font-size: 10.5px !important;
                     font-weight: 900 !important;
                     padding: 3px 8px !important;
-                    border-radius: 8px !important;
+                    border-radius: 6px !important;
                     letter-spacing: 0.3px !important;
                     text-transform: uppercase !important;
+                    border: 1.5px solid #091b42 !important;
+                    box-shadow: none !important;
+                    filter: none !important;
                 }
                 #doccleaner-reader-bar .dc-badge.studocu {
                     background-color: #c6eb34 !important;
@@ -846,11 +1159,13 @@
                 #doccleaner-reader-bar #dc-page-counter {
                     font-size: 13px !important;
                     font-weight: 600 !important;
-                    color: rgba(246, 247, 239, 0.9) !important;
-                    background: rgba(255, 255, 255, 0.09) !important;
-                    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+                    color: #f6f7ef !important;
+                    background: #193582 !important;
+                    border: 1.5px solid #091b42 !important;
                     padding: 4px 14px !important;
                     border-radius: 999px !important;
+                    box-shadow: none !important;
+                    filter: none !important;
                 }
 
                 #doccleaner-reader-bar .dc-bar-actions {
@@ -859,17 +1174,19 @@
                     gap: 10px !important;
                 }
                 #doccleaner-reader-bar .dc-btn-primary {
-                    border: none !important;
+                    border: 1.5px solid #091b42 !important;
                     font-size: 13px !important;
                     font-weight: 800 !important;
                     padding: 7px 16px !important;
-                    border-radius: 12px !important;
+                    border-radius: 10px !important;
                     cursor: pointer !important;
                     display: flex !important;
                     align-items: center !important;
                     gap: 6px !important;
-                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
-                    transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+                    box-shadow: none !important;
+                    filter: none !important;
+                    backdrop-filter: none !important;
+                    transition: transform 0.15s ease !important;
                     outline: none !important;
                 }
                 #doccleaner-reader-bar .dc-btn-primary.studocu {
@@ -882,29 +1199,34 @@
                 }
                 #doccleaner-reader-bar .dc-btn-primary:hover {
                     transform: translateY(-1.5px) !important;
-                    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3) !important;
+                    box-shadow: none !important;
                 }
                 #doccleaner-reader-bar .dc-btn-primary:active {
                     transform: translateY(0) scale(0.98) !important;
+                    box-shadow: none !important;
                 }
 
                 #doccleaner-reader-bar .dc-btn-secondary {
-                    background: rgba(255, 255, 255, 0.12) !important;
+                    background: #193582 !important;
                     color: #f6f7ef !important;
-                    border: 1.5px solid rgba(255, 255, 255, 0.18) !important;
+                    border: 1.5px solid #091b42 !important;
                     font-size: 13px !important;
                     font-weight: 600 !important;
                     padding: 7px 14px !important;
-                    border-radius: 12px !important;
+                    border-radius: 10px !important;
                     cursor: pointer !important;
                     display: flex !important;
                     align-items: center !important;
                     gap: 6px !important;
+                    box-shadow: none !important;
+                    filter: none !important;
+                    backdrop-filter: none !important;
                     transition: background 0.15s ease !important;
                     outline: none !important;
                 }
                 #doccleaner-reader-bar .dc-btn-secondary:hover {
-                    background: rgba(255, 255, 255, 0.22) !important;
+                    background: #2546a3 !important;
+                    box-shadow: none !important;
                 }
 
                 /* Clean Viewer Container & Centered A4 Pages */
@@ -922,6 +1244,9 @@
                     visibility: visible !important; 
                     background-color: #f6f7fb !important; 
                     box-sizing: border-box !important;
+                    box-shadow: none !important;
+                    filter: none !important;
+                    backdrop-filter: none !important;
                 }
 
                 /* Outer A4 Page Wrapper */
@@ -930,7 +1255,10 @@
                     height: 296mm !important;
                     max-height: 296mm !important;
                     background: #ffffff !important;
-                    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12) !important;
+                    border: 1.5px solid #091b42 !important;
+                    box-shadow: none !important;
+                    filter: none !important;
+                    backdrop-filter: none !important;
                     margin: 0 auto 24px auto !important;
                     position: relative !important;
                     overflow: hidden !important;
@@ -1175,11 +1503,36 @@
     }
 
     // Export functions to window scope
+    window.extractPageMetadata = extractPageMetadata;
+    window.DocCleaner = window.DocCleaner || {};
+    window.DocCleaner.extractPageMetadata = extractPageMetadata;
+    window.DocCleaner.autoRecordDocument = autoRecordDocument;
+    window.DocCleaner.showStudyShelfToast = showStudyShelfToast;
+    window.DocCleaner.revokeScribdObjectUrls = revokeScribdObjectUrls;
     window.initScribdAdBlocker = initScribdAdBlocker;
     window.runScribdCleaner = runScribdCleaner;
     window.removeScribdAds = removeScribdAds;
     window.cleanupAfterPrint = cleanupScribdReaderMode;
     window.cleanupScribdReaderMode = cleanupScribdReaderMode;
+
+    if (typeof globalThis !== 'undefined') {
+        globalThis.extractPageMetadata = extractPageMetadata;
+    }
+    if (typeof this !== 'undefined') {
+        this.extractPageMetadata = extractPageMetadata;
+    }
+    if (typeof module !== 'undefined' && module.exports) {
+        module.exports = {
+            extractPageMetadata,
+            autoRecordDocument,
+            showStudyShelfToast,
+            revokeScribdObjectUrls,
+            initScribdAdBlocker,
+            runScribdCleaner,
+            removeScribdAds,
+            cleanupScribdReaderMode
+        };
+    }
 
     // Self-initialize ad blocker on Scribd document pages
     initScribdAdBlocker();

@@ -52,6 +52,7 @@
         "*://*.studocu.vn/*"
       ],
       "js": [
+        "i18n.js",
         "content.js"
       ],
       "run_at": "document_end"
@@ -61,6 +62,7 @@
         "*://*.scribd.com/*"
       ],
       "js": [
+        "i18n.js",
         "scribd_handler.js",
         "content.js"
       ],
@@ -70,7 +72,8 @@
   "web_accessible_resources": [
     {
       "resources": [
-        "viewer_styles.css"
+        "viewer_styles.css",
+        "i18n.js"
       ],
       "matches": [
         "*://*.studocu.com/*",

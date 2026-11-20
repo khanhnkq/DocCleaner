@@ -46,6 +46,7 @@ zip -r -q "$OUTPUT_ZIP" . \
   -x "*.md" \
   -x "docs/*" \
   -x "scripts/*" \
+  -x "tests/*" \
   -x "dist/*" \
   -x "index.html" \
   -x "index.css" \

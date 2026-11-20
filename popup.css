@@ -1,60 +1,90 @@
-/* Uniform Graphic Poster Theme (Modal Rounding, Uniform Cards, Buy Me A Coffee) */
+/* ==========================================================================
+   DocCleaner - popup.css
+   Strict Graphic Poster Theme: Pure Flat, 320px Viewport, Crisp 1.5px Borders
+   Zero box-shadows, Zero blur filters, Zero backdrop-filters.
+   ========================================================================== */
 
 :root {
   --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
-  /* Colors from Graphic Poster Reference */
-  --bg-navy: #193582;
-  --card-cream: #f6f7ef;
-  --card-white: #ffffff;
-  --accent-lime: #c6eb34;
-  --accent-green: #58c474;
+  /* Graphic Poster Palette Tokens */
+  --navy: #091b42;
+  --primary-blue: #193582;
+  --slate: #5e6d8a;
+  --lime: #c6eb34;
+  --green: #58c474;
+  --cream: #f6f7ef;
+  --white: #ffffff;
+  --red-burn: #ef4444;
   --accent-yellow: #ffdd00;
-  --text-navy: #091b42;
-  --text-muted: #5e6d8a;
-  
-  --radius-modal: 24px;
-  --radius-card: 18px;
-  --radius-badge: 18px;
-  --card-height: 58px;
+
+  --card-height: 52px;
+  --radius-modal: 16px;
+  --radius-card: 12px;
+  --radius-pill: 9999px;
+  --border-crisp: 1.5px solid #091b42;
 }
 
-* {
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
 }
 
 html, body {
   width: 320px;
+  max-height: 520px;
+  margin: 0;
+  padding: 0;
   font-family: var(--font-family);
-  background-color: var(--bg-navy);
-  color: var(--text-navy);
+  background-color: var(--primary-blue);
+  color: var(--navy);
   user-select: none;
-  overflow: hidden;
-  border-radius: var(--radius-modal);
+  overflow-x: hidden;
+  overflow-y: auto;
   -webkit-font-smoothing: antialiased;
+  box-shadow: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* Custom flat scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: var(--primary-blue);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--navy);
+  border-radius: 4px;
 }
 
 .app-container {
-  padding: 16px;
+  padding: 12px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  background-color: var(--bg-navy);
-  border-radius: var(--radius-modal);
-  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  gap: 10px;
+  background-color: var(--primary-blue);
+  width: 320px;
+  box-sizing: border-box;
 }
 
 /* Header Card Block */
 .header-card {
-  background-color: var(--card-cream);
+  background-color: var(--cream);
   border-radius: var(--radius-card);
-  padding: 14px 18px;
+  padding: 10px 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1.5px solid #091b42 !important;
+  box-shadow: none !important;
+  filter: none !important;
 }
 
 .header-main {
@@ -65,155 +95,200 @@ html, body {
 .header-brand {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .header-logo {
-  border-radius: 5px;
-  box-shadow: 0 2px 6px rgba(9, 27, 66, 0.18);
+  border-radius: 4px;
   flex-shrink: 0;
+  border: 1px solid #091b42 !important;
 }
 
 .header-title {
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 900;
-  color: var(--text-navy);
-  letter-spacing: -0.6px;
+  color: var(--navy);
+  letter-spacing: -0.5px;
   line-height: 1.1;
 }
 
 .header-sub {
-  font-size: 11px;
+  font-size: 9.5px;
   font-weight: 700;
-  color: var(--text-muted);
+  color: var(--slate);
   margin-top: 2px;
 }
 
 .header-right {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
+/* 4-Pill Header Language Switch */
 .lang-switch {
   display: flex;
   align-items: center;
   gap: 2px;
-  background: var(--bg-navy);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 3px 7px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-size: 9.5px;
+  background: var(--white);
+  border: 1.5px solid #091b42 !important;
+  padding: 2px 4px;
+  border-radius: var(--radius-pill);
+  font-size: 9px;
   font-weight: 800;
-  color: #fff;
-  transition: all 0.2s ease;
-}
-
-.lang-switch:hover {
-  border-color: var(--accent-lime);
-  background: #122866;
+  box-shadow: none !important;
 }
 
 .lang-opt {
-  color: rgba(255, 255, 255, 0.6);
-  transition: color 0.2s ease;
+  color: var(--slate);
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.lang-opt:hover {
+  background-color: var(--cream);
+  color: var(--navy);
 }
 
 .lang-opt.active {
-  color: var(--accent-lime);
+  background-color: var(--navy);
+  color: var(--lime);
   font-weight: 900;
 }
 
-.lang-divider {
-  color: rgba(255, 255, 255, 0.3);
-  font-size: 8px;
-}
-
 .header-badge {
-  background-color: var(--accent-lime);
-  border-radius: var(--radius-card);
-  padding: 8px 12px;
+  background-color: var(--lime);
+  border: 1.5px solid #091b42 !important;
+  border-radius: 8px;
+  padding: 4px 6px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: var(--text-navy);
+  color: var(--navy);
   font-weight: 900;
-  min-width: 56px;
   line-height: 1;
+  box-shadow: none !important;
 }
 
 .badge-tag {
-  font-size: 13px;
+  font-size: 11px;
   letter-spacing: 0.5px;
 }
 
 .badge-ver {
-  font-size: 10.5px;
+  font-size: 8.5px;
   opacity: 0.85;
-  margin-top: 2px;
+  margin-top: 1px;
 }
 
-/* Uniform Card List */
+/* Segmented Tabs */
+.segmented-tabs {
+  display: flex;
+  background-color: var(--navy);
+  border: 1.5px solid #091b42 !important;
+  border-radius: var(--radius-card);
+  padding: 3px;
+  gap: 4px;
+  box-shadow: none !important;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 7px 0;
+  border: 1.5px solid transparent !important;
+  border-radius: 9px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s ease;
+  box-shadow: none !important;
+}
+
+.tab-btn:hover {
+  color: #ffffff;
+}
+
+.tab-btn.active {
+  background-color: var(--cream);
+  color: var(--navy);
+  border: 1.5px solid #091b42 !important;
+}
+
+/* Tab Panels */
+.tab-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .card-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
-/* Base Card Item - 100% Identical Dimensions for All Rows */
+/* Base Card Item - 52px Touch-Friendly Height */
 .card-item {
   width: 100%;
-  height: var(--card-height);
+  height: 52px;
   display: flex;
-  gap: 10px;
+  gap: 8px;
   align-items: center;
-  border: none;
+  border: none !important;
   background: transparent;
   padding: 0;
   margin: 0;
   outline: none;
   text-align: left;
+  box-shadow: none !important;
 }
 
-/* Interactive Card Buttons */
 button.card-item {
   cursor: pointer;
-  transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.15s ease;
 }
 
 button.card-item:hover {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 button.card-item:active {
-  transform: scale(0.98);
+  transform: scale(0.99);
 }
 
-/* Uniform Left Badge Block */
 .card-badge {
-  width: var(--card-height);
-  height: var(--card-height);
-  border-radius: var(--radius-badge);
-  background-color: var(--accent-lime);
-  color: var(--text-navy);
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-card);
+  border: 1.5px solid #091b42 !important;
+  background-color: var(--lime);
+  color: var(--navy);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
-  transition: background-color 0.3s ease;
+  box-shadow: none !important;
 }
 
 .lime-badge,
 .card-badge.studocu-theme {
-  background-color: var(--accent-lime);
+  background-color: var(--lime);
 }
 
 .green-badge,
 .card-badge.scribd-theme {
-  background-color: var(--accent-green);
+  background-color: var(--green);
+}
+
+.red-badge {
+  background-color: var(--red-burn);
+  color: #ffffff;
 }
 
 .yellow-badge {
@@ -221,74 +296,368 @@ button.card-item:active {
 }
 
 .card-badge.idle-theme {
-  background-color: #94a3b8;
-  color: #ffffff;
+  background-color: #cbd5e1;
+  color: var(--navy);
 }
 
-/* Uniform Right Body Block */
 .card-body {
   flex: 1;
-  height: var(--card-height);
+  height: 52px;
   border-radius: var(--radius-card);
-  background-color: var(--card-cream);
-  padding: 0 16px;
+  border: 1.5px solid #091b42 !important;
+  background-color: var(--cream);
+  padding: 0 12px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.2s ease;
+  box-shadow: none !important;
+  min-width: 0;
+  transition: background-color 0.15s ease;
 }
 
 button.card-item:hover .card-body {
-  background-color: var(--card-white);
+  background-color: var(--white);
 }
 
 .card-label {
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 800;
-  color: var(--text-muted);
+  color: var(--slate);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .card-title {
-  font-size: 13.5px;
+  font-size: 12.5px;
   font-weight: 800;
-  color: var(--text-navy);
+  color: var(--navy);
   line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .card-desc {
-  font-size: 10.5px;
+  font-size: 9.5px;
   font-weight: 600;
-  color: var(--text-muted);
-  margin-top: 2px;
+  color: var(--slate);
+  margin-top: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Buy Me A Coffee Special Item */
+/* Burn Card & Coffee Card */
+.burn-card .card-title {
+  color: var(--red-burn);
+}
+
 .coffee-card .card-title {
   color: #b45309;
 }
 
-/* Status Banner Footer */
-.status-banner {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 8px 12px;
+/* Lab PC Mode Switch */
+.lab-mode-card {
+  width: 100%;
+  height: 44px;
+  border-radius: var(--radius-card);
+  border: 1.5px solid #091b42 !important;
+  background-color: var(--cream);
+  padding: 0 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: none !important;
+}
+
+.lab-mode-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.lab-mode-title {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--navy);
+  white-space: nowrap;
+}
+
+.lab-mode-badge {
+  font-size: 8px;
+  font-weight: 900;
+  color: var(--navy);
+  background-color: var(--lime);
+  border: 1px solid #091b42 !important;
+  border-radius: 4px;
+  padding: 1px 4px;
+  white-space: nowrap;
+  letter-spacing: 0.3px;
+}
+
+/* Flat Toggle Switch */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 38px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #cbd5e1;
+  border: 1.5px solid #091b42 !important;
+  border-radius: 14px;
+  transition: 0.2s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 2px;
+  bottom: 2px;
+  background-color: var(--navy);
+  border-radius: 50%;
+  transition: 0.2s;
+}
+
+.toggle-switch input:checked + .slider {
+  background-color: var(--lime);
+}
+
+.toggle-switch input:checked + .slider:before {
+  transform: translateX(16px);
+  background-color: var(--navy);
+}
+
+/* Study Shelf Sub-Filter Pills */
+.filter-pills {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+
+.filter-pill {
+  flex: 1;
+  padding: 6px 0;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid #091b42 !important;
+  background-color: var(--cream);
+  color: var(--navy);
+  font-size: 10.5px;
+  font-weight: 800;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.15s ease;
+  box-shadow: none !important;
+}
+
+.filter-pill.active {
+  background-color: var(--lime);
+  color: var(--navy);
+}
+
+.filter-pill:hover:not(.active) {
+  background-color: var(--white);
+}
+
+.recent-docs-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 330px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* 52px Document Cards (Study Shelf) */
+.dc-doc-card,
+.study-card,
+.doc-item {
+  width: 100%;
+  height: 52px !important;
+  border-radius: var(--radius-card);
+  border: 1.5px solid #091b42 !important;
+  background-color: var(--white);
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-sizing: border-box;
+  box-shadow: none !important;
+}
+
+.doc-badge {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1.5px solid #091b42 !important;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  font-size: 11px;
+  font-size: 12px;
+  font-weight: 900;
+  color: var(--navy);
+  flex-shrink: 0;
+  box-shadow: none !important;
+}
+
+.doc-badge.studocu {
+  background-color: var(--lime);
+}
+
+.doc-badge.scribd {
+  background-color: var(--green);
+}
+
+.doc-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.doc-title {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--navy);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.doc-meta {
+  font-size: 9.5px;
+  font-weight: 600;
+  color: var(--slate);
+  margin-top: 1px;
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.doc-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.doc-action-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1.5px solid #091b42 !important;
+  background-color: var(--cream);
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 900;
+  padding: 0;
+  outline: none;
+  transition: transform 0.12s ease, background-color 0.12s ease;
+  box-shadow: none !important;
+}
+
+.doc-action-btn:hover {
+  transform: scale(1.06);
+  background-color: var(--white);
+}
+
+.doc-action-btn:active {
+  transform: scale(0.95);
+}
+
+.dc-star-btn.starred {
+  background-color: var(--accent-yellow);
+  color: var(--navy);
+}
+
+.dc-launch-btn {
+  background-color: var(--primary-blue);
+  color: #ffffff;
+}
+
+.dc-launch-btn:hover {
+  background-color: var(--navy);
+}
+
+/* Empty State */
+.shelf-empty-container {
+  background-color: var(--cream);
+  border-radius: var(--radius-card);
+  border: 1.5px solid #091b42 !important;
+  padding: 24px 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  box-shadow: none !important;
+}
+
+.empty-shelf-icon {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.empty-shelf-title {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.empty-shelf-desc {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--slate);
+  line-height: 1.35;
+  max-width: 240px;
+}
+
+/* Status Banner Footer */
+.status-banner {
+  background-color: var(--navy);
+  border: 1.5px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 10px;
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 10.5px;
   font-weight: 700;
   color: #ffffff;
+  box-shadow: none !important;
 }
 
 .status-dot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background-color: var(--accent-lime);
+  background-color: var(--lime);
+  flex-shrink: 0;
 }
 
 .status-banner.processing .status-dot {
@@ -327,12 +696,12 @@ button.card-item:hover .card-body {
 /* Credit Footer */
 .footer-block {
   text-align: center;
-  font-size: 10px;
+  font-size: 9.5px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .author-name {
-  color: var(--accent-lime);
+  color: var(--lime);
   font-weight: 800;
 }
