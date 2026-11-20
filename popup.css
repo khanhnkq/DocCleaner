@@ -78,73 +78,78 @@ html, body {
 .header-card {
   background-color: var(--cream);
   border-radius: var(--radius-card);
-  padding: 10px 12px;
+  padding: 8px 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border: 1.5px solid #091b42 !important;
   box-shadow: none !important;
   filter: none !important;
+  gap: 8px;
 }
 
 .header-main {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  min-width: 0;
 }
 
 .header-brand {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
+  flex-shrink: 0;
 }
 
 .header-logo {
+  width: 19px;
+  height: 19px;
   border-radius: 4px;
   flex-shrink: 0;
   border: 1px solid #091b42 !important;
+  display: block;
 }
 
 .header-title {
-  font-size: 17px;
+  font-size: 14px;
   font-weight: 900;
   color: var(--navy);
-  letter-spacing: -0.5px;
-  line-height: 1.1;
-}
-
-.header-sub {
-  font-size: 9.5px;
-  font-weight: 700;
-  color: var(--slate);
-  margin-top: 2px;
+  letter-spacing: -0.4px;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .header-right {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
+  flex-shrink: 0;
 }
 
 /* 4-Pill Header Language Switch */
 .lang-switch {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 1.5px;
   background: var(--white);
   border: 1.5px solid #091b42 !important;
-  padding: 2px 4px;
+  padding: 1.5px 3px;
   border-radius: var(--radius-pill);
-  font-size: 9px;
+  font-size: 8px;
   font-weight: 800;
   box-shadow: none !important;
+  flex-shrink: 0;
 }
 
 .lang-opt {
   color: var(--slate);
   cursor: pointer;
-  padding: 2px 4px;
-  border-radius: 4px;
+  padding: 2px 3.5px;
+  border-radius: 3px;
   transition: background-color 0.15s ease, color 0.15s ease;
+  line-height: 1;
+  user-select: none;
 }
 
 .lang-opt:hover {
@@ -161,8 +166,8 @@ html, body {
 .header-badge {
   background-color: var(--lime);
   border: 1.5px solid #091b42 !important;
-  border-radius: 8px;
-  padding: 4px 6px;
+  border-radius: 6px;
+  padding: 2.5px 5px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -171,17 +176,20 @@ html, body {
   font-weight: 900;
   line-height: 1;
   box-shadow: none !important;
+  flex-shrink: 0;
 }
 
 .badge-tag {
-  font-size: 11px;
-  letter-spacing: 0.5px;
+  font-size: 9px;
+  letter-spacing: 0.3px;
+  line-height: 1;
 }
 
 .badge-ver {
-  font-size: 8.5px;
-  opacity: 0.85;
+  font-size: 7.5px;
+  opacity: 0.9;
   margin-top: 1px;
+  line-height: 1;
 }
 
 /* Segmented Tabs */
