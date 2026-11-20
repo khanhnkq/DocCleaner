@@ -162,7 +162,6 @@
     if (docsToRender.length === 0) {
       if (docsList) {
         docsList.innerHTML = '';
-        if (docsList.children) docsList.children = [];
         docsList.style.display = 'none';
       }
       if (emptyState) {
@@ -182,74 +181,77 @@
       }
       if (docsList) {
         docsList.innerHTML = '';
-        if (docsList.children) docsList.children = [];
         docsList.style.display = 'flex';
 
         for (const doc of docsToRender) {
           if (!doc) continue;
 
-          // Card Root (52px Touch-Friendly)
-          const card = document.createElement('div');
-          card.className = 'dc-doc-card study-card doc-item';
-          card.setAttribute('data-id', doc.id || '');
+          try {
+            // Card Root (52px Touch-Friendly)
+            const card = document.createElement('div');
+            card.className = 'dc-doc-card study-card doc-item';
+            card.setAttribute('data-id', doc.id || '');
 
-          // Platform Monogram Badge (ST Lime #c6eb34 or SC Green #58c474)
-          const isStudocu = (doc.platform === 'studocu');
-          const badge = document.createElement('div');
-          badge.className = 'doc-badge ' + (isStudocu ? 'studocu' : 'scribd');
-          badge.innerText = isStudocu ? 'ST' : 'SC';
-          card.appendChild(badge);
+            // Platform Monogram Badge (ST Lime #c6eb34 or SC Green #58c474)
+            const isStudocu = (doc.platform === 'studocu');
+            const badge = document.createElement('div');
+            badge.className = 'doc-badge ' + (isStudocu ? 'studocu' : 'scribd');
+            badge.innerText = isStudocu ? 'ST' : 'SC';
+            card.appendChild(badge);
 
-          // Document Info (Title & Meta)
-          const info = document.createElement('div');
-          info.className = 'doc-info';
+            // Document Info (Title & Meta)
+            const info = document.createElement('div');
+            info.className = 'doc-info';
 
-          const titleEl = document.createElement('div');
-          titleEl.className = 'doc-title';
-          titleEl.innerText = sanitizeDocTitle(doc.title || '');
-          info.appendChild(titleEl);
+            const titleEl = document.createElement('div');
+            titleEl.className = 'doc-title';
+            titleEl.innerText = sanitizeDocTitle(doc.title || '');
+            info.appendChild(titleEl);
 
-          const metaEl = document.createElement('div');
-          metaEl.className = 'doc-meta';
-          const pageLabel = getT(currentLang, 'pages') || 'pgs';
-          const pageCountStr = doc.pageCount ? `${doc.pageCount} ${pageLabel}` : '';
-          const timeStr = doc.lastOpenedAt ? getRelativeTime(doc.lastOpenedAt, currentLang) : '';
-          metaEl.innerText = pageCountStr && timeStr ? `${pageCountStr} · ${timeStr}` : (pageCountStr || timeStr || '');
-          info.appendChild(metaEl);
+            const metaEl = document.createElement('div');
+            metaEl.className = 'doc-meta';
+            const pageLabel = getT(currentLang, 'pages') || 'pgs';
+            const pageCountStr = doc.pageCount ? `${doc.pageCount} ${pageLabel}` : '';
+            const timeStr = doc.lastOpenedAt ? getRelativeTime(doc.lastOpenedAt, currentLang) : '';
+            metaEl.innerText = pageCountStr && timeStr ? `${pageCountStr} · ${timeStr}` : (pageCountStr || timeStr || '');
+            info.appendChild(metaEl);
 
-          card.appendChild(info);
+            card.appendChild(info);
 
-          // In-card Action Buttons: Star & 1-Click Launch
-          const actions = document.createElement('div');
-          actions.className = 'doc-actions';
+            // In-card Action Buttons: Star & 1-Click Launch
+            const actions = document.createElement('div');
+            actions.className = 'doc-actions';
 
-          const starBtn = document.createElement('button');
-          starBtn.className = 'dc-star-btn btn-star doc-action-btn' + (doc.isStarred ? ' starred' : '');
-          starBtn.setAttribute('data-action', 'star');
-          starBtn.setAttribute('data-id', doc.id || '');
-          starBtn.setAttribute('title', doc.isStarred ? getT(currentLang, 'unstarDocument') : getT(currentLang, 'starDocument'));
-          starBtn.innerText = doc.isStarred ? '★' : '☆';
-          starBtn.addEventListener('click', async (e) => {
-            if (e && e.stopPropagation) e.stopPropagation();
-            await toggleStarDoc(doc.id);
-          });
-          actions.appendChild(starBtn);
+            const starBtn = document.createElement('button');
+            starBtn.className = 'dc-star-btn btn-star doc-action-btn' + (doc.isStarred ? ' starred' : '');
+            starBtn.setAttribute('data-action', 'star');
+            starBtn.setAttribute('data-id', doc.id || '');
+            starBtn.setAttribute('title', doc.isStarred ? getT(currentLang, 'unstarDocument') : getT(currentLang, 'starDocument'));
+            starBtn.innerText = doc.isStarred ? '★' : '☆';
+            starBtn.addEventListener('click', async (e) => {
+              if (e && e.stopPropagation) e.stopPropagation();
+              await toggleStarDoc(doc.id);
+            });
+            actions.appendChild(starBtn);
 
-          const launchBtn = document.createElement('button');
-          launchBtn.className = 'dc-launch-btn btn-launch doc-action-btn';
-          launchBtn.setAttribute('data-action', 'launch');
-          launchBtn.setAttribute('data-url', doc.canonicalUrl || '');
-          launchBtn.setAttribute('title', getT(currentLang, 'launchCleanReader'));
-          launchBtn.innerText = '↗';
-          launchBtn.addEventListener('click', (e) => {
-            if (e && e.stopPropagation) e.stopPropagation();
-            launchDoc(doc.canonicalUrl);
-          });
-          actions.appendChild(launchBtn);
+            const launchBtn = document.createElement('button');
+            launchBtn.className = 'dc-launch-btn btn-launch doc-action-btn';
+            launchBtn.setAttribute('data-action', 'launch');
+            launchBtn.setAttribute('data-url', doc.canonicalUrl || '');
+            launchBtn.setAttribute('title', getT(currentLang, 'launchCleanReader'));
+            launchBtn.innerText = '↗';
+            launchBtn.addEventListener('click', (e) => {
+              if (e && e.stopPropagation) e.stopPropagation();
+              launchDoc(doc.canonicalUrl);
+            });
+            actions.appendChild(launchBtn);
 
-          card.appendChild(actions);
+            card.appendChild(actions);
 
-          docsList.appendChild(card);
+            docsList.appendChild(card);
+          } catch (cardErr) {
+            console.error('[DocCleaner] Error rendering shelf card:', cardErr, doc);
+          }
         }
       }
     }
