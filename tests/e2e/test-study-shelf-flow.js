@@ -126,7 +126,7 @@ async function runTests() {
     const filterStarred = mockDOM.document.createElement('button');
     filterStarred.id = 'filter-starred';
     filterStarred.className = 'filter-pill';
-    filterStarred.innerText = 'Starred ⭐';
+    filterStarred.innerText = 'Starred';
     filterContainer.appendChild(filterAll);
     filterContainer.appendChild(filterStarred);
     panelRecents.appendChild(filterContainer);

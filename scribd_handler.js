@@ -199,7 +199,7 @@
                 try { existing.remove(); } catch (e) {}
             }
 
-            let toastText = '📚 Saved to your Study Shelf';
+            let toastText = 'Saved to your Study Shelf';
             let lang = 'en';
             if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
                 try {
@@ -621,7 +621,7 @@
                 </div>
 
                 <div style="font-size: 11.5px; color: rgba(246, 247, 239, 0.45); margin-top: 2px;">
-                    ${isVi ? '⚡ Không cần cuộn chuột — hệ thống tự nạp 100% trang' : '⚡ No manual scrolling needed — auto-loads 100% pages'}
+                    ${isVi ? 'Không cần cuộn chuột — hệ thống tự nạp 100% trang' : 'No manual scrolling needed — auto-loads 100% pages'}
                 </div>
             </div>
             <style>

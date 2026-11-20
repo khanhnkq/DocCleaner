@@ -17,7 +17,6 @@
           <img src="icons/icon32.png" alt="DocCleaner Logo" class="header-logo" width="22" height="22">
           <h1 class="header-title">DocCleaner</h1>
         </div>
-        <p class="header-sub" data-i18n="headerSub">Better Studocu & Scribd · Free</p>
       </div>
       <div class="header-right">
         <div class="lang-switch" id="langSwitch" title="Switch Language / Đổi Ngôn Ngữ">
@@ -113,7 +112,7 @@
             </svg>
           </div>
           <div class="card-body">
-            <span class="card-title" data-i18n="btnCleanAndBurn">🔥 Clean & Burn Session</span>
+            <span class="card-title" data-i18n="btnCleanAndBurn">Clean & Burn Session</span>
             <span class="card-desc">Wipe history, storage & cookies</span>
           </div>
         </button>
@@ -143,7 +142,7 @@
       <!-- Sub-filter pills -->
       <div class="filter-pills">
         <button id="filter-all" class="filter-pill active" data-i18n="filterAll">All Docs</button>
-        <button id="filter-starred" class="filter-pill" data-i18n="filterStarred">Starred ⭐</button>
+        <button id="filter-starred" class="filter-pill" data-i18n="filterStarred">Starred</button>
       </div>
 
       <!-- Shelf docs list container -->
@@ -151,7 +150,12 @@
 
       <!-- Empty state container -->
       <div id="shelf-empty-state" class="shelf-empty-container" style="display: none;">
-        <div class="empty-shelf-icon">📚</div>
+        <div class="empty-shelf-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#5e6d8a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+        </div>
         <div class="empty-shelf-title" id="empty-state-title" data-i18n="emptyRecentsTitle">Your Study Shelf is empty</div>
         <div class="empty-shelf-desc" id="empty-state-desc" data-i18n="emptyRecentsDesc">Documents you format or clean will automatically be saved here.</div>
       </div>

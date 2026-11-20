@@ -280,7 +280,7 @@ async function showStudyShelfToast() {
             try { existing.remove(); } catch (e) {}
         }
 
-        let toastText = '📚 Saved to your Study Shelf';
+        let toastText = 'Saved to your Study Shelf';
         let lang = 'en';
         if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
             try {
@@ -785,7 +785,7 @@ observeSpaNavigation(() => {
                 const isVi = data.lang === 'vi';
                 fabTooltipEl = document.createElement('div');
                 fabTooltipEl.id = 'dc-fab-tooltip';
-                fabTooltipEl.innerText = isVi ? '👆 Bấm đây để dọn trang & in PDF A4' : '👆 Click here to clean & print A4 PDF';
+                fabTooltipEl.innerText = isVi ? 'Bấm đây để dọn trang & in PDF A4' : 'Click here to clean & print A4 PDF';
                 document.body.appendChild(fabTooltipEl);
 
                 fabBtn.classList.add('first-run-pulse');
@@ -1131,7 +1131,7 @@ async function runStudocuCleanViewer() {
                         <span id="std-preload-count">${isVi ? 'Đang khởi động...' : 'Initializing...'}</span>
                     </div>
                     <div style="font-size:11.5px;color:rgba(246,247,239,0.45);margin-top:2px;">
-                        ${isVi ? '⚡ Đợi load xong 100% trang & ảnh trước khi in' : '⚡ Waits until 100% pages & images are loaded before printing'}
+                        ${isVi ? 'Đợi load xong 100% trang & ảnh trước khi in' : 'Waits until 100% pages & images are loaded before printing'}
                     </div>
                 </div>
                 <style>@keyframes stdSpin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}</style>

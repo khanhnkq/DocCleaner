@@ -47,30 +47,30 @@ Studocu and Scribd host millions of invaluable study materials, but intrusive pr
 
 CORE FEATURES (100% FREE FOREVER)
 
-1. ⚡ Distraction-Free Study Reader
+1. Distraction-Free Study Reader
 • Automatically strips floating banners, upgrade nag bars, and promotional overlays.
 • Smooth continuous document viewer without jarring page popups.
 
-2. 🖨️ Mathematical A4 Print Engine
+2. Mathematical A4 Print Engine
 • Solves Chrome's alternating blank page issue by normalizing document canvases to exact A4 printing dimensions (794px × 1123px).
 • Pre-renders pages smoothly to prevent blank sections during print spooling.
 • Pro-Tip: In Chrome's print dialog, set Margins to "None" and check "Background graphics" for crisp notes!
 
-3. 📚 Local Study Shelf (Recent Documents & Starred Favorites)
+3. Local Study Shelf (Recent Documents & Starred Favorites)
 • Automatically remembers your recently cleaned documents (up to 25 items).
 • 1-Click Launch: Reopen any cleaned document directly into clean view.
 • Star / Favorite documents for fast revision before exams.
 • Stored 100% locally in your browser — zero tracking, zero server uploads.
 
-4. 🔒 Campus Lab & Library PC Mode
+4. Campus Lab & Library PC Mode
 • Studying on a public university workstation or library computer?
 • Enable "Lab PC Mode" to keep study history strictly in ephemeral session memory.
 • 1-Click "Clean & Burn Session" instantly wipes local cache and document cookies when you finish your study session.
 
-5. 🌍 4-Language Interface
+5. 4-Language Interface
 • Switch between English, Vietnamese, Spanish, and French ([VN] [EN] [ES] [FR]) with zero page reload.
 
-6. 🎨 Pure Flat Graphic Design
+6. Pure Flat Graphic Design
 • High-contrast, clean typography inspired by functional editorial posters.
 • Zero heavy shadows, zero GPU blur effects, zero battery drain.
 

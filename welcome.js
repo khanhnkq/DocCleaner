@@ -36,7 +36,7 @@
       btnSkip: "Skip Tour",
       btnPrev: "← Back",
       btnNext: "Next →",
-      btnFinish: "✓ Got It! Start Using",
+      btnFinish: "Got It! Start Using",
       footerTag: "100% Free & Private",
       footerHome: "Official Website"
     },
@@ -60,7 +60,7 @@
       btnSkip: "Bỏ qua",
       btnPrev: "← Quay lại",
       btnNext: "Tiếp theo →",
-      btnFinish: "✓ Đã hiểu! Bắt đầu dùng",
+      btnFinish: "Đã hiểu! Bắt đầu dùng",
       footerTag: "100% Miễn phí & Riêng tư",
       footerHome: "Trang chủ chính thức"
     },
@@ -84,7 +84,7 @@
       btnSkip: "Omitir Tour",
       btnPrev: "← Atrás",
       btnNext: "Siguiente →",
-      btnFinish: "✓ ¡Entendido! Empezar a Usar",
+      btnFinish: "¡Entendido! Empezar a Usar",
       footerTag: "100% Gratis y Privado",
       footerHome: "Sitio Web Oficial"
     },
@@ -108,7 +108,7 @@
       btnSkip: "Passer le Tour",
       btnPrev: "← Retour",
       btnNext: "Suivant →",
-      btnFinish: "✓ Compris ! Commencer",
+      btnFinish: "Compris ! Commencer",
       footerTag: "100% Gratuit & Privé",
       footerHome: "Site Officiel"
     }
