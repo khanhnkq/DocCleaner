@@ -4,15 +4,16 @@ An intelligent, lightweight Chrome Extension designed for a **better, distractio
 
 Think of it as **"Reader Mode" for your study platforms** — like Pocket or Safari Reader, but tailored specifically for **Better Studocu** and **Better Scribd** document viewing.
 
-> **Version:** `v1.7.0` (Better Studocu & Better Scribd Support · 100% Free)  
+> **Version:** `v1.8.0` (Better Studocu & Better Scribd Support · 100% Free)  
 > 🌐 **Official Website:** [https://khanhnkq.github.io/DocCleaner/](https://khanhnkq.github.io/DocCleaner/)
 
 ---
 
 ## ✨ Key Features (100% Free)
 
-### 1. 📖 Interactive Clean Reader Mode (v1.7)
+### 1. 📖 Interactive Clean Reader Mode (v1.8)
 - **Top Reader Bar:** Fixed status bar with real-time page counter (`Page X of Y`), direct "Print / Save PDF (A4)" button, and "Exit Clean View".
+- **Day-0 Onboarding Tour & First-Mile Guidance:** Automated 3-step welcome guide, first-run FAB pulse, and smart print dialog recommendations (Zero-blank A4 tips).
 - **Better Studocu Experience:** Automatically cleans the viewing canvas, removes intrusive promotional banners, and provides a focused study environment.
 - **Better Scribd Experience:** Strips visual clutter, hides cookie popups, and optimizes text clarity for seamless reading.
 - Seamless automatic detection for `studocu.com`, `studocu.vn`, and `scribd.com`.
@@ -38,7 +39,7 @@ Think of it as **"Reader Mode" for your study platforms** — like Pocket or Saf
 ## 🛠 Installation Guide
 
 ### Option 1: Download `.zip` File (Recommended for Users)
-1. Download **`DocCleaner-v1.7.0.zip`** from [Releases](https://github.com/khanhnkq/DocCleaner/releases).
+1. Download **`DocCleaner-v1.8.0.zip`** from [Releases](https://github.com/khanhnkq/DocCleaner/releases).
 2. Extract the ZIP file to a local folder.
 3. Open `chrome://extensions/` ➔ Enable **Developer mode** in the top-right corner.
 4. Click **Load unpacked** and select the extracted folder.

@@ -1092,6 +1092,9 @@
 
             // Setup interaction events
             document.getElementById('dc-print-btn').addEventListener('click', () => {
+                if (typeof window.__dcShowPrintToast === 'function') {
+                    window.__dcShowPrintToast();
+                }
                 window.print();
             });
             document.getElementById('dc-close-btn').addEventListener('click', () => {

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to DocCleaner — Quick Start Guide</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/icon32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/icon16.png">
+  <link rel="stylesheet" href="welcome.css">
+</head>
+<body>
+
+  <div class="page-container">
+    <!-- Top Bar -->
+    <header class="top-bar">
+      <div class="brand-group">
+        <img src="icons/icon32.png" alt="DocCleaner Logo" class="brand-logo">
+        <span class="brand-name">DocCleaner</span>
+        <span class="version-tag">v1.8.0</span>
+      </div>
+
+      <div class="lang-toggle" id="langToggle" role="button" tabindex="0" title="Switch Language / Đổi Ngôn Ngữ">
+        <span class="lang-opt" id="langViOpt">VN</span>
+        <span class="lang-divider">/</span>
+        <span class="lang-opt active" id="langEnOpt">EN</span>
+      </div>
+    </header>
+
+    <!-- Main Card Container -->
+    <main class="card">
+      <!-- Steps Progress Header -->
+      <nav class="steps-nav" aria-label="Onboarding Steps">
+        <div class="step-indicator active" data-step="0">
+          <span class="step-num">1</span>
+          <span class="step-title" data-i18n="step1Nav">Open Document</span>
+        </div>
+        <div class="step-indicator" data-step="1">
+          <span class="step-num">2</span>
+          <span class="step-title" data-i18n="step2Nav">Click Button</span>
+        </div>
+        <div class="step-indicator" data-step="2">
+          <span class="step-num">3</span>
+          <span class="step-title" data-i18n="step3Nav">Print A4 PDF</span>
+        </div>
+      </nav>
+
+      <!-- Carousel Viewport -->
+      <div class="carousel-viewport">
+        <div class="carousel-track" id="carouselTrack">
+
+          <!-- SLIDE 1: Open Document & Detect FAB -->
+          <article class="step-slide">
+            <div class="illustration-box">
+              <svg viewBox="0 0 440 210" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Browser Window -->
+                <rect x="10" y="10" width="420" height="190" rx="14" fill="#091b42"/>
+                <!-- Browser Tab Bar -->
+                <rect x="24" y="22" width="10" height="10" rx="5" fill="#ff5f56"/>
+                <rect x="40" y="22" width="10" height="10" rx="5" fill="#ffbd2e"/>
+                <rect x="56" y="22" width="10" height="10" rx="5" fill="#27c93f"/>
+                <rect x="78" y="20" width="180" height="14" rx="7" fill="#193582"/>
+                <text x="88" y="31" fill="#f6f7ef" font-size="9" font-family="sans-serif" font-weight="700">studocu.com / scribd.com</text>
+
+                <!-- Document Paper Canvas -->
+                <rect x="30" y="44" width="380" height="144" rx="8" fill="#f6f7ef"/>
+
+                <!-- Content Skeleton Lines -->
+                <rect x="50" y="60" width="140" height="12" rx="4" fill="#091b42"/>
+                <rect x="50" y="80" width="220" height="7" rx="3" fill="#cbd5e1"/>
+                <rect x="50" y="93" width="200" height="7" rx="3" fill="#cbd5e1"/>
+                <rect x="50" y="106" width="230" height="7" rx="3" fill="#cbd5e1"/>
+                <rect x="50" y="119" width="180" height="7" rx="3" fill="#cbd5e1"/>
+
+                <!-- Banners being neutralized -->
+                <rect x="290" y="60" width="104" height="66" rx="6" fill="#e2e8f0"/>
+                <text x="312" y="98" fill="#94a3b8" font-size="10" font-family="sans-serif" font-weight="700">Ad Blocked</text>
+
+                <!-- DocCleaner Floating Action Button (FAB) Highlight -->
+                <rect x="236" y="140" width="160" height="36" rx="10" fill="#193582"/>
+                <rect x="242" y="145" width="26" height="26" rx="6" fill="#c6eb34"/>
+                <path d="M255 152v8m-3-3l3 3 3-3" stroke="#091b42" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <text x="276" y="163" fill="#f6f7ef" font-size="10.5" font-family="sans-serif" font-weight="800">Format for Print</text>
+
+                <!-- Pulsing indicator callout arrow -->
+                <rect x="210" y="147" width="18" height="22" rx="4" fill="#c6eb34"/>
+                <path d="M224 158l-8 0m4-4l4 4-4 4" stroke="#091b42" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+
+            <div class="slide-content">
+              <span class="slide-tag" data-i18n="step1Tag">Step 1 of 3</span>
+              <h2 class="slide-title" data-i18n="step1Title">Open any Studocu or Scribd Document</h2>
+              <p class="slide-desc" data-i18n="step1Desc">
+                Navigate to any document page on Studocu or Scribd. DocCleaner activates automatically in the background without requiring any account login.
+              </p>
+              <div class="tip-banner">
+                <span class="tip-tag" data-i18n="tipLabel">Tip</span>
+                <span data-i18n="step1Tip">Look for the navy & lime "Format for Print" button fixed at the bottom-right corner of the page.</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- SLIDE 2: Interactive Reader Mode -->
+          <article class="step-slide">
+            <div class="illustration-box">
+              <svg viewBox="0 0 440 210" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Browser Window -->
+                <rect x="10" y="10" width="420" height="190" rx="14" fill="#091b42"/>
+
+                <!-- Top Reader Bar (Fixed) -->
+                <rect x="20" y="24" width="400" height="34" rx="8" fill="#193582"/>
+                <rect x="30" y="32" width="18" height="18" rx="4" fill="#c6eb34"/>
+                <path d="M39 36v6m-2-2l2 2 2-2" stroke="#091b42" stroke-width="1.8" stroke-linecap="round"/>
+                <text x="54" y="44" fill="#f6f7ef" font-size="10" font-family="sans-serif" font-weight="800">DocCleaner Reader</text>
+
+                <!-- Page Counter Pill -->
+                <rect x="180" y="32" width="80" height="18" rx="9" fill="#091b42"/>
+                <text x="194" y="44" fill="#c6eb34" font-size="9" font-family="sans-serif" font-weight="700">Page 1 of 18</text>
+
+                <!-- Reader Actions -->
+                <rect x="290" y="31" width="76" height="20" rx="6" fill="#c6eb34"/>
+                <text x="302" y="44" fill="#091b42" font-size="9.5" font-family="sans-serif" font-weight="800">Print A4 PDF</text>
+                <rect x="372" y="31" width="38" height="20" rx="6" fill="#091b42"/>
+                <text x="382" y="44" fill="#f6f7ef" font-size="9" font-family="sans-serif" font-weight="700">Exit</text>
+
+                <!-- Document Body: Centered A4 Pages -->
+                <rect x="130" y="68" width="180" height="122" rx="4" fill="#f6f7ef"/>
+                <rect x="145" y="80" width="90" height="9" rx="3" fill="#091b42"/>
+                <rect x="145" y="96" width="150" height="6" rx="2" fill="#94a3b8"/>
+                <rect x="145" y="107" width="140" height="6" rx="2" fill="#94a3b8"/>
+                <rect x="145" y="118" width="146" height="6" rx="2" fill="#94a3b8"/>
+                <rect x="145" y="129" width="130" height="6" rx="2" fill="#94a3b8"/>
+                <rect x="145" y="140" width="142" height="6" rx="2" fill="#94a3b8"/>
+                <rect x="145" y="151" width="80" height="6" rx="2" fill="#94a3b8"/>
+              </svg>
+            </div>
+
+            <div class="slide-content">
+              <span class="slide-tag" data-i18n="step2Tag">Step 2 of 3</span>
+              <h2 class="slide-title" data-i18n="step2Title">Click the Button to Launch Clean Reader</h2>
+              <p class="slide-desc" data-i18n="step2Desc">
+                Clicking the floating button strips clutter, eliminates promotional overlays, and assembles the document into centered, distraction-free A4 sheets.
+              </p>
+              <div class="tip-banner">
+                <span class="tip-tag" data-i18n="tipLabel">Tip</span>
+                <span data-i18n="step2Tip">The top Reader Bar stays on screen while reading. Press Esc or click "Exit Clean View" whenever you want to close it.</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- SLIDE 3: Print Dialog & A4 Best Practices -->
+          <article class="step-slide">
+            <div class="illustration-box">
+              <svg viewBox="0 0 440 210" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Browser Window -->
+                <rect x="10" y="10" width="420" height="190" rx="14" fill="#091b42"/>
+
+                <!-- Print Preview Modal Frame -->
+                <rect x="30" y="24" width="380" height="162" rx="10" fill="#f6f7ef"/>
+
+                <!-- Left Column: A4 Sheet Preview -->
+                <rect x="46" y="38" width="95" height="134" rx="4" fill="#ffffff"/>
+                <rect x="56" y="50" width="50" height="7" rx="2" fill="#091b42"/>
+                <rect x="56" y="63" width="75" height="4" rx="2" fill="#cbd5e1"/>
+                <rect x="56" y="71" width="70" height="4" rx="2" fill="#cbd5e1"/>
+                <rect x="56" y="79" width="72" height="4" rx="2" fill="#cbd5e1"/>
+                <rect x="56" y="87" width="65" height="4" rx="2" fill="#cbd5e1"/>
+                <rect x="56" y="95" width="68" height="4" rx="2" fill="#cbd5e1"/>
+
+                <!-- Right Column: Print Settings Best Practices -->
+                <rect x="160" y="38" width="234" height="134" rx="8" fill="#ffffff"/>
+                <text x="174" y="58" fill="#091b42" font-size="11" font-family="sans-serif" font-weight="800">Recommended Print Settings</text>
+
+                <!-- Setting Item 1: Margins = None -->
+                <rect x="174" y="72" width="16" height="16" rx="4" fill="#58c474"/>
+                <path d="M178 80l3 3 5-5" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <text x="198" y="81" fill="#091b42" font-size="10" font-family="sans-serif" font-weight="700">Margins: "None" / Không lề</text>
+                <text x="198" y="93" fill="#5e6d8a" font-size="8.5" font-family="sans-serif">Eliminates extra blank pages</text>
+
+                <!-- Setting Item 2: Background Graphics = Checked -->
+                <rect x="174" y="104" width="16" height="16" rx="4" fill="#58c474"/>
+                <path d="M178 112l3 3 5-5" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <text x="198" y="113" fill="#091b42" font-size="10" font-family="sans-serif" font-weight="700">Background graphics: Checked</text>
+                <text x="198" y="125" fill="#5e6d8a" font-size="8.5" font-family="sans-serif">Keeps notes and diagrams crisp</text>
+
+                <!-- Destination Pill -->
+                <rect x="174" y="136" width="140" height="22" rx="6" fill="#193582"/>
+                <text x="186" y="150" fill="#f6f7ef" font-size="9" font-family="sans-serif" font-weight="700">Destination: Save as PDF</text>
+              </svg>
+            </div>
+
+            <div class="slide-content">
+              <span class="slide-tag" data-i18n="step3Tag">Step 3 of 3</span>
+              <h2 class="slide-title" data-i18n="step3Title">Save or Print Clean A4 PDF</h2>
+              <p class="slide-desc" data-i18n="step3Desc">
+                Click "Print / Save PDF (A4)" in the top bar. Chrome's print dialog will open with pages already centered and mathematically scaled to A4 standard dimensions.
+              </p>
+              <div class="tip-banner">
+                <span class="tip-tag" data-i18n="tipLabel">Tip</span>
+                <span data-i18n="step3Tip">In the Chrome print dialog, set Margins to "None" and ensure "Background graphics" is enabled for the best output quality.</span>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+
+      <!-- Action Bar -->
+      <footer class="action-bar">
+        <button class="btn btn-ghost" id="skipBtn" data-i18n="btnSkip">Skip Tour</button>
+
+        <div class="nav-actions">
+          <button class="btn btn-secondary" id="prevBtn" style="display: none;" data-i18n="btnPrev">← Back</button>
+          <button class="btn btn-primary" id="nextBtn" data-i18n="btnNext">Next →</button>
+        </div>
+      </footer>
+    </main>
+
+    <!-- Footer Bar -->
+    <footer class="footer-bar">
+      <span>DocCleaner · <span data-i18n="footerTag">100% Free &amp; Private</span></span>
+      <a href="https://khanhnkq.github.io/DocCleaner/" target="_blank" class="footer-link" data-i18n="footerHome">Official Website</a>
+    </footer>
+  </div>
+
+  <script src="welcome.js"></script>
+</body>
+</html>

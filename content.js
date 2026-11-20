@@ -120,6 +120,135 @@
 
         @media print {
             #studocu-fab-btn { display: none !important; }
+            #dc-fab-tooltip, #dc-print-toast { display: none !important; }
+        }
+
+        /* Day-0 Onboarding: Flat Tooltip & Outline Pulse (No Shadow, No Blur) */
+        #dc-fab-tooltip {
+            position: fixed !important;
+            bottom: 84px !important;
+            right: 28px !important;
+            z-index: 2147483647 !important;
+            background-color: #091b42 !important;
+            color: #f6f7ef !important;
+            border: 1.5px solid #c6eb34 !important;
+            border-radius: 12px !important;
+            padding: 9px 14px !important;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+            font-size: 13px !important;
+            font-weight: 700 !important;
+            box-shadow: none !important;
+            text-shadow: none !important;
+            filter: none !important;
+            backdrop-filter: none !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            pointer-events: none !important;
+            user-select: none !important;
+            transition: opacity 0.25s ease, transform 0.25s ease !important;
+        }
+
+        #dc-fab-tooltip.hiding {
+            opacity: 0 !important;
+            transform: translateY(6px) !important;
+        }
+
+        #dc-fab-tooltip::after {
+            content: '' !important;
+            position: absolute !important;
+            bottom: -6px !important;
+            right: 24px !important;
+            width: 0 !important;
+            height: 0 !important;
+            border-left: 6px solid transparent !important;
+            border-right: 6px solid transparent !important;
+            border-top: 6px solid #c6eb34 !important;
+            box-shadow: none !important;
+            filter: none !important;
+        }
+
+        @keyframes dcFlatPulse {
+            0%, 100% {
+                outline: 2px solid transparent;
+                outline-offset: 0px;
+            }
+            50% {
+                outline: 2.5px solid #c6eb34;
+                outline-offset: 3.5px;
+            }
+        }
+
+        #studocu-fab-btn.first-run-pulse {
+            animation: dcFlatPulse 1.2s ease-in-out 3 !important;
+            box-shadow: none !important;
+        }
+
+        /* Day-0 Onboarding: Flat Print Tips Toast (No Shadow, No Blur) */
+        #dc-print-toast {
+            position: fixed !important;
+            bottom: 24px !important;
+            left: 24px !important;
+            z-index: 2147483647 !important;
+            max-width: 380px !important;
+            background-color: #091b42 !important;
+            color: #f6f7ef !important;
+            border: 1.5px solid #c6eb34 !important;
+            border-radius: 14px !important;
+            padding: 12px 16px !important;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+            font-size: 13px !important;
+            line-height: 1.5 !important;
+            box-shadow: none !important;
+            text-shadow: none !important;
+            filter: none !important;
+            backdrop-filter: none !important;
+            display: flex !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+            user-select: none !important;
+            transition: opacity 0.25s ease, transform 0.25s ease !important;
+        }
+
+        #dc-print-toast.hiding {
+            opacity: 0 !important;
+            transform: translateY(8px) !important;
+        }
+
+        .dc-toast-icon {
+            width: 22px !important;
+            height: 22px !important;
+            flex-shrink: 0 !important;
+            background-color: #c6eb34 !important;
+            color: #091b42 !important;
+            border-radius: 6px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .dc-toast-body {
+            flex: 1 !important;
+        }
+
+        .dc-toast-body strong {
+            color: #c6eb34 !important;
+            font-weight: 800 !important;
+        }
+
+        .dc-toast-close {
+            background: transparent !important;
+            border: none !important;
+            color: #8fa0c0 !important;
+            cursor: pointer !important;
+            font-size: 16px !important;
+            line-height: 1 !important;
+            padding: 2px !important;
+            margin-left: 4px !important;
+        }
+
+        .dc-toast-close:hover {
+            color: #ffffff !important;
         }
     `;
     document.head.appendChild(fabStyle);
@@ -167,8 +296,63 @@
         });
     }
 
+    // =========================================================================
+    // DAY-0 ONBOARDING: FLAT TOOLTIP & PULSE
+    // =========================================================================
+    let fabTooltipEl = null;
+    let tooltipTimer = null;
+
+    function hideFabTooltip() {
+        if (tooltipTimer) {
+            clearTimeout(tooltipTimer);
+            tooltipTimer = null;
+        }
+        if (fabTooltipEl) {
+            fabTooltipEl.classList.add('hiding');
+            setTimeout(() => {
+                if (fabTooltipEl) {
+                    fabTooltipEl.remove();
+                    fabTooltipEl = null;
+                }
+            }, 250);
+        }
+        if (fabBtn) {
+            fabBtn.classList.remove('first-run-pulse');
+        }
+    }
+
+    async function checkFirstRunTooltip() {
+        try {
+            if (typeof chrome === 'undefined' || !chrome.storage || !chrome.storage.local) return;
+            const data = await chrome.storage.local.get(['isFirstRun', 'lang']);
+            if (data.isFirstRun && !document.getElementById('dc-fab-tooltip') && document.body) {
+                const isVi = data.lang === 'vi';
+                fabTooltipEl = document.createElement('div');
+                fabTooltipEl.id = 'dc-fab-tooltip';
+                fabTooltipEl.innerText = isVi ? '👆 Bấm đây để dọn trang & in PDF A4' : '👆 Click here to clean & print A4 PDF';
+                document.body.appendChild(fabTooltipEl);
+
+                fabBtn.classList.add('first-run-pulse');
+
+                tooltipTimer = setTimeout(() => {
+                    hideFabTooltip();
+                }, 8000);
+            }
+        } catch (e) {
+            console.warn('[DocCleaner] checkFirstRunTooltip error:', e);
+        }
+    }
+
     fabBtn.addEventListener('click', async () => {
         if (fabBtn.classList.contains('processing')) return;
+
+        // Dismiss first-run tooltip and persist completion
+        hideFabTooltip();
+        try {
+            if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+                chrome.storage.local.set({ isFirstRun: false });
+            }
+        } catch (e) {}
 
         fabBtn.classList.add('processing');
         const span = fabBtn.querySelector('.fab-text-label');
@@ -202,6 +386,7 @@
     const attachFab = () => {
         if (!document.getElementById('studocu-fab-btn') && document.body) {
             document.body.appendChild(fabBtn);
+            checkFirstRunTooltip();
         }
     };
 
@@ -214,6 +399,55 @@
     // Continuous safeguard for dynamic SPA route transitions (Scribd & Studocu)
     setInterval(attachFab, 1500);
 })();
+
+// ==========================================================================
+// DAY-0 ONBOARDING: PRINT TIPS TOAST (PURE FLAT, ZERO SHADOW / BLUR)
+// ==========================================================================
+window.__dcShowPrintToast = async function() {
+    try {
+        if (typeof chrome === 'undefined' || !chrome.storage || !chrome.storage.local) return;
+        const data = await chrome.storage.local.get(['hasSeenPrintTip', 'lang']);
+        if (data.hasSeenPrintTip) return;
+
+        if (document.getElementById('dc-print-toast')) return;
+
+        const isVi = data.lang === 'vi';
+        const toast = document.createElement('div');
+        toast.id = 'dc-print-toast';
+        toast.innerHTML = `
+            <div class="dc-toast-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="9" y1="18" x2="15" y2="18"></line>
+                    <line x1="10" y1="22" x2="14" y2="22"></line>
+                    <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"></path>
+                </svg>
+            </div>
+            <div class="dc-toast-body">
+                ${isVi 
+                    ? '<strong>Mẹo in đẹp:</strong> Trong hộp thoại in, chọn Margins <strong>"None"</strong> và bật <strong>"Background graphics"</strong> để bản in chuẩn khổ A4 không trang trắng.'
+                    : '<strong>Pro Tip:</strong> In Chrome print dialog, set Margins to <strong>"None"</strong> and check <strong>"Background graphics"</strong> for crisp zero-blank A4 prints.'
+                }
+            </div>
+            <button class="dc-toast-close" title="Close" aria-label="Close">✕</button>
+        `;
+
+        document.body.appendChild(toast);
+
+        // Mark as seen
+        chrome.storage.local.set({ hasSeenPrintTip: true });
+
+        const closeBtn = toast.querySelector('.dc-toast-close');
+        const dismissToast = () => {
+            toast.classList.add('hiding');
+            setTimeout(() => { if (toast.parentNode) toast.remove(); }, 250);
+        };
+
+        if (closeBtn) closeBtn.addEventListener('click', dismissToast);
+        setTimeout(dismissToast, 9000);
+    } catch (e) {
+        console.warn('[DocCleaner] showPrintToast error:', e);
+    }
+};
 
 // ==========================================================================
 // STUDOCU SPECIFIC CLEANER & AD BLOCKER
@@ -1160,6 +1394,9 @@ async function runStudocuCleanViewer() {
 
         // Setup interaction events
         document.getElementById('dc-print-btn').addEventListener('click', () => {
+            if (typeof window.__dcShowPrintToast === 'function') {
+                window.__dcShowPrintToast();
+            }
             window.print();
         });
         document.getElementById('dc-close-btn').addEventListener('click', () => {

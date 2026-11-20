@@ -52,6 +52,16 @@ chrome.runtime.onInstalled.addListener(async (details) => {
         if (!installedAt) {
             await chrome.storage.local.set({ installedAt: Date.now() });
         }
+
+        // Kích hoạt Day-0 Onboarding khi cài đặt mới
+        if (details.reason === 'install') {
+            await chrome.storage.local.set({
+                isFirstRun: true,
+                hasSeenPrintTip: false
+            });
+            chrome.tabs.create({ url: chrome.runtime.getURL('welcome.html') });
+        }
+
         await setupUninstallURL();
     } catch (e) {
         console.error('[DocCleaner] onInstalled setup error:', e);
