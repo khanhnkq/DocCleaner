@@ -26,6 +26,7 @@ const tier1 = require('./tier1-feature-coverage.test');
 const tier2 = require('./tier2-boundary-corner.test');
 const tier3 = require('./tier3-cross-feature.test');
 const tier4 = require('./tier4-real-world-scenarios.test');
+const tier5 = require('./tier5-english-and-website.test');
 
 const { parsePngHeader, createSyntheticPngHeader } = require('./helpers/image-inspector');
 const { inspectGif, createSyntheticGif } = require('./helpers/media-inspector');
@@ -99,7 +100,8 @@ async function runAllTests(cliArgs = process.argv.slice(2)) {
     { tier: 1, name: 'Tier 1: Feature Coverage (42 tests)', runner: tier1.runTests },
     { tier: 2, name: 'Tier 2: Boundary & Corner Cases (42 tests)', runner: tier2.runTests },
     { tier: 3, name: 'Tier 3: Cross-Feature Combinations (12 tests)', runner: tier3.runTests },
-    { tier: 4, name: 'Tier 4: Real-World Scenarios (5 tests)', runner: tier4.runTests }
+    { tier: 4, name: 'Tier 4: Real-World Scenarios (5 tests)', runner: tier4.runTests },
+    { tier: 5, name: 'Tier 5: English Assets & Website (11 tests)', runner: tier5.runTests }
   ];
 
   const targetSuites = tierFilter

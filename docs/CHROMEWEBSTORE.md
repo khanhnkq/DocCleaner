@@ -152,18 +152,32 @@ Release v1.8.0 — Full Study Shelf, Lab PC Mode, 4-Language i18n, and Day-0 Onb
 
 ## 4. Graphics & Visual Assets Checklist
 
+### English Store Assets (Primary International Listing)
 | Asset | Dimensions | Format | Status | Location |
 |:---|:---|:---|:---|:---|
 | **Store Icon** [REQUIRED] | 128×128 px | PNG | ✅ Ready | `icons/icon128.png` |
-| **Screenshot 1** [REQUIRED] | 1280×800 px | PNG | ✅ Ready | `store-assets/screenshot1_1280x800.png` (Xoá Mờ & Bỏ Giới Hạn Đọc) |
-| **Screenshot 2** [RECOMMENDED] | 1280×800 px | PNG | ✅ Ready | `store-assets/screenshot2_1280x800.png` (Định Dạng In A4 Chuẩn) |
-| **Screenshot 3** [RECOMMENDED] | 1280×800 px | PNG | ✅ Ready | `store-assets/screenshot3_1280x800.png` (Hỗ Trợ Toàn Diện Scribd & Studocu) |
-| **Screenshot 4** [RECOMMENDED] | 1280×800 px | PNG | ✅ Ready | `store-assets/screenshot4_1280x800.png` (Kệ Học Tập Tự Động & Đánh Dấu Sao) |
-| **Screenshot 5** [RECOMMENDED] | 1280×800 px | PNG | ✅ Ready | `store-assets/screenshot5_1280x800.png` (Đa Ngôn Ngữ VN/EN/ES/FR & Bảo Mật) |
-| **Small Promo Tile** [RECOMMENDED] | 440×280 px | PNG | ✅ Ready | `store-assets/promo_small_440x280.png` |
-| **Marquee Promo Tile** [OPTIONAL] | 1400×560 px | PNG | ✅ Ready | `store-assets/marquee_1400x560.png` |
+| **Screenshot 1** [REQUIRED] | 1280×800 px | PNG | ✅ Ready | `store-assets/en/screenshot1_1280x800.png` (Unblur Content & Remove Paywalls) |
+| **Screenshot 2** [RECOMMENDED] | 1280×800 px | PNG | ✅ Ready | `store-assets/en/screenshot2_1280x800.png` (Standardized A4 Print Layout) |
+| **Screenshot 3** [RECOMMENDED] | 1280×800 px | PNG | ✅ Ready | `store-assets/en/screenshot3_1280x800.png` (Full Support for Studocu & Scribd) |
+| **Screenshot 4** [RECOMMENDED] | 1280×800 px | PNG | ✅ Ready | `store-assets/en/screenshot4_1280x800.png` (Auto Study Shelf & Star Favorites) |
+| **Screenshot 5** [RECOMMENDED] | 1280×800 px | PNG | ✅ Ready | `store-assets/en/screenshot5_1280x800.png` (Multilingual & Campus Lab PC Privacy) |
+| **Small Promo Tile** [RECOMMENDED] | 440×280 px | PNG | ✅ Ready | `store-assets/en/promo_small_440x280.png` |
+| **Marquee Promo Tile** [OPTIONAL] | 1400×560 px | PNG | ✅ Ready | `store-assets/en/marquee_1400x560.png` |
+| **1080p Demo Video** [STORE/YOUTUBE] | 1920×1080 px | MP4 (H.264, 30fps) | ✅ Ready | `assets/demo/en/doccleaner_demo_1080p.mp4` |
+| **Animated Demo GIF** [README/WEB] | 800×450 px | GIF89a (<8MB) | ✅ Ready | `assets/demo/en/doccleaner_demo.gif` |
+
+### Vietnamese Store Assets (Localized Store Listing)
+| Asset | Dimensions | Format | Status | Location |
+|:---|:---|:---|:---|:---|
+| **Screenshot 1** [REQUIRED] | 1280×800 px | PNG | ✅ Ready | `store-assets/screenshot1_1280x800.png` / `store-assets/vi/` |
+| **Screenshot 2** [RECOMMENDED] | 1280×800 px | PNG | ✅ Ready | `store-assets/screenshot2_1280x800.png` / `store-assets/vi/` |
+| **Screenshot 3** [RECOMMENDED] | 1280×800 px | PNG | ✅ Ready | `store-assets/screenshot3_1280x800.png` / `store-assets/vi/` |
+| **Screenshot 4** [RECOMMENDED] | 1280×800 px | PNG | ✅ Ready | `store-assets/screenshot4_1280x800.png` / `store-assets/vi/` |
+| **Screenshot 5** [RECOMMENDED] | 1280×800 px | PNG | ✅ Ready | `store-assets/screenshot5_1280x800.png` / `store-assets/vi/` |
+| **Small Promo Tile** [RECOMMENDED] | 440×280 px | PNG | ✅ Ready | `store-assets/promo_small_440x280.png` / `store-assets/vi/` |
+| **Marquee Promo Tile** [OPTIONAL] | 1400×560 px | PNG | ✅ Ready | `store-assets/marquee_1400x560.png` / `store-assets/vi/` |
 | **1080p Demo Video** [STORE/YOUTUBE] | 1920×1080 px | MP4 (H.264, 30fps) | ✅ Ready | `assets/demo/doccleaner_demo_1080p.mp4` |
-| **Animated Demo GIF** [README] | 800×450 px | GIF89a (<8MB) | ✅ Ready | `assets/demo/doccleaner_demo.gif` |
+| **Animated Demo GIF** [README/WEB] | 800×450 px | GIF89a (<8MB) | ✅ Ready | `assets/demo/doccleaner_demo.gif` |
 
 ---
 

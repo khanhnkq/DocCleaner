@@ -56,6 +56,7 @@ zip -r -q "$OUTPUT_ZIP" . \
   -x "uninstall.html" \
   -x "vi/*" \
   -x "store-assets/*" \
+  -x "assets/*" \
   -x "analytics/*" \
   -x "scratch/*" \
   -x ".github/*" \
