@@ -66,6 +66,9 @@
       deleteDoc: "Remove from Shelf",
       clearShelfLabel: "Clear Shelf",
       clearShelfConfirm: "Are you sure you want to clear all documents from your Study Shelf?",
+      clearShelfConfirmPrompt: "Clear all documents?",
+      clearShelfYes: "Clear",
+      clearShelfNo: "Cancel",
 
       // Action & Status Keys
       currentWebsite: "Current Website",
@@ -127,6 +130,9 @@
       deleteDoc: "Xóa khỏi kệ",
       clearShelfLabel: "Dọn sạch kệ sách",
       clearShelfConfirm: "Bạn có chắc muốn xóa tất cả tài liệu trong kệ học tập?",
+      clearShelfConfirmPrompt: "Xóa tất cả tài liệu?",
+      clearShelfYes: "Xóa",
+      clearShelfNo: "Hủy",
 
       // Action & Status Keys
       currentWebsite: "Trang Web Hiện Tại",
@@ -188,6 +194,9 @@
       deleteDoc: "Eliminar de la estantería",
       clearShelfLabel: "Vaciar estantería",
       clearShelfConfirm: "¿Deseas vaciar todos los documentos de tu estantería?",
+      clearShelfConfirmPrompt: "¿Vaciar todos los documentos?",
+      clearShelfYes: "Vaciar",
+      clearShelfNo: "Cancelar",
 
       // Action & Status Keys
       currentWebsite: "Sitio Web Actual",
@@ -249,6 +258,9 @@
       deleteDoc: "Retirer de la bibliothèque",
       clearShelfLabel: "Vider la bibliothèque",
       clearShelfConfirm: "Voulez-vous supprimer tous les documents de votre bibliothèque ?",
+      clearShelfConfirmPrompt: "Tout supprimer ?",
+      clearShelfYes: "Supprimer",
+      clearShelfNo: "Annuler",
 
       // Action & Status Keys
       currentWebsite: "Site Web Actuel",

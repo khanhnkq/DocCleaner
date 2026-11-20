@@ -142,6 +142,18 @@ async function runTests() {
     const clearShelfBtn = mockDOM.document.createElement('button');
     clearShelfBtn.id = 'btn-clear-shelf';
     footerActions.appendChild(clearShelfBtn);
+
+    const confirmBar = mockDOM.document.createElement('div');
+    confirmBar.id = 'shelf-confirm-bar';
+    confirmBar.style.display = 'none';
+    const btnYes = mockDOM.document.createElement('button');
+    btnYes.id = 'btn-confirm-clear-yes';
+    const btnNo = mockDOM.document.createElement('button');
+    btnNo.id = 'btn-confirm-clear-no';
+    confirmBar.appendChild(btnYes);
+    confirmBar.appendChild(btnNo);
+    footerActions.appendChild(confirmBar);
+
     panelRecents.appendChild(footerActions);
 
     // Empty state container
@@ -318,17 +330,32 @@ async function runTests() {
     assert.strictEqual(stored.dc_recent_docs.length, 1, 'Storage should only have 1 doc left');
     assert.strictEqual(stored.dc_recent_docs[0].id, 'd2');
 
-    // Test clear all shelf docs (mock window.confirm)
-    if (env.sandbox && env.sandbox.window) {
-      env.sandbox.window.confirm = () => true;
-    }
+    // Test clear all shelf docs with inline confirmation flow
     const clearShelfBtn = env.panelRecents.querySelector('#btn-clear-shelf');
+    const confirmBar = env.panelRecents.querySelector('#shelf-confirm-bar');
+    const btnYes = env.panelRecents.querySelector('#btn-confirm-clear-yes');
+    const btnNo = env.panelRecents.querySelector('#btn-confirm-clear-no');
+
     assert.ok(clearShelfBtn, '#btn-clear-shelf must be present');
+    assert.ok(confirmBar, '#shelf-confirm-bar must be present');
+
+    // 1. Click clear button -> opens inline confirm bar
     clearShelfBtn.click();
+    assert.strictEqual(confirmBar.style.display, 'flex', 'Confirm bar should display flex on click');
+    assert.strictEqual(clearShelfBtn.style.display, 'none', 'Clear button should hide when confirm bar is active');
+
+    // 2. Click Cancel (btnNo) -> restores clear button
+    btnNo.click();
+    assert.strictEqual(confirmBar.style.display, 'none', 'Confirm bar should hide on cancel');
+    assert.strictEqual(clearShelfBtn.style.display, 'inline-flex', 'Clear button should restore on cancel');
+
+    // 3. Click Clear button again, then Confirm (btnYes) -> clears storage
+    clearShelfBtn.click();
+    btnYes.click();
     await new Promise((r) => setTimeout(r, 50));
 
     stored = await env.mockChrome.storage.local.get('dc_recent_docs');
-    assert.strictEqual(stored.dc_recent_docs.length, 0, 'Storage should be empty after clearing shelf');
+    assert.strictEqual(stored.dc_recent_docs.length, 0, 'Storage should be empty after confirming clear shelf');
   });
 
   // =========================================================================

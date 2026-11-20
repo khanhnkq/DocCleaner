@@ -622,7 +622,8 @@ button.card-item:hover .card-body {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 2px;
+  margin-top: 4px;
+  width: 100%;
 }
 
 .shelf-clear-btn {
@@ -646,6 +647,75 @@ button.card-item:hover .card-body {
 .shelf-clear-btn:hover {
   color: #ff5f56;
   background-color: rgba(255, 95, 86, 0.12);
+}
+
+.shelf-confirm-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 6px 10px;
+  background-color: var(--white);
+  border: var(--border-crisp);
+  border-radius: var(--radius-card);
+  gap: 8px;
+  box-sizing: border-box;
+}
+
+.confirm-prompt-text {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--navy);
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.confirm-btn-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.shelf-confirm-btn {
+  font-family: inherit;
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  outline: none;
+  border: 1.5px solid #091b42 !important;
+  box-shadow: none !important;
+  transition: transform 0.1s ease, background-color 0.1s ease;
+}
+
+.shelf-confirm-btn:hover {
+  transform: scale(1.04);
+}
+
+.shelf-confirm-btn:active {
+  transform: scale(0.95);
+}
+
+.shelf-confirm-btn.confirm-yes {
+  background-color: #ef4444;
+  color: var(--white);
+}
+
+.shelf-confirm-btn.confirm-yes:hover {
+  background-color: #dc2626;
+}
+
+.shelf-confirm-btn.confirm-no {
+  background-color: var(--cream);
+  color: var(--navy);
+}
+
+.shelf-confirm-btn.confirm-no:hover {
+  background-color: var(--white);
 }
 
 /* Empty State */

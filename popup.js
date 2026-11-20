@@ -67,58 +67,57 @@
 
   // Shelf Storage Helpers
   async function loadShelfDocs() {
-    let isLabMode = false;
     try {
-      if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
-        const res = await chrome.storage.local.get(['dc_lab_mode']);
-        isLabMode = !!res.dc_lab_mode;
+      if (typeof chrome !== 'undefined' && chrome.storage) {
+        if (chrome.storage.local) {
+          const lRes = await chrome.storage.local.get(['dc_recent_docs']);
+          if (Array.isArray(lRes.dc_recent_docs) && lRes.dc_recent_docs.length > 0) {
+            return lRes.dc_recent_docs;
+          }
+        }
+        if (chrome.storage.session) {
+          const sRes = await chrome.storage.session.get(['session_docs']);
+          if (Array.isArray(sRes.session_docs) && sRes.session_docs.length > 0) {
+            return sRes.session_docs;
+          }
+        }
       }
     } catch (e) {}
-
-    if (isLabMode) {
-      try {
-        if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.session) {
-          const sRes = await chrome.storage.session.get(['session_docs']);
-          return Array.isArray(sRes.session_docs) ? sRes.session_docs : [];
-        }
-      } catch (e) {}
-    } else {
-      try {
-        if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
-          const lRes = await chrome.storage.local.get(['dc_recent_docs']);
-          return Array.isArray(lRes.dc_recent_docs) ? lRes.dc_recent_docs : [];
-        }
-      } catch (e) {}
-    }
     return [];
   }
 
-  async function toggleStarDoc(docId) {
-    let isLabMode = false;
+  async function toggleStarDoc(docId, canonicalUrl, title) {
     try {
-      if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
-        const res = await chrome.storage.local.get(['dc_lab_mode']);
-        isLabMode = !!res.dc_lab_mode;
-      }
-    } catch (e) {}
-
-    const storageArea = (isLabMode && typeof chrome !== 'undefined' && chrome.storage && chrome.storage.session)
-      ? chrome.storage.session
-      : (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local ? chrome.storage.local : null);
-    const key = isLabMode ? 'session_docs' : 'dc_recent_docs';
-
-    if (storageArea) {
-      try {
-        const data = await storageArea.get([key]);
-        const docs = Array.isArray(data[key]) ? data[key] : [];
-        const targetDoc = docs.find((d) => d && d.id === docId);
-        if (targetDoc) {
-          targetDoc.isStarred = !targetDoc.isStarred;
-          await storageArea.set({ [key]: docs });
+      if (typeof chrome !== 'undefined' && chrome.storage) {
+        if (chrome.storage.local) {
+          const data = await chrome.storage.local.get(['dc_recent_docs']);
+          const docs = Array.isArray(data.dc_recent_docs) ? data.dc_recent_docs : [];
+          const target = docs.find((d) => d && (
+            (docId && d.id === docId) ||
+            (canonicalUrl && d.canonicalUrl === canonicalUrl) ||
+            (title && d.title === title)
+          ));
+          if (target) {
+            target.isStarred = !target.isStarred;
+            await chrome.storage.local.set({ dc_recent_docs: docs });
+          }
         }
-      } catch (err) {
-        console.error('Failed to toggle star:', err);
+        if (chrome.storage.session) {
+          const data = await chrome.storage.session.get(['session_docs']);
+          const docs = Array.isArray(data.session_docs) ? data.session_docs : [];
+          const target = docs.find((d) => d && (
+            (docId && d.id === docId) ||
+            (canonicalUrl && d.canonicalUrl === canonicalUrl) ||
+            (title && d.title === title)
+          ));
+          if (target) {
+            target.isStarred = !target.isStarred;
+            await chrome.storage.session.set({ session_docs: docs });
+          }
+        }
       }
+    } catch (err) {
+      console.error('Failed to toggle star:', err);
     }
 
     await renderShelf();
@@ -133,63 +132,61 @@
     }
   }
 
-  async function removeShelfDoc(docId) {
-    if (!docId) return;
-    let isLabMode = false;
+  async function removeShelfDoc(docId, canonicalUrl, title) {
     try {
-      if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
-        const res = await chrome.storage.local.get(['dc_lab_mode']);
-        isLabMode = !!res.dc_lab_mode;
-      }
-    } catch (e) {}
+      if (typeof chrome !== 'undefined' && chrome.storage) {
+        // Clear from chrome.storage.local
+        if (chrome.storage.local) {
+          const lData = await chrome.storage.local.get(['dc_recent_docs']);
+          if (Array.isArray(lData.dc_recent_docs)) {
+            const filtered = lData.dc_recent_docs.filter((d) => {
+              if (!d) return false;
+              if (docId && d.id && d.id === docId) return false;
+              if (canonicalUrl && d.canonicalUrl && d.canonicalUrl === canonicalUrl) return false;
+              if (title && d.title && d.title === title) return false;
+              return true;
+            });
+            await chrome.storage.local.set({ dc_recent_docs: filtered });
+          }
+        }
 
-    const storageArea = (isLabMode && typeof chrome !== 'undefined' && chrome.storage && chrome.storage.session)
-      ? chrome.storage.session
-      : (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local ? chrome.storage.local : null);
-    const key = isLabMode ? 'session_docs' : 'dc_recent_docs';
-
-    if (storageArea) {
-      try {
-        const data = await storageArea.get([key]);
-        const docs = Array.isArray(data[key]) ? data[key] : [];
-        const filtered = docs.filter((d) => d && d.id !== docId);
-        await storageArea.set({ [key]: filtered });
-      } catch (err) {
-        console.error('Failed to remove doc:', err);
+        // Clear from chrome.storage.session
+        if (chrome.storage.session) {
+          const sData = await chrome.storage.session.get(['session_docs']);
+          if (Array.isArray(sData.session_docs)) {
+            const filtered = sData.session_docs.filter((d) => {
+              if (!d) return false;
+              if (docId && d.id && d.id === docId) return false;
+              if (canonicalUrl && d.canonicalUrl && d.canonicalUrl === canonicalUrl) return false;
+              if (title && d.title && d.title === title) return false;
+              return true;
+            });
+            await chrome.storage.session.set({ session_docs: filtered });
+          }
+        }
       }
+    } catch (err) {
+      console.error('Failed to remove shelf doc:', err);
     }
 
     await renderShelf();
   }
 
   async function clearAllShelfDocs() {
-    const confirmMsg = getT(currentLang, 'clearShelfConfirm') || 'Are you sure you want to clear all documents from your Study Shelf?';
-    if (typeof window !== 'undefined' && typeof window.confirm === 'function') {
-      const ok = window.confirm(confirmMsg);
-      if (!ok) return;
-    }
-
-    let isLabMode = false;
     try {
-      if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
-        const res = await chrome.storage.local.get(['dc_lab_mode']);
-        isLabMode = !!res.dc_lab_mode;
+      if (typeof chrome !== 'undefined' && chrome.storage) {
+        if (chrome.storage.local) {
+          await chrome.storage.local.set({ dc_recent_docs: [] });
+        }
+        if (chrome.storage.session) {
+          await chrome.storage.session.set({ session_docs: [] });
+        }
       }
-    } catch (e) {}
-
-    const storageArea = (isLabMode && typeof chrome !== 'undefined' && chrome.storage && chrome.storage.session)
-      ? chrome.storage.session
-      : (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local ? chrome.storage.local : null);
-    const key = isLabMode ? 'session_docs' : 'dc_recent_docs';
-
-    if (storageArea) {
-      try {
-        await storageArea.set({ [key]: [] });
-      } catch (err) {
-        console.error('Failed to clear shelf:', err);
-      }
+    } catch (err) {
+      console.error('Failed to clear shelf:', err);
     }
 
+    cachedDocsCount = 0;
     await renderShelf();
   }
 
@@ -220,10 +217,18 @@
       : allDocs;
 
     const footerActions = document.getElementById('shelf-footer-actions');
+    const clearBtn = document.getElementById('btn-clear-shelf');
+    const confirmBar = document.getElementById('shelf-confirm-bar');
 
     if (docsToRender.length === 0) {
       if (footerActions) {
         footerActions.style.display = 'none';
+      }
+      if (confirmBar) {
+        confirmBar.style.display = 'none';
+      }
+      if (clearBtn) {
+        clearBtn.style.display = 'inline-flex';
       }
       if (docsList) {
         docsList.innerHTML = '';
@@ -244,6 +249,12 @@
       if (footerActions) {
         footerActions.style.display = 'flex';
       }
+      if (confirmBar && confirmBar.style.display === 'flex') {
+        if (clearBtn) clearBtn.style.display = 'none';
+      } else {
+        if (confirmBar) confirmBar.style.display = 'none';
+        if (clearBtn) clearBtn.style.display = 'inline-flex';
+      }
       if (emptyState) {
         emptyState.style.display = 'none';
       }
@@ -259,6 +270,12 @@
             const card = document.createElement('div');
             card.className = 'dc-doc-card study-card doc-item';
             card.setAttribute('data-id', doc.id || '');
+            card.addEventListener('click', (e) => {
+              if (e.target && e.target.closest && e.target.closest('.doc-action-btn')) {
+                return;
+              }
+              launchDoc(doc.canonicalUrl);
+            });
 
             // Platform Monogram Badge (ST Lime #c6eb34 or SC Green #58c474)
             const isStudocu = (doc.platform === 'studocu');
@@ -299,8 +316,11 @@
               ? '<svg width="13" height="13" viewBox="0 0 24 24" fill="#091b42" stroke="#091b42" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>'
               : '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#5e6d8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>';
             starBtn.addEventListener('click', async (e) => {
-              if (e && e.stopPropagation) e.stopPropagation();
-              await toggleStarDoc(doc.id);
+              if (e) {
+                if (typeof e.preventDefault === 'function') e.preventDefault();
+                if (typeof e.stopPropagation === 'function') e.stopPropagation();
+              }
+              await toggleStarDoc(doc.id, doc.canonicalUrl, doc.title);
             });
             actions.appendChild(starBtn);
 
@@ -311,7 +331,10 @@
             launchBtn.setAttribute('title', getT(currentLang, 'launchCleanReader'));
             launchBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>';
             launchBtn.addEventListener('click', (e) => {
-              if (e && e.stopPropagation) e.stopPropagation();
+              if (e) {
+                if (typeof e.preventDefault === 'function') e.preventDefault();
+                if (typeof e.stopPropagation === 'function') e.stopPropagation();
+              }
               launchDoc(doc.canonicalUrl);
             });
             actions.appendChild(launchBtn);
@@ -323,8 +346,12 @@
             deleteBtn.setAttribute('title', getT(currentLang, 'deleteDoc') || 'Remove from Shelf');
             deleteBtn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 11v6" /><path d="M14 11v6" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" /><path d="M3 6h18" /><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>';
             deleteBtn.addEventListener('click', async (e) => {
-              if (e && e.stopPropagation) e.stopPropagation();
-              await removeShelfDoc(doc.id);
+              if (e) {
+                if (typeof e.preventDefault === 'function') e.preventDefault();
+                if (typeof e.stopPropagation === 'function') e.stopPropagation();
+              }
+              card.style.opacity = '0.3';
+              await removeShelfDoc(doc.id, doc.canonicalUrl, doc.title);
             });
             actions.appendChild(deleteBtn);
 
@@ -565,9 +592,34 @@
     }
 
     const clearBtn = document.getElementById('btn-clear-shelf');
+    const confirmBar = document.getElementById('shelf-confirm-bar');
+    const btnYes = document.getElementById('btn-confirm-clear-yes');
+    const btnNo = document.getElementById('btn-confirm-clear-no');
+
     if (clearBtn && !clearBtn._dc_bound) {
       clearBtn._dc_bound = true;
       clearBtn.addEventListener('click', async () => {
+        if (confirmBar) {
+          clearBtn.style.display = 'none';
+          confirmBar.style.display = 'flex';
+        } else {
+          await clearAllShelfDocs();
+        }
+      });
+    }
+
+    if (btnNo && !btnNo._dc_bound) {
+      btnNo._dc_bound = true;
+      btnNo.addEventListener('click', () => {
+        if (confirmBar) confirmBar.style.display = 'none';
+        if (clearBtn) clearBtn.style.display = 'inline-flex';
+      });
+    }
+
+    if (btnYes && !btnYes._dc_bound) {
+      btnYes._dc_bound = true;
+      btnYes.addEventListener('click', async () => {
+        if (confirmBar) confirmBar.style.display = 'none';
         await clearAllShelfDocs();
       });
     }
