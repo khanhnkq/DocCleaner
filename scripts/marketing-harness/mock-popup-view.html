@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DocCleaner Pro - Popup Showcase</title>
+  
+  <!-- Base extension popup styles -->
+  <link rel="stylesheet" href="/popup.css">
+  
+  <style>
+    /* ==========================================================================
+       Showcase Poster Frame Overrides
+       Strict Graphic Poster Theme: Deep Navy Canvas, 1.5px Borders, Zero Shadows
+       ========================================================================== */
+    html, body {
+      width: 100% !important;
+      max-width: none !important;
+      height: 100% !important;
+      max-height: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      overflow: auto !important;
+      background-color: #091b42 !important;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1.5px, transparent 1.5px) !important;
+      background-size: 24px 24px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      align-items: center !important;
+      box-shadow: none !important;
+      filter: none !important;
+    }
+
+    .showcase-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      padding: 32px 16px;
+      box-sizing: border-box;
+      max-width: 1200px;
+    }
+
+    /* Top Editorial Showcase Header */
+    .showcase-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 6px;
+    }
+
+    .showcase-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background-color: #c6eb34;
+      color: #091b42;
+      border: 1.5px solid #091b42 !important;
+      border-radius: 9999px;
+      padding: 3px 10px;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      box-shadow: none !important;
+    }
+
+    .showcase-title {
+      font-size: 20px;
+      font-weight: 900;
+      color: #f6f7ef;
+      letter-spacing: -0.5px;
+      margin: 0;
+    }
+
+    .showcase-desc {
+      font-size: 12px;
+      font-weight: 600;
+      color: #8c9bb5;
+      margin: 0;
+    }
+
+    /* Outer Browser / Extension Window Mockup Frame */
+    .mock-window-frame {
+      width: 323px; /* 320px inner + 2 * 1.5px borders */
+      background-color: #193582;
+      border: 1.5px solid #091b42 !important;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: none !important;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Window Titlebar with macOS traffic lights & masked extension URL */
+    .mock-window-titlebar {
+      height: 32px;
+      background-color: #091b42;
+      border-bottom: 1.5px solid #091b42 !important;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    .traffic-lights {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .traffic-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      border: 1px solid #091b42 !important;
+      box-shadow: none !important;
+    }
+
+    .traffic-dot.red { background-color: #ff5f56; }
+    .traffic-dot.yellow { background-color: #ffbd2e; }
+    .traffic-dot.green { background-color: #27c93f; }
+
+    .window-address {
+      font-size: 9px;
+      font-weight: 700;
+      color: #8c9bb5;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15) !important;
+      border-radius: 9999px;
+      padding: 2px 8px;
+      letter-spacing: 0.2px;
+    }
+
+    .window-spacer {
+      width: 40px;
+    }
+
+    /* Embedded App Container */
+    .mock-window-frame .app-container {
+      width: 320px !important;
+      margin: 0 !important;
+      border-radius: 0 0 14px 14px;
+    }
+
+    /* Bottom Interactive Quick-Toolbar (For Automated Captures & Manual Audits) */
+    .showcase-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .toolbar-btn {
+      background-color: #f6f7ef;
+      color: #091b42;
+      border: 1.5px solid #091b42 !important;
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background-color 0.1s ease;
+      box-shadow: none !important;
+    }
+
+    .toolbar-btn:hover {
+      background-color: #c6eb34;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="showcase-stage">
+    <!-- Top Editorial Header -->
+    <header class="showcase-header">
+      <div class="showcase-badge">DocCleaner v1.8.0 · Graphic Poster UI</div>
+      <h1 class="showcase-title">KỆ HỌC TẬP TỰ ĐỘNG & ĐÁNH DẤU SAO</h1>
+      <p class="showcase-desc">Smart Study Shelf · 1-Click Launch · 4-Language Switcher</p>
+    </header>
+
+    <!-- Graphic Window Frame -->
+    <div class="mock-window-frame" id="popup-window-frame">
+      <div class="mock-window-titlebar">
+        <div class="traffic-lights">
+          <span class="traffic-dot red"></span>
+          <span class="traffic-dot yellow"></span>
+          <span class="traffic-dot green"></span>
+        </div>
+        <div class="window-address">chrome-extension://doccleaner/popup.html</div>
+        <div class="window-spacer"></div>
+      </div>
+
+      <!-- Exact 320px DocCleaner Popup App Container -->
+      <div class="app-container" id="app-container">
+        <!-- Header Block with 4-Pill Language Switch -->
+        <header class="header-card">
+          <div class="header-main">
+            <div class="header-brand">
+              <img src="/icons/icon32.png" alt="DocCleaner Logo" class="header-logo" width="20" height="20">
+              <h1 class="header-title">DocCleaner</h1>
+            </div>
+          </div>
+          <div class="header-right">
+            <div class="lang-switch" id="langSwitch" title="Switch Language / Đổi Ngôn Ngữ">
+              <span class="lang-opt active" data-lang="vi">VN</span>
+              <span class="lang-opt" data-lang="en">EN</span>
+              <span class="lang-opt" data-lang="es">ES</span>
+              <span class="lang-opt" data-lang="fr">FR</span>
+            </div>
+            <div class="header-badge">
+              <span class="badge-tag">PRO</span>
+              <span class="badge-ver">v1.8.0</span>
+            </div>
+          </div>
+        </header>
+
+        <!-- Segmented Tab Bar -->
+        <div class="segmented-tabs">
+          <button id="tab-actions" class="tab-btn" data-i18n="tabActions">Quick Actions</button>
+          <button id="tab-recents" class="tab-btn active" data-i18n="tabRecents">Study Shelf (4)</button>
+        </div>
+
+        <!-- Tab Panel 1: Quick Actions -->
+        <div id="panel-actions" class="tab-panel" style="display: none;">
+          <main class="card-list">
+            <div class="card-item info-card">
+              <div class="card-badge studocu-theme" id="status-badge">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 14 14" />
+                </svg>
+              </div>
+              <div class="card-body">
+                <span class="card-label" data-i18n="currentWebsite">Current Website</span>
+                <span class="card-title" id="platform-name">Studocu.com</span>
+              </div>
+            </div>
+
+            <button id="checkBtn" class="card-item btn-card">
+              <div class="card-badge lime-badge">
+                <svg class="btn-icon-download" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 15V3" />
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <path d="m7 10 5 5 5-5" />
+                </svg>
+                <svg class="btn-icon-spinner" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+                </svg>
+              </div>
+              <div class="card-body">
+                <span class="card-title" data-i18n="downloadPdfTitle">Format for Print (1-Click)</span>
+                <span class="card-desc" id="pdf-btn-desc" data-i18n="studocuPdfDesc">Better Studocu — Clean & format for print</span>
+              </div>
+            </button>
+
+            <button id="clearBtn" class="card-item btn-card">
+              <div class="card-badge green-badge">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+                  <path d="m9 12 2 2 4-4" />
+                </svg>
+              </div>
+              <div class="card-body">
+                <span class="card-title" data-i18n="unblurTitle">Clean View & Remove Clutter</span>
+                <span class="card-desc" data-i18n="unblurDesc">Strip banners & refresh page layout</span>
+              </div>
+            </button>
+
+            <button id="coffeeBtn" class="card-item coffee-card">
+              <div class="card-badge yellow-badge">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10 2v2" />
+                  <path d="M14 2v2" />
+                  <path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h12Z" />
+                  <path d="M6 2v2" />
+                  <path d="M17 12h1a2 2 0 0 1 0 4h-1" />
+                </svg>
+              </div>
+              <div class="card-body">
+                <span class="card-title" data-i18n="coffeeTitle">Buy the Author a Coffee</span>
+                <span class="card-desc" data-i18n="coffeeDesc">Support ongoing development</span>
+              </div>
+            </button>
+          </main>
+        </div>
+
+        <!-- Tab Panel 2: Study Shelf -->
+        <div id="panel-recents" class="tab-panel active" style="display: block;">
+          <div class="filter-pills">
+            <button id="filter-all" class="filter-pill active" data-i18n="filterAll">Tất cả</button>
+            <button id="filter-starred" class="filter-pill" data-i18n="filterStarred">Đã lưu</button>
+          </div>
+
+          <div id="recent-docs-list" class="recent-docs-container"></div>
+
+          <div id="shelf-footer-actions" class="shelf-footer-actions">
+            <button id="btn-clear-shelf" class="shelf-clear-btn" title="Clear all documents from Study Shelf">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10 11v6" />
+                <path d="M14 11v6" />
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+                <path d="M3 6h18" />
+                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+              </svg>
+              <span id="clear-shelf-text" data-i18n="clearShelfLabel">Dọn sạch kệ sách</span>
+            </button>
+
+            <div id="shelf-confirm-bar" class="shelf-confirm-bar" style="display: none;">
+              <span id="clear-confirm-prompt" class="confirm-prompt-text" data-i18n="clearShelfConfirmPrompt">Xóa tất cả tài liệu?</span>
+              <div class="confirm-btn-group">
+                <button id="btn-confirm-clear-yes" class="shelf-confirm-btn confirm-yes" data-i18n="clearShelfYes">Xóa</button>
+                <button id="btn-confirm-clear-no" class="shelf-confirm-btn confirm-no" data-i18n="clearShelfNo">Hủy</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="shelf-empty-state" class="shelf-empty-container" style="display: none;">
+            <div class="empty-shelf-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#5e6d8a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 7v14" />
+                <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" />
+              </svg>
+            </div>
+            <div class="empty-shelf-title" id="empty-state-title" data-i18n="emptyRecentsTitle">Góc học tập đang trống</div>
+            <div class="empty-shelf-desc" id="empty-state-desc" data-i18n="emptyRecentsDesc">Tài liệu bạn định dạng hoặc đọc sạch sẽ tự động lưu tại đây.</div>
+          </div>
+        </div>
+
+        <!-- Footer Status Banner -->
+        <div id="status" class="status-banner">
+          <span class="status-dot"></span>
+          <span id="status-text" data-i18n="statusReady">Sẵn sàng — Miễn phí 100%</span>
+        </div>
+
+        <!-- Credit Footer -->
+        <footer class="footer-block">
+          <span><span data-i18n="authorLabel">Tác giả:</span> <strong class="author-name">Khanhnkq</strong></span>
+        </footer>
+      </div>
+    </div>
+
+    <!-- Quick State Control Toolbar for Visual Audits & Headless Capture -->
+    <div class="showcase-toolbar">
+      <button class="toolbar-btn" onclick="document.getElementById('tab-actions').click()">Quick Actions Tab</button>
+      <button class="toolbar-btn" onclick="document.getElementById('tab-recents').click()">Study Shelf Tab</button>
+      <button class="toolbar-btn" onclick="document.getElementById('filter-all').click()">All Docs Filter</button>
+      <button class="toolbar-btn" onclick="document.getElementById('filter-starred').click()">Starred Filter</button>
+      <button class="toolbar-btn" onclick="window.__resetMockStorage()">Reset Seed Data</button>
+    </div>
+  </div>
+
+  <!-- In-memory Mock Chrome API Shim -->
+  <script src="/mock-chrome.js"></script>
+  <!-- Extension i18n & popup controller -->
+  <script src="/i18n.js"></script>
+  <script src="/popup.js"></script>
+
+  <!-- URL Automation Dispatcher -->
+  <script>
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const targetLang = params.get('lang');
+      const targetTab = params.get('tab');
+      const targetFilter = params.get('filter');
+
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          if (targetLang) {
+            const pill = document.querySelector(`.lang-opt[data-lang="${targetLang}"]`);
+            if (pill) pill.click();
+          }
+          if (targetTab === 'actions') {
+            const btn = document.getElementById('tab-actions');
+            if (btn) btn.click();
+          } else if (targetTab === 'recents' || targetTab === 'shelf') {
+            const btn = document.getElementById('tab-recents');
+            if (btn) btn.click();
+          }
+          if (targetFilter === 'starred') {
+            const pill = document.getElementById('filter-starred');
+            if (pill) pill.click();
+          } else if (targetFilter === 'all') {
+            const pill = document.getElementById('filter-all');
+            if (pill) pill.click();
+          }
+        }, 50);
+      });
+    })();
+  </script>
+</body>
+</html>

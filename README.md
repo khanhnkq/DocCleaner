@@ -7,6 +7,8 @@ Think of it as **"Reader Mode" for your study platforms** — like Pocket or Saf
 > **Version:** `v1.8.0` (Better Studocu & Better Scribd Support · 100% Free)  
 > 🌐 **Official Website:** [https://khanhnkq.github.io/DocCleaner/](https://khanhnkq.github.io/DocCleaner/)
 
+![DocCleaner v1.8.0 Demo](assets/demo/doccleaner_demo.gif)
+
 ---
 
 ## ✨ Key Features (100% Free)

@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English for Everyday Activities - Complete Study Guide | Scribd</title>
+    <meta property="og:title" content="English for Everyday Activities - Complete Study Guide">
+    <meta name="doc:page_count" content="5">
+    
+    <!-- Chrome Extension Mock API Shim & Live Scribd Handler -->
+    <script src="/mock-chrome.js"></script>
+    <script src="/i18n.js"></script>
+    <script src="/scribd_handler.js"></script>
+
+    <style>
+        /* DocCleaner Graphic Poster Theme Tokens */
+        :root {
+            --dc-navy: #091b42;
+            --dc-blue: #193582;
+            --dc-lime: #c6eb34;
+            --dc-emerald: #58c474;
+            --dc-cream: #f6f7ef;
+            --dc-white: #ffffff;
+            --dc-border: 1.5px solid #091b42;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f2f4f8;
+            color: #1a1a1a;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        /* Top Platform Navigation Bar with Trademark Monogram */
+        .sc-navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: #ffffff;
+            border-bottom: var(--dc-border);
+            height: 58px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+        }
+
+        .sc-brand-group {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        /* [SC] Monogram (Trademark Guideline Compliant) */
+        .sc-monogram {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            background: var(--dc-navy);
+            color: var(--dc-emerald);
+            font-weight: 900;
+            font-size: 15px;
+            letter-spacing: -0.5px;
+            border-radius: 8px;
+            border: var(--dc-border);
+        }
+
+        .sc-search-mock {
+            width: 340px;
+            height: 36px;
+            background: #f0f2f5;
+            border: var(--dc-border);
+            border-radius: 8px;
+            padding: 0 12px;
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            color: #737b8b;
+        }
+
+        .sc-browser-url-mock {
+            background: #eef2f8;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 5px 14px;
+            font-size: 12px;
+            font-family: "SF Mono", Menlo, monospace;
+            color: #334155;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .sc-user-mock {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sc-avatar-mock {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--dc-navy);
+            color: var(--dc-cream);
+            border: var(--dc-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* Document Subheader / Metadata */
+        .sc-doc-header {
+            max-width: 900px;
+            margin: 24px auto 16px auto;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sc-doc-header h1.document_title {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--dc-navy);
+            letter-spacing: -0.3px;
+        }
+
+        .sc-doc-header .page_counter {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--dc-navy);
+            background: #e2e8f0;
+            padding: 5px 12px;
+            border-radius: 999px;
+            border: 1px solid #cbd5e1;
+        }
+
+        /* Document Canvas / Pages Container */
+        .document_scroller {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 90px;
+            gap: 28px;
+        }
+
+        /* Scribd Page Specifications (800x1050 for clean A4 math) */
+        .outer_page.document_page {
+            width: 800px;
+            height: 1050px;
+            background: #ffffff;
+            border: 1px solid #dcdfe6;
+            border-radius: 4px;
+            position: relative;
+            padding: 52px 56px;
+            overflow: hidden;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+            transition: filter 0.2s ease;
+        }
+
+        /* Page Content Elements */
+        .page-badge {
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--dc-blue);
+            margin-bottom: 8px;
+        }
+
+        .page-heading {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--dc-navy);
+            margin-bottom: 18px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+        }
+
+        .text_layer {
+            font-size: 14.5px;
+            line-height: 1.65;
+            color: #2d3748;
+        }
+
+        .text_layer p {
+            margin-bottom: 16px;
+        }
+
+        .study-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 13.5px;
+        }
+
+        .study-table th {
+            background: #f1f5f9;
+            color: var(--dc-navy);
+            text-align: left;
+            padding: 10px 14px;
+            border: 1px solid #cbd5e1;
+            font-weight: 700;
+        }
+
+        .study-table td {
+            padding: 10px 14px;
+            border: 1px solid #cbd5e1;
+        }
+
+        .dialogue-box {
+            background: #f8fafc;
+            border-left: 3.5px solid var(--dc-blue);
+            padding: 14px 18px;
+            margin: 16px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Blurred Pages (Pages 3-5) */
+        .blurred_page {
+            filter: blur(6px) !important;
+            -webkit-filter: blur(6px) !important;
+            user-select: none !important;
+            pointer-events: none !important;
+        }
+
+        /* Scribd Paywall & Promo Overlays */
+        .promo_wrapper.page_blur_promo {
+            position: absolute;
+            top: 250px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 580px;
+            background: #ffffff;
+            border: var(--dc-border);
+            border-radius: 14px;
+            padding: 36px 32px;
+            text-align: center;
+            z-index: 50;
+            box-shadow: 0 16px 36px rgba(9, 27, 66, 0.2);
+            pointer-events: auto !important;
+        }
+
+        .promo_wrapper h2 {
+            font-size: 21px;
+            font-weight: 800;
+            color: var(--dc-navy);
+            margin-bottom: 10px;
+        }
+
+        .promo_wrapper p {
+            font-size: 14px;
+            color: #4b5563;
+            margin-bottom: 22px;
+            line-height: 1.5;
+        }
+
+        .promo_wrapper .Button {
+            background: var(--dc-blue);
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 14.5px;
+            padding: 12px 28px;
+            border-radius: 10px;
+            border: var(--dc-border);
+            cursor: pointer;
+            outline: none;
+        }
+
+        .promo_wrapper .subtext {
+            font-size: 12.5px;
+            color: #64748b;
+            margin-top: 14px;
+        }
+
+        /* Sticky Bottom Promo Bar */
+        .sticky_archive_bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 52px;
+            background: var(--dc-navy);
+            color: var(--dc-cream);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13.5px;
+            font-weight: 600;
+            gap: 16px;
+            z-index: 100;
+            border-top: var(--dc-border);
+        }
+
+        .sticky_archive_bar button {
+            background: var(--dc-emerald);
+            color: var(--dc-navy);
+            font-weight: 800;
+            font-size: 12.5px;
+            padding: 6px 14px;
+            border-radius: 6px;
+            border: var(--dc-border);
+            cursor: pointer;
+        }
+
+        /* Floating Action Button (#studocu-fab-btn) - Emerald Green Theme */
+        #studocu-fab-btn {
+            position: fixed !important;
+            bottom: 24px !important;
+            right: 24px !important;
+            z-index: 2147483647 !important;
+            width: 44px !important;
+            height: 44px !important;
+            padding: 0 !important;
+            background-color: #58c474 !important; /* Emerald Green */
+            color: #091b42 !important;
+            border-radius: 12px !important;
+            border: 1.5px solid #091b42 !important;
+            cursor: pointer !important;
+            box-shadow: none !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.18s ease !important;
+            user-select: none !important;
+            outline: none !important;
+        }
+
+        #studocu-fab-btn:hover {
+            transform: translateY(-2px) scale(1.06) !important;
+            filter: brightness(0.96) !important;
+        }
+
+        #studocu-fab-btn:active {
+            transform: scale(0.94) !important;
+        }
+
+        #studocu-fab-btn .fab-icon-spinner {
+            display: none;
+        }
+
+        #studocu-fab-btn .fab-icon-download {
+            display: block;
+        }
+
+        #studocu-fab-btn.processing {
+            background-color: #293856 !important;
+            color: #f6f7ef !important;
+            cursor: wait !important;
+            opacity: 0.95 !important;
+        }
+
+        #studocu-fab-btn.processing .fab-icon-download {
+            display: none !important;
+        }
+
+        #studocu-fab-btn.processing .fab-icon-spinner {
+            display: block !important;
+            animation: scFabSpin 0.85s linear infinite !important;
+        }
+
+        @keyframes scFabSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media print {
+            .sc-navbar, .sc-doc-header, .sticky_archive_bar, #studocu-fab-btn {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Mock Navigation Bar -->
+    <header class="sc-navbar">
+        <div class="sc-brand-group">
+            <span class="sc-monogram">[SC]</span>
+            <div class="sc-search-mock">
+                <span>Search books, presentations, academic guides...</span>
+            </div>
+        </div>
+        <div class="sc-browser-url-mock">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <span>scribd.com/doc/48291048/english-everyday-activities</span>
+        </div>
+        <div class="sc-user-mock">
+            <div class="sc-avatar-mock">JD</div>
+        </div>
+    </header>
+
+    <!-- Document Title & Page Counter Header -->
+    <div class="sc-doc-header">
+        <h1 class="document_title">English for Everyday Activities - Complete Study Guide</h1>
+        <div class="page_counter">1 of 5</div>
+    </div>
+
+    <!-- Document Scroller with 5 Pages -->
+    <main class="document_scroller">
+
+        <!-- Page 1: Readable -->
+        <article class="outer_page document_page" id="outer_page_1" data-page-number="1">
+            <div class="page-badge">Chapter 1 · Morning Routines</div>
+            <h2 class="page-heading">1. Starting Your Day & Habitual Actions</h2>
+            <div class="text_layer">
+                <p><span>Developing fluent everyday English requires mastering the essential vocabulary and idioms used in habitual morning routines. When waking up, native speakers distinguish between waking up (opening one's eyes) and getting out of bed.</span></p>
+                
+                <table class="study-table">
+                    <thead>
+                        <tr>
+                            <th>Vocabulary Item</th>
+                            <th>Collocation / Structure</th>
+                            <th>Everyday Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span>Hit snooze</span></td>
+                            <td><span>verb + noun</span></td>
+                            <td><span>I hit snooze twice before finally getting out of bed at 6:45 AM.</span></td>
+                        </tr>
+                        <tr>
+                            <td><span>Freshen up</span></td>
+                            <td><span>phrasal verb</span></td>
+                            <td><span>She went directly to the washroom to freshen up and brush her teeth.</span></td>
+                        </tr>
+                        <tr>
+                            <td><span>Grab on the go</span></td>
+                            <td><span>idiomatic phrase</span></td>
+                            <td><span>He grabbed a hot espresso on the go while dashing toward the metro.</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="dialogue-box">
+                    <p><strong>Alex:</strong> <span>"Did you manage to catch the 7:15 express train this morning?"</span></p>
+                    <p><strong>Sarah:</strong> <span>"Barely! I slept through my first alarm, threw on my jacket, and sprinted out the door."</span></p>
+                </div>
+                <p><span>Notice how natural English employs reduced phrasal verbs like 'dash off' and 'sprint out' to convey haste without over-complication. Practice these patterns aloud to build muscle memory.</span></p>
+            </div>
+        </article>
+
+        <!-- Page 2: Readable -->
+        <article class="outer_page document_page" id="outer_page_2" data-page-number="2">
+            <div class="page-badge">Chapter 2 · Commuting & Public Transport</div>
+            <h2 class="page-heading">2. Navigating Urban Transit & Inquiries</h2>
+            <div class="text_layer">
+                <p><span>Public transit systems around the globe share standard announcement phrases and ticketing terminology. Familiarity with these communicative conventions eliminates travel confusion and reduces anxiety.</span></p>
+                
+                <table class="study-table">
+                    <thead>
+                        <tr>
+                            <th>Transit Term</th>
+                            <th>Functional Meaning</th>
+                            <th>Typical Context</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span>Inbound vs Outbound</span></td>
+                            <td><span>Direction towards/away from downtown</span></td>
+                            <td><span>Ensure you board the inbound train on Platform 3.</span></td>
+                        </tr>
+                        <tr>
+                            <td><span>Peak hours</span></td>
+                            <td><span>Rush hour with surge fares</span></td>
+                            <td><span>Transit cards apply reduced fares outside peak hours.</span></td>
+                        </tr>
+                        <tr>
+                            <td><span>Transfer point</span></td>
+                            <td><span>Interchange station</span></td>
+                            <td><span>Union Square serves as the primary transfer hub for lines N and Q.</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="dialogue-box">
+                    <p><strong>Commuter:</strong> <span>"Excuse me, does this train make local stops or run express through Central?"</span></p>
+                    <p><strong>Conductor:</strong> <span>"This is the express run. For Central Station, transfer at 14th Street."</span></p>
+                </div>
+                <p><span>Polite requests in commuter contexts generally begin with indirect openers such as "Would you happen to know..." or "Could you point me toward...".</span></p>
+            </div>
+        </article>
+
+        <!-- Page 3: Blurred + Scribd Paywall Promo -->
+        <article class="outer_page document_page blurred_page" id="outer_page_3" data-page-number="3">
+            <div class="page-badge">Chapter 3 · Workplace Discussions</div>
+            <h2 class="page-heading">3. Professional Dialogues & Team Alignment</h2>
+            <div class="text_layer">
+                <p><span>In professional workspace interactions, clarity and diplomatic framing take precedence over informal slang. When presenting feedback or raising questions during status briefings, effective speakers adopt diplomatic qualifiers.</span></p>
+                <p><span>Consider the distinction between direct criticism and constructive alignment: "We should look into revising this timeline" sounds far more collaborative than "This schedule is completely impossible."</span></p>
+                <p><span>Key expressions include touch base, touch upon, circle back, and align on deliverables. Master these phrasal structures to communicate with executive poise and confidence.</span></p>
+            </div>
+            
+            <!-- Paywall Overlay matching SCRIBD_AD_SELECTORS -->
+            <div class="promo_wrapper page_blur_promo">
+                <h2>Read with a free 30-day trial</h2>
+                <p>Cancel anytime. Unlock this complete 5-page study guide along with millions of premium books, research papers, and documents.</p>
+                <button class="Button">Start your 30-day free trial</button>
+                <div class="subtext">Already a member? Sign in to unlock full document</div>
+            </div>
+            <div class="absolute_blur blur_overlay"></div>
+        </article>
+
+        <!-- Page 4: Blurred -->
+        <article class="outer_page document_page blurred_page" id="outer_page_4" data-page-number="4">
+            <div class="page-badge">Chapter 4 · Financial & Banking Matters</div>
+            <h2 class="page-heading">4. Banking, Accounts & Currency Transactions</h2>
+            <div class="text_layer">
+                <p><span>Navigating everyday financial transactions requires accurate comprehension of statements, interest terms, and wire procedures. Common actions include depositing checks, balancing accounts, and disputing unexpected charges.</span></p>
+                <p><span>Essential vocabulary: checking account, routing number, direct deposit, overdraft protection, and compound annual yield. Always verify transfer limits before issuing international remittances.</span></p>
+            </div>
+            <div class="auto__doc_page_webpack_doc_page_blur_promo"></div>
+        </article>
+
+        <!-- Page 5: Blurred -->
+        <article class="outer_page document_page blurred_page" id="outer_page_5" data-page-number="5">
+            <div class="page-badge">Chapter 5 · Medical & Emergency Scenarios</div>
+            <h2 class="page-heading">5. Health Consultations & Describing Symptoms</h2>
+            <div class="text_layer">
+                <p><span>When consulting healthcare providers, precision in articulating physical sensations is critical. Distinguish between acute throbbing pain, dull persistent aches, and intermittent discomfort.</span></p>
+                <p><span>Medical dialogue review: "The doctor prescribed an antibiotic regimen and recommended bed rest for 48 hours." Keep track of dosage schedules and potential contraindications.</span></p>
+            </div>
+            <div class="page_missing_explanation"></div>
+        </article>
+
+    </main>
+
+    <!-- Sticky Bottom Promo Bar -->
+    <aside class="sticky_archive_bar mobile_sticky_promo">
+        <span>Enjoying this document? Download to read offline with Scribd Premium (30 Days Free)</span>
+        <button>Read for Free</button>
+    </aside>
+
+    <!-- Live Emerald FAB Button Component -->
+    <button id="studocu-fab-btn" title="Format for Print A4 (DocCleaner)" aria-label="Format for Print">
+        <!-- Lucide Download Tray Icon -->
+        <svg class="fab-icon-download" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 15V3"></path>
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <path d="m7 10 5 5 5-5"></path>
+        </svg>
+        <!-- Spinner Icon for Processing State -->
+        <svg class="fab-icon-spinner" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
+        </svg>
+    </button>
+
+    <!-- Seamless Activation Script -->
+    <script>
+        (function initMockScribdFAB() {
+            const fabBtn = document.getElementById('studocu-fab-btn');
+            if (!fabBtn) return;
+
+            fabBtn.addEventListener('click', async () => {
+                if (fabBtn.classList.contains('processing')) return;
+                fabBtn.classList.add('processing');
+
+                const statusCallback = (msg) => {
+                    fabBtn.title = msg;
+                };
+
+                try {
+                    if (typeof window.runScribdCleaner === 'function') {
+                        await window.runScribdCleaner(statusCallback);
+                    } else {
+                        console.error('[DocCleaner] scribd_handler.js runScribdCleaner not available');
+                    }
+                } catch (err) {
+                    console.error('[DocCleaner] Scribd cleaner error:', err);
+                } finally {
+                    fabBtn.classList.remove('processing');
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

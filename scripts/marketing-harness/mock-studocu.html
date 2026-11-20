@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kinh Tế Vi Mô - Đề Thi & Lời Giải Chi Tiết 2025 | Studocu</title>
+    <meta property="og:title" content="Kinh Tế Vi Mô - Đề Thi & Lời Giải Chi Tiết 2025">
+    
+    <!-- Extension Live Viewer Stylesheet -->
+    <link rel="stylesheet" href="/viewer_styles.css">
+
+    <style>
+        :root {
+            --dc-navy: #091b42;
+            --dc-blue: #193582;
+            --dc-lime: #c6eb34;
+            --dc-green: #58c474;
+            --dc-cream: #f6f7ef;
+            --dc-white: #ffffff;
+            --dc-border: 1.5px solid #091b42;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #e9eef5;
+            color: #1a1a1a;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        /* Top Platform Navigation Bar with Trademark Monogram */
+        .stu-navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: #ffffff;
+            border-bottom: var(--dc-border);
+            height: 58px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+        }
+
+        .stu-brand-group {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        /* [ST] Monogram (Trademark Guideline Compliant) */
+        .stu-monogram {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            background: var(--dc-navy);
+            color: var(--dc-lime);
+            font-weight: 900;
+            font-size: 15px;
+            letter-spacing: -0.5px;
+            border-radius: 8px;
+            border: var(--dc-border);
+        }
+
+        .stu-search-mock {
+            width: 340px;
+            height: 36px;
+            background: #f0f2f5;
+            border: var(--dc-border);
+            border-radius: 8px;
+            padding: 0 12px;
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            color: #737b8b;
+        }
+
+        .stu-browser-url-mock {
+            background: #eef2f8;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 5px 14px;
+            font-size: 12px;
+            font-family: "SF Mono", Menlo, monospace;
+            color: #334155;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .stu-user-mock {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stu-avatar-mock {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--dc-navy);
+            color: var(--dc-cream);
+            border: var(--dc-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* Document Header / Metadata */
+        .stu-doc-header {
+            max-width: 960px;
+            margin: 24px auto 16px auto;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .stu-doc-header h1[data-qa="document-title"] {
+            font-size: 21px;
+            font-weight: 800;
+            color: var(--dc-navy);
+            letter-spacing: -0.3px;
+        }
+
+        .stu-doc-header .doc-meta-badge {
+            font-size: 12.5px;
+            font-weight: 700;
+            color: var(--dc-navy);
+            background: var(--dc-lime);
+            padding: 5px 12px;
+            border-radius: 999px;
+            border: var(--dc-border);
+        }
+
+        /* Document Wrapper & Pages */
+        #document-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 90px;
+            gap: 28px;
+            position: relative;
+        }
+
+        .pf {
+            width: 892.5px;
+            height: 1262.25px;
+            position: relative;
+            background: #ffffff;
+            border: 1px solid #d0d7de;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(9, 27, 66, 0.08);
+            transition: filter 0.2s ease;
+        }
+
+        .pc {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 60px 68px;
+            box-sizing: border-box;
+            background-color: #ffffff;
+        }
+
+        .bi {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.04;
+        }
+
+        /* Page Content Typography */
+        .doc-section-tag {
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: var(--dc-blue);
+            margin-bottom: 8px;
+        }
+
+        .doc-page-heading {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--dc-navy);
+            margin-bottom: 18px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+        }
+
+        .t {
+            font-size: 14px;
+            line-height: 1.7;
+            color: #24292f;
+            margin-bottom: 14px;
+        }
+
+        .question-block {
+            background: #f8fafc;
+            border-left: 3.5px solid var(--dc-blue);
+            padding: 12px 18px;
+            margin: 14px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .question-title {
+            font-weight: 700;
+            color: var(--dc-navy);
+            margin-bottom: 6px;
+        }
+
+        .options-list {
+            list-style: none;
+            padding-left: 0;
+            margin: 8px 0;
+        }
+
+        .options-list li {
+            padding: 4px 0;
+            font-size: 13.5px;
+        }
+
+        .math-formula {
+            font-family: "SF Mono", Menlo, monospace;
+            background: #eef2f8;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: var(--dc-blue);
+        }
+
+        /* Pages 4-6: Blurred State */
+        .pf.page-blurred .pc {
+            filter: blur(5px) !important;
+            -webkit-filter: blur(5px) !important;
+            user-select: none !important;
+            pointer-events: none !important;
+        }
+
+        /* Studocu Paywall Overlay Banner (#upgrade-overlay) */
+        #upgrade-overlay {
+            position: absolute;
+            top: 4050px; /* Centered over Page 4 */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 620px;
+            background: #ffffff;
+            border: var(--dc-border);
+            border-radius: 16px;
+            padding: 40px 36px;
+            text-align: center;
+            z-index: 100;
+            box-shadow: 0 20px 45px rgba(9, 27, 66, 0.22);
+            pointer-events: auto !important;
+        }
+
+        .paywall-lock-badge {
+            width: 52px;
+            height: 52px;
+            background: var(--dc-navy);
+            border-radius: 12px;
+            border: var(--dc-border);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .paywall-title {
+            font-size: 21px;
+            font-weight: 800;
+            color: var(--dc-navy);
+            margin-bottom: 10px;
+        }
+
+        .paywall-desc {
+            font-size: 14px;
+            color: #4b5563;
+            margin-bottom: 24px;
+            line-height: 1.55;
+        }
+
+        .paywall-cta-btn {
+            background: var(--dc-lime);
+            color: var(--dc-navy);
+            font-weight: 800;
+            font-size: 15px;
+            padding: 13px 32px;
+            border-radius: 10px;
+            border: var(--dc-border);
+            cursor: pointer;
+            outline: none;
+            transition: transform 0.15s ease;
+        }
+
+        .paywall-cta-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .paywall-guarantee {
+            font-size: 12.5px;
+            color: #6b7280;
+            margin-top: 14px;
+        }
+
+        /* Live Lime Floating Action Button (#studocu-fab-btn) */
+        #studocu-fab-btn {
+            position: fixed !important;
+            bottom: 24px !important;
+            right: 24px !important;
+            z-index: 2147483647 !important;
+            width: 44px !important;
+            height: 44px !important;
+            padding: 0 !important;
+            background-color: #c6eb34 !important; /* Studocu Lime */
+            color: #091b42 !important;
+            border-radius: 12px !important;
+            border: 1.5px solid #091b42 !important;
+            cursor: pointer !important;
+            box-shadow: none !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.18s ease !important;
+            user-select: none !important;
+            outline: none !important;
+        }
+
+        #studocu-fab-btn:hover {
+            transform: translateY(-2px) scale(1.06) !important;
+            filter: brightness(0.96) !important;
+        }
+
+        #studocu-fab-btn:active {
+            transform: scale(0.94) !important;
+        }
+
+        #studocu-fab-btn .fab-icon-spinner {
+            display: none;
+        }
+
+        #studocu-fab-btn .fab-icon-download {
+            display: block;
+        }
+
+        #studocu-fab-btn.processing {
+            background-color: #293856 !important;
+            color: #f6f7ef !important;
+            cursor: wait !important;
+            opacity: 0.95 !important;
+        }
+
+        #studocu-fab-btn.processing .fab-icon-download {
+            display: none !important;
+        }
+
+        #studocu-fab-btn.processing .fab-icon-spinner {
+            display: block !important;
+            animation: stuFabSpin 0.85s linear infinite !important;
+        }
+
+        @keyframes stuFabSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media print {
+            .stu-navbar, .stu-doc-header, #upgrade-overlay, #studocu-fab-btn {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Mock Studocu Top Navigation Bar -->
+    <header class="stu-navbar">
+        <div class="stu-brand-group">
+            <span class="stu-monogram">[ST]</span>
+            <div class="stu-search-mock">
+                <span>Tìm kiếm môn học, tài liệu, đề thi...</span>
+            </div>
+        </div>
+        <div class="stu-browser-url-mock">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <span>studocu.com/document/kinh-te-vi-mo-de-thi-loi-giai-chi-tiet-2025</span>
+        </div>
+        <div class="stu-user-mock">
+            <div class="stu-avatar-mock">SV</div>
+        </div>
+    </header>
+
+    <!-- Document Subheader / Metadata -->
+    <div class="stu-doc-header">
+        <h1 data-qa="document-title">Kinh Tế Vi Mô - Đề Thi & Lời Giải Chi Tiết 2025</h1>
+        <div class="doc-meta-badge">6 Trang · Đề Ôn Tập Số 1</div>
+    </div>
+
+    <!-- Document Wrapper Containing 6 Pages -->
+    <main id="document-wrapper" class="document-wrapper">
+
+        <!-- Page 1: Clean Readable -->
+        <div class="pf w0 h0" id="pf1" data-page-index="1" style="width: 892.5px; height: 1262.25px; position: relative;">
+            <div class="pc pc1 w0 h0">
+                <img class="bi x0 y0 w1 h1" alt="" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><rect width='100' height='100' fill='none'/></svg>" />
+                <div class="doc-section-tag">Phần I · Tổng Quan Cung Cầu Thị Trường</div>
+                <h2 class="doc-page-heading">Trang 1: Cân Bằng Cung Cầu & Hệ Số Co Giãn</h2>
+                <div class="t">Học phần: Kinh Tế Vi Mô (Microeconomics) - Mã học phần: ECO101. Tài liệu tổng hợp đề thi và lời giải chi tiết phục vụ kỳ thi kết thúc học phần năm học 2024-2025.</div>
+                <div class="question-block">
+                    <div class="question-title">Câu 1 (2.0 điểm): Cho hàm cầu và hàm cung của sản phẩm X trên thị trường:</div>
+                    <div class="t">Phương trình đường cầu: <span class="math-formula">Q_D = 120 - 2P</span> và đường cung: <span class="math-formula">Q_S = 30 + P</span>. Trong đó P tính bằng nghìn đồng/sản phẩm, Q tính bằng nghìn sản phẩm.</div>
+                    <ul class="options-list">
+                        <li>a) Xác định mức giá cân bằng (P*) và sản lượng cân bằng (Q*) của thị trường sản phẩm X.</li>
+                        <li>b) Tính hệ số co giãn của cầu theo giá tại điểm cân bằng và nêu ý nghĩa kinh tế.</li>
+                        <li>c) Nếu chính phủ áp đặt mức giá trần P_max = 25 nghìn đồng, thị trường sẽ xảy ra tình trạng gì? Tính lượng dư thừa hoặc thiếu hụt.</li>
+                    </ul>
+                </div>
+                <div class="t"><strong>Lời giải chi tiết câu 1:</strong> Tại trạng thái cân bằng thị trường, ta có phương trình: <span class="math-formula">Q_D = Q_S <=> 120 - 2P = 30 + P <=> 3P = 90 <=> P* = 30</span> (nghìn đồng/sp). Thế P* vào hàm cung ta tính được: <span class="math-formula">Q* = 30 + 30 = 60</span> (nghìn sản phẩm).</div>
+                <div class="t">Hệ số co giãn của cầu theo giá tại điểm cân bằng: <span class="math-formula">E_D = (Q_D)'_P * (P* / Q*) = -2 * (30 / 60) = -1.0</span>. Cầu co giãn đơn vị: khi giá tăng 1%, lượng cầu giảm tương ứng 1%. Doanh thu của doanh nghiệp đạt cực đại tại điểm này.</div>
+            </div>
+        </div>
+
+        <!-- Page 2: Clean Readable -->
+        <div class="pf w0 h0" id="pf2" data-page-index="2" style="width: 892.5px; height: 1262.25px; position: relative;">
+            <div class="pc pc2 w0 h0">
+                <img class="bi x0 y0 w1 h1" alt="" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><rect width='100' height='100' fill='none'/></svg>" />
+                <div class="doc-section-tag">Phần II · Lý Thuyết Lựa Chọn Của Người Tiêu Dùng</div>
+                <h2 class="doc-page-heading">Trang 2: Độ Hữu Dụng & Tối Đa Hóa Lợi Ích</h2>
+                <div class="t">Lý thuyết hành vi người tiêu dùng giả định rằng cá nhân có tính duy lý, luôn tìm cách tối đa hóa tổng mức hữu dụng (TU) với ràng buộc ngân sách thu nhập cho trước I.</div>
+                <div class="question-block">
+                    <div class="question-title">Câu 2 (2.5 điểm): Người tiêu dùng phân bổ ngân sách cho hai hàng hóa X và Y:</div>
+                    <div class="t">Hàm tổng hữu dụng có dạng Cobb-Douglas: <span class="math-formula">TU(X,Y) = X^{0.5} * Y^{0.5}</span>. Thu nhập của người tiêu dùng là <span class="math-formula">I = 1.200.000 VNĐ</span>, giá của hàng hóa X là <span class="math-formula">P_X = 20.000 VNĐ/sp</span>, giá hàng hóa Y là <span class="math-formula">P_Y = 40.000 VNĐ/sp</span>.</div>
+                    <ul class="options-list">
+                        <li>a) Viết phương trình đường ngân sách và vẽ đồ thị minh họa.</li>
+                        <li>b) Xác định tỷ lệ thay thế biên giữa hai hàng hóa <span class="math-formula">MRS_{XY}</span>.</li>
+                        <li>c) Tìm kết hợp tiêu dùng tối ưu (X*, Y*) để người tiêu dùng đạt mức hữu dụng tối đa.</li>
+                    </ul>
+                </div>
+                <div class="t"><strong>Lời giải chi tiết câu 2:</strong> Phương trình đường ngân sách: <span class="math-formula">P_X * X + P_Y * Y = I <=> 20.000*X + 40.000*Y = 1.200.000 <=> X + 2Y = 60</span>.</div>
+                <div class="t">Hữu dụng biên: <span class="math-formula">MU_X = dTU/dX = 0.5 * X^{-0.5} * Y^{0.5}</span>; <span class="math-formula">MU_Y = dTU/dY = 0.5 * X^{0.5} * Y^{-0.5}</span>. Tỷ lệ thay thế biên: <span class="math-formula">MRS_{XY} = MU_X / MU_Y = Y / X</span>. Điều kiện tối ưu: <span class="math-formula">MU_X / P_X = MU_Y / P_Y <=> (Y / X) = (20.000 / 40.000) = 1/2 <=> X = 2Y</span>. Thay vào ngân sách ta có: <span class="math-formula">2Y + 2Y = 60 => Y* = 15; X* = 30</span>. Tổng hữu dụng tối đa đạt được: <span class="math-formula">TU* = (30)^{0.5} * (15)^{0.5} ≈ 21.21</span> đơn vị hữu dụng.</div>
+            </div>
+        </div>
+
+        <!-- Page 3: Clean Readable -->
+        <div class="pf w0 h0" id="pf3" data-page-index="3" style="width: 892.5px; height: 1262.25px; position: relative;">
+            <div class="pc pc3 w0 h0">
+                <img class="bi x0 y0 w1 h1" alt="" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><rect width='100' height='100' fill='none'/></svg>" />
+                <div class="doc-section-tag">Phần III · Lý Thuyết Sản Xuất & Chi Phí</div>
+                <h2 class="doc-page-heading">Trang 3: Tối Thiểu Hóa Chi Phí & Hàm Sản Xuất</h2>
+                <div class="t">Trong ngắn hạn, doanh nghiệp có ít nhất một yếu tố sản xuất cố định (vốn K). Trong dài hạn, mọi yếu tố sản xuất bao gồm cả vốn (K) và lao động (L) đều là biến đổi.</div>
+                <div class="question-block">
+                    <div class="question-title">Câu 3 (2.5 điểm): Doanh nghiệp cạnh tranh hoàn hảo có hàm chi phí ngắn hạn:</div>
+                    <div class="t"><span class="math-formula">TC = Q^2 + 10Q + 100</span> (trong đó TC tính bằng USD, Q tính bằng sản phẩm).</div>
+                    <ul class="options-list">
+                        <li>a) Xác định các hàm chi phí: Chi phí cố định (FC), chi phí biến đổi (VC), chi phí biến đổi trung bình (AVC), chi phí trung bình (ATC), và chi phí biên (MC).</li>
+                        <li>b) Xác định mức giá hòa vốn (P_be) và mức giá đóng cửa sản xuất (P_sd) của doanh nghiệp.</li>
+                        <li>c) Khi giá thị trường P = 50 USD, hãy xác định sản lượng tối ưu để doanh nghiệp tối đa hóa lợi nhuận và mức lợi nhuận đạt được.</li>
+                    </ul>
+                </div>
+                <div class="t"><strong>Lời giải chi tiết câu 3:</strong> Ta phân tích các đại lượng: <span class="math-formula">FC = 100</span>; <span class="math-formula">VC = Q^2 + 10Q</span>; <span class="math-formula">AVC = VC/Q = Q + 10</span>; <span class="math-formula">ATC = TC/Q = Q + 10 + 100/Q</span>; <span class="math-formula">MC = (TC)'_Q = 2Q + 10</span>.</div>
+                <div class="t">Điểm hòa vốn xảy ra khi: <span class="math-formula">MC = ATC <=> 2Q + 10 = Q + 10 + 100/Q <=> Q^2 = 100 => Q_be = 10</span>. Mức giá hòa vốn: <span class="math-formula">P_be = ATC_{min} = 10 + 10 + 100/10 = 30 USD</span>. Điểm đóng cửa sản xuất: <span class="math-formula">MC = AVC_{min} <=> 2Q + 10 = Q + 10 => Q = 0</span>. Khi đó <span class="math-formula">P_sd = AVC(0) = 10 USD</span>. Khi giá P = 50 USD > P_be, doanh nghiệp có lãi: <span class="math-formula">P = MC <=> 50 = 2Q + 10 => Q* = 20</span>. Tổng doanh thu <span class="math-formula">TR = 50 * 20 = 1000 USD</span>. Tổng chi phí <span class="math-formula">TC = 20^2 + 10*20 + 100 = 700 USD</span>. Lợi nhuận <span class="math-formula">π = TR - TC = 300 USD</span>.</div>
+            </div>
+        </div>
+
+        <!-- Page 4: Blurred (Paywalled) -->
+        <div class="pf w0 h0 page-blurred" id="pf4" data-page-index="4" style="width: 892.5px; height: 1262.25px; position: relative;">
+            <div class="pc pc4 w0 h0">
+                <img class="bi x0 y0 w1 h1" alt="" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><rect width='100' height='100' fill='none'/></svg>" />
+                <div class="doc-section-tag">Phần IV · Cấu Trúc Thị Trường Cạnh Tranh Hoàn Hảo & Độc Quyền</div>
+                <h2 class="doc-page-heading">Trang 4: Tối Đa Hóa Lợi Nhuận Doanh Nghiệp Độc Quyền</h2>
+                <div class="t">Doanh nghiệp độc quyền thuần túy là người bán duy nhất trên thị trường, đường cầu đối với doanh nghiệp cũng chính là đường cầu của toàn bộ thị trường.</div>
+                <div class="question-block">
+                    <div class="question-title">Câu 4 (3.0 điểm): Doanh nghiệp độc quyền có hàm cầu thị trường:</div>
+                    <div class="t"><span class="math-formula">P = 100 - 0.5Q</span> và hàm tổng chi phí: <span class="math-formula">TC = 0.5Q^2 + 10Q + 200</span>.</div>
+                    <ul class="options-list">
+                        <li>a) Xác định mức sản lượng Q*, mức giá P* và lợi nhuận tối đa của nhà độc quyền.</li>
+                        <li>b) Tính tổn thất vô ích của xã hội (Deadweight Loss - DWL) do sức mạnh thị trường của doanh nghiệp độc quyền gây ra.</li>
+                        <li>c) Tính hệ số đo lường sức mạnh độc quyền Lerner (L).</li>
+                    </ul>
+                </div>
+                <div class="t"><strong>Lời giải chi tiết câu 4:</strong> Tổng doanh thu: <span class="math-formula">TR = P * Q = 100Q - 0.5Q^2</span>. Doanh thu biên: <span class="math-formula">MR = (TR)'_Q = 100 - Q</span>. Chi phí biên: <span class="math-formula">MC = (TC)'_Q = Q + 10</span>. Nguyên tắc tối đa hóa lợi nhuận: <span class="math-formula">MR = MC <=> 100 - Q = Q + 10 <=> 2Q = 90 => Q* = 45</span>. Thế Q* vào hàm cầu: <span class="math-formula">P* = 100 - 0.5*45 = 77.5 USD</span>. Lợi nhuận cực đại: <span class="math-formula">π = TR - TC = 77.5 * 45 - (0.5*45^2 + 10*45 + 200) = 3487.5 - 1662.5 = 1825 USD</span>.</div>
+                <div class="t">Tổn thất xã hội DWL = 0.5 * (P* - MC) * (Q_c - Q*). Tại điểm cân bằng cạnh tranh hoàn hảo P = MC: 100 - 0.5Q = Q + 10 => Q_c = 60, P_c = 70. Tại Q* = 45, MC = 45 + 10 = 55. Do đó: DWL = 0.5 * (77.5 - 55) * (60 - 45) = 0.5 * 22.5 * 15 = 168.75 USD. Hệ số Lerner: L = (P - MC) / P = (77.5 - 55) / 77.5 ≈ 0.29.</div>
+            </div>
+        </div>
+
+        <!-- Page 5: Blurred (Paywalled) -->
+        <div class="pf w0 h0 page-blurred" id="pf5" data-page-index="5" style="width: 892.5px; height: 1262.25px; position: relative;">
+            <div class="pc pc5 w0 h0">
+                <img class="bi x0 y0 w1 h1" alt="" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><rect width='100' height='100' fill='none'/></svg>" />
+                <div class="doc-section-tag">Phần V · Thị Trường Độc Quyền Nhóm & Lý Thuyết Trò Chơi</div>
+                <h2 class="doc-page-heading">Trang 5: Cân Bằng Nash & Chiến Lược Cạnh Tranh Cournot</h2>
+                <div class="t">Trong thị trường độc quyền nhóm (Oligopoly), hành vi của từng hãng có tính phụ thuộc lẫn nhau một cách chiến lược. Mô hình Cournot xem xét quyết định sản lượng đồng thời.</div>
+                <div class="question-block">
+                    <div class="question-title">Câu 5 (3.0 điểm): Hai hãng độc quyền nhóm 1 và 2 cùng sản xuất sản phẩm thuần nhất:</div>
+                    <div class="t">Đường cầu thị trường: <span class="math-formula">P = 150 - (Q_1 + Q_2)</span>. Chi phí biên của cả hai hãng đều là hằng số: <span class="math-formula">MC_1 = MC_2 = 30</span> (không có chi phí cố định).</div>
+                    <ul class="options-list">
+                        <li>a) Thiết lập hàm phản ứng của từng hãng theo sản lượng của đối thủ.</li>
+                        <li>b) Xác định sản lượng cân bằng Cournot (Q_1*, Q_2*), mức giá thị trường và lợi nhuận của mỗi hãng.</li>
+                        <li>c) So sánh kết quả Cournot với trường hợp hai hãng cấu kết tạo thành Cartel độc quyền.</li>
+                    </ul>
+                </div>
+                <div class="t"><strong>Lời giải chi tiết câu 5:</strong> Doanh thu hãng 1: <span class="math-formula">TR_1 = [150 - (Q_1 + Q_2)] * Q_1 = 150Q_1 - Q_1^2 - Q_1*Q_2</span>. Doanh thu biên: <span class="math-formula">MR_1 = 150 - 2Q_1 - Q_2</span>. Hãng 1 tối đa hóa lợi nhuận khi: <span class="math-formula">MR_1 = MC_1 <=> 150 - 2Q_1 - Q_2 = 30 => Q_1 = 60 - 0.5*Q_2</span> (Hàm phản ứng của hãng 1). Do tính đối xứng: <span class="math-formula">Q_2 = 60 - 0.5*Q_1</span> (Hàm phản ứng hãng 2).</div>
+                <div class="t">Giải hệ phương trình phản ứng ta được cân bằng Nash Cournot: <span class="math-formula">Q_1* = Q_2* = 40</span> đơn vị sản phẩm. Tổng sản lượng thị trường: <span class="math-formula">Q = 80</span>. Mức giá thị trường: <span class="math-formula">P = 150 - 80 = 70 USD</span>. Lợi nhuận mỗi hãng: <span class="math-formula">π_1 = π_2 = (P - MC) * Q_i = (70 - 30) * 40 = 1600 USD</span>. Tổng lợi nhuận ngành là 3200 USD.</div>
+            </div>
+        </div>
+
+        <!-- Page 6: Blurred (Paywalled) -->
+        <div class="pf w0 h0 page-blurred" id="pf6" data-page-index="6" style="width: 892.5px; height: 1262.25px; position: relative;">
+            <div class="pc pc6 w0 h0">
+                <img class="bi x0 y0 w1 h1" alt="" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><rect width='100' height='100' fill='none'/></svg>" />
+                <div class="doc-section-tag">Phần VI · Thất Bại Thị Trường & Vai Trò Của Chính Phủ</div>
+                <h2 class="doc-page-heading">Trang 6: Ngoại Ứng Tiêu Cực & Hàng Hóa Công Cộng</h2>
+                <div class="t">Thất bại thị trường xảy ra khi cơ chế giá cả không phân bổ nguồn lực đạt hiệu quả Pareto. Các nguyên nhân chính bao gồm ngoại ứng, hàng hóa công cộng và thông tin bất cân xứng.</div>
+                <div class="question-block">
+                    <div class="question-title">Câu 6 (2.0 điểm): Doanh nghiệp sản xuất hóa chất gây ô nhiễm nguồn nước dòng sông:</div>
+                    <div class="t">Chi phí biên tư nhân: <span class="math-formula">PMC = 20 + 2Q</span>. Chi phí ngoại ứng biên do ô nhiễm: <span class="math-formula">MEC = Q</span>. Lợi ích biên của xã hội: <span class="math-formula">SMB = PMB = 80 - Q</span>.</div>
+                    <ul class="options-list">
+                        <li>a) Xác định sản lượng và giá cả do thị trường tự do xác lập.</li>
+                        <li>b) Xác định mức sản lượng tối ưu đối với toàn xã hội.</li>
+                        <li>c) Đề xuất mức thuế Pigou (t*) trên mỗi đơn vị sản phẩm để đưa sản lượng thị trường về mức tối ưu xã hội.</li>
+                    </ul>
+                </div>
+                <div class="t"><strong>Lời giải chi tiết câu 6:</strong> Cân bằng thị trường tự do xảy ra tại: <span class="math-formula">PMB = PMC <=> 80 - Q = 20 + 2Q <=> 3Q = 60 => Q_m = 20</span>; <span class="math-formula">P_m = 60</span>. Chi phí biên xã hội: <span class="math-formula">SMC = PMC + MEC = (20 + 2Q) + Q = 20 + 3Q</span>. Mức sản lượng tối ưu xã hội khi: <span class="math-formula">SMB = SMC <=> 80 - Q = 20 + 3Q <=> 4Q = 60 => Q_opt = 15</span>; Mức giá xã hội: <span class="math-formula">P_opt = 80 - 15 = 65</span>. Mức thuế Pigouvian tối ưu: <span class="math-formula">t* = MEC(Q_opt) = 15 USD/sp</span>. Đánh thuế t* làm đường chi phí biên của hãng dịch chuyển trùng với SMC, khắc phục hoàn toàn ngoại ứng tiêu cực.</div>
+                <div class="t">--- HẾT TOÀN BỘ 6 TRANG ĐỀ THI VÀ ĐÁP ÁN KINH TẾ VI MÔ 2025 ---</div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Paywall Banner Floating Over Page 4 -->
+    <div id="upgrade-overlay" class="viewer-paywall-banner paywall-overlay">
+        <div class="paywall-lock-badge">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c6eb34" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+        </div>
+        <h2 class="paywall-title">Tài liệu bị giới hạn - Mở khóa bằng Premium</h2>
+        <p class="paywall-desc">Xem toàn bộ 6 trang đề thi, bài tập và đáp án chi tiết năm 2025.</p>
+        <button class="paywall-cta-btn" type="button">
+            <span>Mở khóa toàn bộ tài liệu</span>
+        </button>
+        <div class="paywall-guarantee">30 ngày hoàn tiền · Truy cập không giới hạn</div>
+    </div>
+
+    <!-- Live Lime Floating Action Button (#studocu-fab-btn) -->
+    <button id="studocu-fab-btn" title="Định dạng in A4 (DocCleaner)" aria-label="Format for Print">
+        <!-- Lucide Download Tray Icon -->
+        <svg class="fab-icon-download" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 15V3"></path>
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <path d="m7 10 5 5 5-5"></path>
+        </svg>
+        <!-- Spinner Icon for Processing State -->
+        <svg class="fab-icon-spinner" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
+        </svg>
+    </button>
+
+    <!-- Chrome Mock & Content Scripts -->
+    <script src="/mock-chrome.js"></script>
+    <script src="/i18n.js"></script>
+    <script src="/content.js"></script>
+
+    <!-- FAB Activation Listener -->
+    <script>
+        (function initMockStudocuFAB() {
+            const fabBtn = document.getElementById('studocu-fab-btn');
+            if (!fabBtn) return;
+
+            fabBtn.addEventListener('click', async () => {
+                if (fabBtn.classList.contains('processing')) return;
+                fabBtn.classList.add('processing');
+
+                try {
+                    if (typeof window.runStudocuCleanViewer === 'function') {
+                        await window.runStudocuCleanViewer();
+                    } else {
+                        console.error('[DocCleaner] runStudocuCleanViewer is not available.');
+                    }
+                } catch (err) {
+                    console.error('[DocCleaner] Studocu Clean Viewer Error:', err);
+                } finally {
+                    fabBtn.classList.remove('processing');
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

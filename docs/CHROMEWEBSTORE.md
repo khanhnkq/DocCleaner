@@ -154,11 +154,16 @@ Release v1.8.0 — Full Study Shelf, Lab PC Mode, 4-Language i18n, and Day-0 Onb
 
 | Asset | Dimensions | Format | Status | Location |
 |:---|:---|:---|:---|:---|
-| **Store Icon** [REQUIRED] | 128×128 px | PNG (transparent/solid) | ✅ Ready | `icons/icon128.png` |
-| **Screenshot 1** [REQUIRED] | 1280×800 px | PNG/JPEG | ✅ Ready | `store-assets/screenshot1_1280x800.png` |
-| **Screenshot 2** [RECOMMENDED] | 1280×800 px | PNG/JPEG | ✅ Ready | `store-assets/before_after_feature.jpg` |
-| **Small Promo Tile** [RECOMMENDED] | 440×280 px | PNG/JPEG | ✅ Ready | `store-assets/promo_small_440x280.png` |
-| **Marquee Promo Tile** [OPTIONAL] | 1400×560 px | PNG/JPEG | ✅ Ready | `store-assets/marquee_1400x560.png` |
+| **Store Icon** [REQUIRED] | 128×128 px | PNG | ✅ Ready | `icons/icon128.png` |
+| **Screenshot 1** [REQUIRED] | 1280×800 px | PNG | ✅ Ready | `store-assets/screenshot1_1280x800.png` (Xoá Mờ & Bỏ Giới Hạn Đọc) |
+| **Screenshot 2** [RECOMMENDED] | 1280×800 px | PNG | ✅ Ready | `store-assets/screenshot2_1280x800.png` (Định Dạng In A4 Chuẩn) |
+| **Screenshot 3** [RECOMMENDED] | 1280×800 px | PNG | ✅ Ready | `store-assets/screenshot3_1280x800.png` (Hỗ Trợ Toàn Diện Scribd & Studocu) |
+| **Screenshot 4** [RECOMMENDED] | 1280×800 px | PNG | ✅ Ready | `store-assets/screenshot4_1280x800.png` (Kệ Học Tập Tự Động & Đánh Dấu Sao) |
+| **Screenshot 5** [RECOMMENDED] | 1280×800 px | PNG | ✅ Ready | `store-assets/screenshot5_1280x800.png` (Đa Ngôn Ngữ VN/EN/ES/FR & Bảo Mật) |
+| **Small Promo Tile** [RECOMMENDED] | 440×280 px | PNG | ✅ Ready | `store-assets/promo_small_440x280.png` |
+| **Marquee Promo Tile** [OPTIONAL] | 1400×560 px | PNG | ✅ Ready | `store-assets/marquee_1400x560.png` |
+| **1080p Demo Video** [STORE/YOUTUBE] | 1920×1080 px | MP4 (H.264, 30fps) | ✅ Ready | `assets/demo/doccleaner_demo_1080p.mp4` |
+| **Animated Demo GIF** [README] | 800×450 px | GIF89a (<8MB) | ✅ Ready | `assets/demo/doccleaner_demo.gif` |
 
 ---
 

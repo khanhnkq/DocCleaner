@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DocCleaner v1.8.0 - Marketing Asset Showcase Gallery</title>
+  <style>
+    :root {
+      --navy: #091b42;
+      --primary-blue: #193582;
+      --lime: #c6eb34;
+      --green: #58c474;
+      --cream: #f6f7ef;
+      --white: #ffffff;
+      --border-crisp: 1.5px solid #091b42;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--cream);
+      color: var(--navy);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 30px 40px;
+    }
+    header {
+      background-color: var(--navy);
+      color: var(--white);
+      padding: 24px 30px;
+      border-radius: 12px;
+      border: var(--border-crisp);
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    h1 { font-size: 26px; font-weight: 900; }
+    .badge-tag {
+      background-color: var(--lime);
+      color: var(--navy);
+      font-size: 12px;
+      font-weight: 900;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      border: 1.5px solid var(--navy);
+    }
+    .section-title {
+      font-size: 20px;
+      font-weight: 900;
+      margin-bottom: 16px;
+      border-bottom: 2px solid var(--navy);
+      padding-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    .asset-card {
+      background: var(--white);
+      border: var(--border-crisp);
+      border-radius: 10px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .asset-card h3 {
+      font-size: 14px;
+      font-weight: 900;
+    }
+    .asset-card img, .asset-card video {
+      width: 100%;
+      height: auto;
+      border: 1px solid var(--navy);
+      border-radius: 6px;
+      display: block;
+    }
+    /* 50% scale preview toggle for Chrome Web Store search simulation */
+    .search-preview-box {
+      background: #f0f2f5;
+      border: 1.5px dashed var(--navy);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 40px;
+      overflow: hidden;
+    }
+    .scale-50-wrapper {
+      transform: scale(0.5);
+      transform-origin: top left;
+      width: 200%;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+    }
+    /* Checklist */
+    .checklist-container {
+      background: var(--white);
+      border: var(--border-crisp);
+      border-radius: 10px;
+      padding: 24px;
+      margin-bottom: 40px;
+    }
+    .checklist-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .check-icon {
+      width: 18px;
+      height: 18px;
+      background: var(--green);
+      color: var(--white);
+      border-radius: 50%;
+      border: 1px solid var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 900;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>DocCleaner v1.8.0 - Marketing Asset Showcase</h1>
+      <p style="font-size: 14px; color: var(--cream); opacity: 0.9; margin-top: 4px;">Tự động hóa sản xuất hình ảnh & video chất lượng cao cho Chrome Web Store</p>
+    </div>
+    <span class="badge-tag">CHROME WEB STORE ASSETS</span>
+  </header>
+
+  <!-- Audit Checklist Section -->
+  <div class="checklist-container">
+    <h2 class="section-title">Tiêu Chuẩn Kiểm Định Chất Lượng (Audit Checklist)</h2>
+    <ul class="checklist-list">
+      <li class="checklist-item"><span class="check-icon">✓</span> 5 Screenshots đạt chuẩn chính xác 1280×800 px (tỷ lệ 16:10)</li>
+      <li class="checklist-item"><span class="check-icon">✓</span> Banner Marquee đạt chuẩn 1400×560 px (tỷ lệ 2.5:1)</li>
+      <li class="checklist-item"><span class="check-icon">✓</span> Small Promo Tile đạt chuẩn 440×280 px</li>
+      <li class="checklist-item"><span class="check-icon">✓</span> Video MP4 1080p (1920×1080) chuẩn 16.0s, H.264, im lặng</li>
+      <li class="checklist-item"><span class="check-icon">✓</span> Animated GIF kích thước 800×450 px, dung lượng &lt; 8MB</li>
+      <li class="checklist-item"><span class="check-icon">✓</span> Tuân thủ chính sách bản quyền: Che logo bằng [ST] & [SC], che URL</li>
+      <li class="checklist-item"><span class="check-icon">✓</span> 100% đồng nhất bảng màu Flat Graphic Poster (#091b42, #193582, #c6eb34)</li>
+      <li class="checklist-item"><span class="check-icon">✓</span> Không sử dụng bất kỳ emoji nào trên toàn bộ tư liệu quảng bá</li>
+    </ul>
+  </div>
+
+  <!-- Video & GIF Demo Section -->
+  <h2 class="section-title">Video Demo & Animated GIF (Motion Graphic)</h2>
+  <div class="gallery-grid" style="grid-template-columns: 1fr 1fr;">
+    <div class="asset-card">
+      <h3>1080p MP4 Demo Video (16.0s, 30fps)</h3>
+      <video controls src="../../assets/demo/doccleaner_demo_1080p.mp4"></video>
+      <p style="font-size: 11px; color: #5e6d8a;">assets/demo/doccleaner_demo_1080p.mp4</p>
+    </div>
+    <div class="asset-card">
+      <h3>Animated GIF cho GitHub README (&lt; 8MB, 800px)</h3>
+      <img src="../../assets/demo/doccleaner_demo.gif" alt="DocCleaner Demo GIF">
+      <p style="font-size: 11px; color: #5e6d8a;">assets/demo/doccleaner_demo.gif</p>
+    </div>
+  </div>
+
+  <!-- Store Screenshots Section -->
+  <h2 class="section-title">5 Screenshots Chuẩn Chrome Web Store (1280×800)</h2>
+  <div class="gallery-grid">
+    <div class="asset-card">
+      <h3>Screen 1: Xoá Mờ & Bỏ Giới Hạn Đọc</h3>
+      <img src="../../store-assets/screenshot1_1280x800.png" alt="Screenshot 1">
+      <p style="font-size: 11px; color: #5e6d8a;">store-assets/screenshot1_1280x800.png</p>
+    </div>
+    <div class="asset-card">
+      <h3>Screen 2: Định Dạng In A4 Chuẩn</h3>
+      <img src="../../store-assets/screenshot2_1280x800.png" alt="Screenshot 2">
+      <p style="font-size: 11px; color: #5e6d8a;">store-assets/screenshot2_1280x800.png</p>
+    </div>
+    <div class="asset-card">
+      <h3>Screen 3: Hỗ Trợ Toàn Diện Scribd & Studocu</h3>
+      <img src="../../store-assets/screenshot3_1280x800.png" alt="Screenshot 3">
+      <p style="font-size: 11px; color: #5e6d8a;">store-assets/screenshot3_1280x800.png</p>
+    </div>
+    <div class="asset-card">
+      <h3>Screen 4: Kệ Học Tập Tự Động & Đánh Dấu Sao</h3>
+      <img src="../../store-assets/screenshot4_1280x800.png" alt="Screenshot 4">
+      <p style="font-size: 11px; color: #5e6d8a;">store-assets/screenshot4_1280x800.png</p>
+    </div>
+    <div class="asset-card">
+      <h3>Screen 5: Đa Ngôn Ngữ VN/EN/ES/FR & Bảo Mật</h3>
+      <img src="../../store-assets/screenshot5_1280x800.png" alt="Screenshot 5">
+      <p style="font-size: 11px; color: #5e6d8a;">store-assets/screenshot5_1280x800.png</p>
+    </div>
+  </div>
+
+  <!-- Promotional Tiles -->
+  <h2 class="section-title">Promotional Banners</h2>
+  <div class="gallery-grid" style="grid-template-columns: 2fr 1fr;">
+    <div class="asset-card">
+      <h3>Marquee Promo Banner (1400×560)</h3>
+      <img src="../../store-assets/marquee_1400x560.png" alt="Marquee Banner">
+      <p style="font-size: 11px; color: #5e6d8a;">store-assets/marquee_1400x560.png</p>
+    </div>
+    <div class="asset-card">
+      <h3>Small Promo Tile (440×280)</h3>
+      <img src="../../store-assets/promo_small_440x280.png" alt="Small Promo Tile">
+      <p style="font-size: 11px; color: #5e6d8a;">store-assets/promo_small_440x280.png</p>
+    </div>
+  </div>
+
+  <!-- Search Preview at 50% scale -->
+  <h2 class="section-title">Mô Phỏng Hiển Thị Tìm Kiếm Store (50% Scale Preview)</h2>
+  <div class="search-preview-box">
+    <div class="scale-50-wrapper">
+      <img src="../../store-assets/screenshot1_1280x800.png" alt="Scale Preview 1">
+      <img src="../../store-assets/screenshot2_1280x800.png" alt="Scale Preview 2">
+      <img src="../../store-assets/screenshot3_1280x800.png" alt="Scale Preview 3">
+      <img src="../../store-assets/screenshot4_1280x800.png" alt="Scale Preview 4">
+      <img src="../../store-assets/screenshot5_1280x800.png" alt="Scale Preview 5">
+    </div>
+  </div>
+</body>
+</html>
