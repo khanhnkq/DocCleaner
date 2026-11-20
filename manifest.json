@@ -73,7 +73,8 @@
     {
       "resources": [
         "viewer_styles.css",
-        "i18n.js"
+        "i18n.js",
+        "icons/*"
       ],
       "matches": [
         "*://*.studocu.com/*",

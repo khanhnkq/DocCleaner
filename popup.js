@@ -227,7 +227,9 @@
             starBtn.setAttribute('data-action', 'star');
             starBtn.setAttribute('data-id', doc.id || '');
             starBtn.setAttribute('title', doc.isStarred ? getT(currentLang, 'unstarDocument') : getT(currentLang, 'starDocument'));
-            starBtn.innerText = doc.isStarred ? '★' : '☆';
+            starBtn.innerHTML = doc.isStarred
+              ? '<svg width="13" height="13" viewBox="0 0 24 24" fill="#091b42" stroke="#091b42" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>'
+              : '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#5e6d8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>';
             starBtn.addEventListener('click', async (e) => {
               if (e && e.stopPropagation) e.stopPropagation();
               await toggleStarDoc(doc.id);
@@ -239,7 +241,7 @@
             launchBtn.setAttribute('data-action', 'launch');
             launchBtn.setAttribute('data-url', doc.canonicalUrl || '');
             launchBtn.setAttribute('title', getT(currentLang, 'launchCleanReader'));
-            launchBtn.innerText = '↗';
+            launchBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#091b42" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>';
             launchBtn.addEventListener('click', (e) => {
               if (e && e.stopPropagation) e.stopPropagation();
               launchDoc(doc.canonicalUrl);

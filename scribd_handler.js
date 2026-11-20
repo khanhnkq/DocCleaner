@@ -532,9 +532,8 @@
                     justify-content: center;
                     color: #58c474;
                 ">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" style="animation: scribdSpin 0.9s linear infinite;">
-                        <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-opacity="0.25" stroke-width="2.8" fill="none"></circle>
-                        <path d="M12 3a9 9 0 0 1 9 9" stroke="currentColor" stroke-width="2.8" fill="none"></path>
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="animation: scribdSpin 0.9s linear infinite;">
+                        <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
                     </svg>
                 </div>
 

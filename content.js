@@ -420,11 +420,12 @@ observeSpaNavigation(() => {
             bottom: 24px !important;
             right: 24px !important;
             z-index: 2147483647 !important;
-            width: 46px !important;
-            height: 46px !important;
+            width: 44px !important;
+            height: 44px !important;
             padding: 0 !important;
-            background-color: #193582 !important;
-            border-radius: 14px !important;
+            background-color: ${fabBadgeBg} !important;
+            color: #091b42 !important;
+            border-radius: 12px !important;
             border: 1.5px solid #091b42 !important;
             cursor: pointer !important;
             box-shadow: none !important;
@@ -437,46 +438,34 @@ observeSpaNavigation(() => {
         }
 
         #studocu-fab-btn:hover {
-            transform: translateY(-2px) scale(1.05) !important;
-            background-color: #1f3e96 !important;
+            transform: translateY(-2px) scale(1.06) !important;
+            filter: brightness(0.96) !important;
         }
 
         #studocu-fab-btn:active {
-            transform: scale(0.95) !important;
+            transform: scale(0.94) !important;
         }
 
-        .fab-icon-box {
-            width: 34px !important;
-            height: 34px !important;
-            border-radius: 10px !important;
-            background-color: ${fabBadgeBg} !important;
-            color: #091b42 !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            flex-shrink: 0 !important;
-            box-shadow: none !important;
-        }
-
-        .fab-icon-box .fab-icon-spinner {
+        #studocu-fab-btn .fab-icon-spinner {
             display: none;
         }
 
-        .fab-icon-box .fab-icon-download {
+        #studocu-fab-btn .fab-icon-download {
             display: block;
         }
 
         #studocu-fab-btn.processing {
             background-color: #293856 !important;
+            color: #f6f7ef !important;
             cursor: wait !important;
             opacity: 0.95 !important;
         }
 
-        #studocu-fab-btn.processing .fab-icon-box .fab-icon-download {
+        #studocu-fab-btn.processing .fab-icon-download {
             display: none;
         }
 
-        #studocu-fab-btn.processing .fab-icon-box .fab-icon-spinner {
+        #studocu-fab-btn.processing .fab-icon-spinner {
             display: block;
             animation: fabSpin 0.85s linear infinite;
         }
@@ -491,7 +480,7 @@ observeSpaNavigation(() => {
                 transition-duration: 0.01ms !important;
                 transform: none !important;
             }
-            #studocu-fab-btn.processing .fab-icon-box .fab-icon-spinner {
+            #studocu-fab-btn.processing .fab-icon-spinner {
                 animation: none !important;
             }
         }
@@ -649,17 +638,14 @@ observeSpaNavigation(() => {
     }
 
     fabBtn.innerHTML = `
-        <div class="fab-icon-box">
-            <svg class="fab-icon-download" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                <polyline points="7 10 12 15 17 10"></polyline>
-                <line x1="12" y1="15" x2="12" y2="3"></line>
-            </svg>
-            <svg class="fab-icon-spinner" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round">
-                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-opacity="0.25" stroke-width="2.8" fill="none"></circle>
-                <path d="M12 3a9 9 0 0 1 9 9" stroke="currentColor" stroke-width="2.8" fill="none"></path>
-            </svg>
-        </div>
+        <svg class="fab-icon-download" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 15V3"></path>
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <path d="m7 10 5 5 5-5"></path>
+        </svg>
+        <svg class="fab-icon-spinner" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
+        </svg>
     `;
 
     updateFabLabel();
@@ -1029,9 +1015,8 @@ async function runStudocuCleanViewer() {
             overlay.innerHTML = `
                 <div style="background:#11224d;border:1.5px solid #091b42;border-radius:20px;padding:32px 36px;max-width:440px;width:90%;text-align:center;box-shadow:none;display:flex;flex-direction:column;align-items:center;gap:16px;">
                     <div style="width:56px;height:56px;border-radius:18px;background:rgba(198,235,52,0.15);border:1px solid rgba(198,235,52,0.35);display:flex;align-items:center;justify-content:center;color:#c6eb34;">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" style="animation:stdSpin 0.9s linear infinite;">
-                            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-opacity="0.25" stroke-width="2.8" fill="none"></circle>
-                            <path d="M12 3a9 9 0 0 1 9 9" stroke="currentColor" stroke-width="2.8" fill="none"></path>
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="animation:stdSpin 0.9s linear infinite;">
+                            <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
                         </svg>
                     </div>
                     <div>
