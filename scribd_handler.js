@@ -188,72 +188,10 @@
     }
 
     /**
-     * Displays a 3-second floating toast #dc-study-toast following Graphic Poster styling rules:
-     * 1.5px solid #091b42, #f6f7ef background, #091b42 text, no box-shadow, auto-dismiss after 3s.
+     * Displays a 3-second floating toast #dc-study-toast (Disabled per user request)
      */
     async function showStudyShelfToast() {
-        try {
-            if (typeof document === 'undefined' || !document.body) return;
-            const existing = document.getElementById('dc-study-toast');
-            if (existing) {
-                try { existing.remove(); } catch (e) {}
-            }
-
-            let toastText = 'Saved to your Study Shelf';
-            let lang = 'en';
-            if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
-                try {
-                    const data = await chrome.storage.local.get(['lang']);
-                    if (data && data.lang) lang = data.lang;
-                } catch (e) {}
-            }
-
-            if (typeof window !== 'undefined' && typeof window.t === 'function') {
-                toastText = window.t(lang, 'toastDocSaved') || toastText;
-            } else if (typeof t === 'function') {
-                toastText = t(lang, 'toastDocSaved') || toastText;
-            }
-
-            const toast = document.createElement('div');
-            toast.id = 'dc-study-toast';
-            toast.textContent = toastText;
-            toast.style.cssText = `
-                position: fixed !important;
-                top: 24px !important;
-                right: 24px !important;
-                z-index: 2147483647 !important;
-                background-color: #f6f7ef !important;
-                color: #091b42 !important;
-                border: 1.5px solid #091b42 !important;
-                border-radius: 12px !important;
-                padding: 10px 18px !important;
-                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
-                font-size: 13.5px !important;
-                font-weight: 700 !important;
-                box-shadow: none !important;
-                filter: none !important;
-                backdrop-filter: none !important;
-                text-shadow: none !important;
-                user-select: none !important;
-                pointer-events: none !important;
-                transition: opacity 0.25s ease, transform 0.25s ease !important;
-                opacity: 1 !important;
-            `;
-
-            document.body.appendChild(toast);
-
-            setTimeout(() => {
-                if (toast) {
-                    toast.style.opacity = '0';
-                    toast.style.transform = 'translateY(-6px)';
-                    setTimeout(() => {
-                        if (toast.parentNode) toast.remove();
-                    }, 250);
-                }
-            }, 3000);
-        } catch (err) {
-            console.warn('[DocCleaner] showStudyShelfToast error:', err);
-        }
+        // Disabled per user request (no toast spam on reload)
     }
 
     /**
@@ -287,8 +225,6 @@
                     if (chrome.runtime.lastError) {}
                 });
             }
-
-            showStudyShelfToast();
         } catch (err) {
             console.warn('[DocCleaner] Scribd autoRecordDocument error:', err);
         }
@@ -618,10 +554,6 @@
                 <div style="display: flex; justify-content: space-between; width: 100%; font-size: 12px; color: rgba(246, 247, 239, 0.65); font-weight: 600;">
                     <span id="scribd-preload-percent">5%</span>
                     <span id="scribd-preload-count">${isVi ? 'Đang xử lý...' : 'Processing...'}</span>
-                </div>
-
-                <div style="font-size: 11.5px; color: rgba(246, 247, 239, 0.45); margin-top: 2px;">
-                    ${isVi ? 'Không cần cuộn chuột — hệ thống tự nạp 100% trang' : 'No manual scrolling needed — auto-loads 100% pages'}
                 </div>
             </div>
             <style>

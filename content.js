@@ -269,72 +269,10 @@ function observeSpaNavigation(callback) {
 }
 
 /**
- * Displays a 3-second floating toast #dc-study-toast following Graphic Poster styling rules:
- * 1.5px solid #091b42, #f6f7ef background, #091b42 text, no box-shadow, auto-dismiss after 3s.
+ * Displays a 3-second floating toast #dc-study-toast (Disabled per user request)
  */
 async function showStudyShelfToast() {
-    try {
-        if (typeof document === 'undefined' || !document.body) return;
-        const existing = document.getElementById('dc-study-toast');
-        if (existing) {
-            try { existing.remove(); } catch (e) {}
-        }
-
-        let toastText = 'Saved to your Study Shelf';
-        let lang = 'en';
-        if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
-            try {
-                const data = await chrome.storage.local.get(['lang']);
-                if (data && data.lang) lang = data.lang;
-            } catch (e) {}
-        }
-
-        if (typeof window !== 'undefined' && typeof window.t === 'function') {
-            toastText = window.t(lang, 'toastDocSaved') || toastText;
-        } else if (typeof t === 'function') {
-            toastText = t(lang, 'toastDocSaved') || toastText;
-        }
-
-        const toast = document.createElement('div');
-        toast.id = 'dc-study-toast';
-        toast.textContent = toastText;
-        toast.style.cssText = `
-            position: fixed !important;
-            top: 24px !important;
-            right: 24px !important;
-            z-index: 2147483647 !important;
-            background-color: #f6f7ef !important;
-            color: #091b42 !important;
-            border: 1.5px solid #091b42 !important;
-            border-radius: 12px !important;
-            padding: 10px 18px !important;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
-            font-size: 13.5px !important;
-            font-weight: 700 !important;
-            box-shadow: none !important;
-            filter: none !important;
-            backdrop-filter: none !important;
-            text-shadow: none !important;
-            user-select: none !important;
-            pointer-events: none !important;
-            transition: opacity 0.25s ease, transform 0.25s ease !important;
-            opacity: 1 !important;
-        `;
-
-        document.body.appendChild(toast);
-
-        setTimeout(() => {
-            if (toast) {
-                toast.style.opacity = '0';
-                toast.style.transform = 'translateY(-6px)';
-                setTimeout(() => {
-                    if (toast.parentNode) toast.remove();
-                }, 250);
-            }
-        }, 3000);
-    } catch (err) {
-        console.warn('[DocCleaner] showStudyShelfToast error:', err);
-    }
+    // Disabled per user request (no toast spam on document load / reload)
 }
 
 /**
@@ -376,8 +314,6 @@ function autoRecordDocument(platform) {
                 if (chrome.runtime.lastError) {}
             });
         }
-
-        showStudyShelfToast();
     } catch (err) {
         console.warn('[DocCleaner] autoRecordDocument error:', err);
     }
@@ -481,59 +417,45 @@ observeSpaNavigation(() => {
     fabStyle.textContent = `
         #studocu-fab-btn {
             position: fixed !important;
-            bottom: 28px !important;
-            right: 28px !important;
+            bottom: 24px !important;
+            right: 24px !important;
             z-index: 2147483647 !important;
-            background-color: #193582;
-            color: #f6f7ef;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            font-size: 13.5px;
-            font-weight: 800;
-            padding: 8px 16px 8px 8px;
-            border-radius: 18px;
+            width: 46px !important;
+            height: 46px !important;
+            padding: 0 !important;
+            background-color: #193582 !important;
+            border-radius: 14px !important;
             border: 1.5px solid #091b42 !important;
-            cursor: pointer;
+            cursor: pointer !important;
             box-shadow: none !important;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
-            user-select: none;
-            outline: none;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.18s ease !important;
+            user-select: none !important;
+            outline: none !important;
         }
 
         #studocu-fab-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: none !important;
-            background-color: #1f3e96;
+            transform: translateY(-2px) scale(1.05) !important;
+            background-color: #1f3e96 !important;
         }
 
         #studocu-fab-btn:active {
-            transform: translateY(-1px) scale(0.98);
+            transform: scale(0.95) !important;
         }
 
         .fab-icon-box {
-            width: 34px;
-            height: 34px;
-            border-radius: 12px;
-            background-color: ${fabBadgeBg};
-            color: #091b42;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
+            width: 34px !important;
+            height: 34px !important;
+            border-radius: 10px !important;
+            background-color: ${fabBadgeBg} !important;
+            color: #091b42 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            flex-shrink: 0 !important;
             box-shadow: none !important;
-        }
-
-        .fab-tag {
-            font-size: 10px;
-            font-weight: 900;
-            background-color: ${fabBadgeBg};
-            color: #091b42;
-            padding: 3px 8px;
-            border-radius: 10px;
-            letter-spacing: 0.3px;
-            text-transform: uppercase;
         }
 
         .fab-icon-box .fab-icon-spinner {
@@ -545,9 +467,9 @@ observeSpaNavigation(() => {
         }
 
         #studocu-fab-btn.processing {
-            background-color: #293856;
-            cursor: wait;
-            opacity: 0.95;
+            background-color: #293856 !important;
+            cursor: wait !important;
+            opacity: 0.95 !important;
         }
 
         #studocu-fab-btn.processing .fab-icon-box .fab-icon-download {
@@ -582,8 +504,8 @@ observeSpaNavigation(() => {
         /* Day-0 Onboarding: Flat Tooltip & Outline Pulse (No Shadow, No Blur) */
         #dc-fab-tooltip {
             position: fixed !important;
-            bottom: 84px !important;
-            right: 28px !important;
+            bottom: 78px !important;
+            right: 24px !important;
             z-index: 2147483647 !important;
             background-color: #091b42 !important;
             color: #f6f7ef !important;
@@ -709,37 +631,35 @@ observeSpaNavigation(() => {
     `;
     document.head.appendChild(fabStyle);
 
-    // 3. Create floating action button
+    // 3. Create floating action button (Compact Icon-Only FAB)
     const fabBtn = document.createElement('button');
     fabBtn.id = 'studocu-fab-btn';
-
-    let currentBtnText = 'Format for Print';
+    fabBtn.setAttribute('aria-label', 'Format for Print');
+    fabBtn.title = 'Format for Print A4 (DocCleaner)';
 
     async function updateFabLabel() {
         try {
             if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
                 const { lang } = await chrome.storage.local.get({ lang: 'en' });
-                currentBtnText = lang === 'vi' ? 'Định dạng in' : 'Format for Print';
-                const span = fabBtn.querySelector('.fab-text-label');
-                if (span) span.innerText = currentBtnText;
+                const titleText = lang === 'vi' ? 'Định dạng in A4 (DocCleaner)' : 'Format for Print A4 (DocCleaner)';
+                fabBtn.title = titleText;
+                fabBtn.setAttribute('aria-label', titleText);
             }
         } catch (e) {}
     }
 
     fabBtn.innerHTML = `
         <div class="fab-icon-box">
-            <svg class="fab-icon-download" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <svg class="fab-icon-download" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                 <polyline points="7 10 12 15 17 10"></polyline>
                 <line x1="12" y1="15" x2="12" y2="3"></line>
             </svg>
-            <svg class="fab-icon-spinner" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round">
+            <svg class="fab-icon-spinner" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round">
                 <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-opacity="0.25" stroke-width="2.8" fill="none"></circle>
                 <path d="M12 3a9 9 0 0 1 9 9" stroke="currentColor" stroke-width="2.8" fill="none"></path>
             </svg>
         </div>
-        <span class="fab-text-label">${currentBtnText}</span>
-        <span class="fab-tag">${brandName}</span>
     `;
 
     updateFabLabel();
@@ -811,10 +731,9 @@ observeSpaNavigation(() => {
         } catch (e) {}
 
         fabBtn.classList.add('processing');
-        const span = fabBtn.querySelector('.fab-text-label');
 
         const statusCallback = (msg) => {
-            if (span) span.innerText = msg;
+            fabBtn.title = msg;
         };
 
         try {
@@ -825,7 +744,7 @@ observeSpaNavigation(() => {
                     alert('Error: Scribd Handler is not ready.');
                 }
             } else if (isStudocu) {
-                if (span) span.innerText = currentBtnText.includes('Tải') ? 'Đang xử lý Studocu...' : 'Processing Studocu...';
+                fabBtn.title = 'Processing Studocu...';
                 await runStudocuCleanViewer();
             } else {
                 alert('Current web page is not supported.');
@@ -835,7 +754,7 @@ observeSpaNavigation(() => {
             alert('Error: ' + e.message);
         } finally {
             fabBtn.classList.remove('processing');
-            if (span) span.innerText = currentBtnText;
+            updateFabLabel();
         }
     });
 
@@ -1129,9 +1048,6 @@ async function runStudocuCleanViewer() {
                     <div style="display:flex;justify-content:space-between;width:100%;font-size:12px;color:rgba(246,247,239,0.65);font-weight:600;">
                         <span id="std-preload-percent">3%</span>
                         <span id="std-preload-count">${isVi ? 'Đang khởi động...' : 'Initializing...'}</span>
-                    </div>
-                    <div style="font-size:11.5px;color:rgba(246,247,239,0.45);margin-top:2px;">
-                        ${isVi ? 'Đợi load xong 100% trang & ảnh trước khi in' : 'Waits until 100% pages & images are loaded before printing'}
                     </div>
                 </div>
                 <style>@keyframes stdSpin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}</style>
