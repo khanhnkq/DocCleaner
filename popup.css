@@ -612,6 +612,42 @@ button.card-item:hover .card-body {
   color: var(--navy);
 }
 
+.dc-delete-btn:hover {
+  background-color: #fee2e2 !important;
+  color: #ef4444 !important;
+  border-color: #ef4444 !important;
+}
+
+.shelf-footer-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2px;
+}
+
+.shelf-clear-btn {
+  background-color: transparent;
+  color: #8c9bb5;
+  border: none;
+  font-family: inherit;
+  font-size: 10.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  transition: all 0.15s ease;
+  outline: none;
+  box-shadow: none !important;
+}
+
+.shelf-clear-btn:hover {
+  color: #ff5f56;
+  background-color: rgba(255, 95, 86, 0.12);
+}
+
 /* Empty State */
 .shelf-empty-container {
   background-color: var(--cream);

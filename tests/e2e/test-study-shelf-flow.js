@@ -136,6 +136,14 @@ async function runTests() {
     docsList.id = 'recent-docs-list';
     panelRecents.appendChild(docsList);
 
+    // Shelf footer actions container
+    const footerActions = mockDOM.document.createElement('div');
+    footerActions.id = 'shelf-footer-actions';
+    const clearShelfBtn = mockDOM.document.createElement('button');
+    clearShelfBtn.id = 'btn-clear-shelf';
+    footerActions.appendChild(clearShelfBtn);
+    panelRecents.appendChild(footerActions);
+
     // Empty state container
     const emptyState = mockDOM.document.createElement('div');
     emptyState.id = 'shelf-empty-state';
@@ -280,6 +288,47 @@ async function runTests() {
       false,
       'Document in storage should now have isStarred: false'
     );
+  });
+
+  await test('Tier 3: Single document deletion and shelf clear functions work correctly', async () => {
+    const docs = [
+      { id: 'd1', title: 'Doc 1', isStarred: false, platform: 'studocu', canonicalUrl: 'url1', pageCount: 5, lastOpenedAt: Date.now() },
+      { id: 'd2', title: 'Doc 2', isStarred: true, platform: 'scribd', canonicalUrl: 'url2', pageCount: 8, lastOpenedAt: Date.now() - 1000 }
+    ];
+
+    const env = await initPopupEnvironment({
+      local: { dc_recent_docs: docs }
+    });
+
+    env.tabRecents.click();
+    await new Promise((r) => setTimeout(r, 40));
+
+    // Verify 2 cards rendered
+    let cards = env.docsList.querySelectorAll('.dc-doc-card, .study-card, .doc-item');
+    assert.strictEqual(cards.length, 2, 'Should initially render 2 docs');
+
+    // Click delete button on first card
+    const deleteBtn = env.docsList.querySelector('.dc-delete-btn, [data-action="delete"]');
+    assert.ok(deleteBtn, 'Delete button should be present on card');
+    deleteBtn.click();
+    await new Promise((r) => setTimeout(r, 50));
+
+    // Verify doc was removed from storage
+    let stored = await env.mockChrome.storage.local.get('dc_recent_docs');
+    assert.strictEqual(stored.dc_recent_docs.length, 1, 'Storage should only have 1 doc left');
+    assert.strictEqual(stored.dc_recent_docs[0].id, 'd2');
+
+    // Test clear all shelf docs (mock window.confirm)
+    if (env.sandbox && env.sandbox.window) {
+      env.sandbox.window.confirm = () => true;
+    }
+    const clearShelfBtn = env.panelRecents.querySelector('#btn-clear-shelf');
+    assert.ok(clearShelfBtn, '#btn-clear-shelf must be present');
+    clearShelfBtn.click();
+    await new Promise((r) => setTimeout(r, 50));
+
+    stored = await env.mockChrome.storage.local.get('dc_recent_docs');
+    assert.strictEqual(stored.dc_recent_docs.length, 0, 'Storage should be empty after clearing shelf');
   });
 
   // =========================================================================

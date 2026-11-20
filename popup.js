@@ -133,6 +133,66 @@
     }
   }
 
+  async function removeShelfDoc(docId) {
+    if (!docId) return;
+    let isLabMode = false;
+    try {
+      if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+        const res = await chrome.storage.local.get(['dc_lab_mode']);
+        isLabMode = !!res.dc_lab_mode;
+      }
+    } catch (e) {}
+
+    const storageArea = (isLabMode && typeof chrome !== 'undefined' && chrome.storage && chrome.storage.session)
+      ? chrome.storage.session
+      : (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local ? chrome.storage.local : null);
+    const key = isLabMode ? 'session_docs' : 'dc_recent_docs';
+
+    if (storageArea) {
+      try {
+        const data = await storageArea.get([key]);
+        const docs = Array.isArray(data[key]) ? data[key] : [];
+        const filtered = docs.filter((d) => d && d.id !== docId);
+        await storageArea.set({ [key]: filtered });
+      } catch (err) {
+        console.error('Failed to remove doc:', err);
+      }
+    }
+
+    await renderShelf();
+  }
+
+  async function clearAllShelfDocs() {
+    const confirmMsg = getT(currentLang, 'clearShelfConfirm') || 'Are you sure you want to clear all documents from your Study Shelf?';
+    if (typeof window !== 'undefined' && typeof window.confirm === 'function') {
+      const ok = window.confirm(confirmMsg);
+      if (!ok) return;
+    }
+
+    let isLabMode = false;
+    try {
+      if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+        const res = await chrome.storage.local.get(['dc_lab_mode']);
+        isLabMode = !!res.dc_lab_mode;
+      }
+    } catch (e) {}
+
+    const storageArea = (isLabMode && typeof chrome !== 'undefined' && chrome.storage && chrome.storage.session)
+      ? chrome.storage.session
+      : (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local ? chrome.storage.local : null);
+    const key = isLabMode ? 'session_docs' : 'dc_recent_docs';
+
+    if (storageArea) {
+      try {
+        await storageArea.set({ [key]: [] });
+      } catch (err) {
+        console.error('Failed to clear shelf:', err);
+      }
+    }
+
+    await renderShelf();
+  }
+
   function updateShelfTabBadge(count) {
     const tabRecents = document.getElementById('tab-recents');
     if (!tabRecents) return;
@@ -159,7 +219,12 @@
       ? allDocs.filter((d) => d && Boolean(d.isStarred))
       : allDocs;
 
+    const footerActions = document.getElementById('shelf-footer-actions');
+
     if (docsToRender.length === 0) {
+      if (footerActions) {
+        footerActions.style.display = 'none';
+      }
       if (docsList) {
         docsList.innerHTML = '';
         docsList.style.display = 'none';
@@ -176,6 +241,9 @@
         }
       }
     } else {
+      if (footerActions) {
+        footerActions.style.display = 'flex';
+      }
       if (emptyState) {
         emptyState.style.display = 'none';
       }
@@ -218,7 +286,7 @@
 
             card.appendChild(info);
 
-            // In-card Action Buttons: Star & 1-Click Launch
+            // In-card Action Buttons: Star, 1-Click Launch & Delete
             const actions = document.createElement('div');
             actions.className = 'doc-actions';
 
@@ -247,6 +315,18 @@
               launchDoc(doc.canonicalUrl);
             });
             actions.appendChild(launchBtn);
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'dc-delete-btn btn-delete doc-action-btn';
+            deleteBtn.setAttribute('data-action', 'delete');
+            deleteBtn.setAttribute('data-id', doc.id || '');
+            deleteBtn.setAttribute('title', getT(currentLang, 'deleteDoc') || 'Remove from Shelf');
+            deleteBtn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 11v6" /><path d="M14 11v6" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" /><path d="M3 6h18" /><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>';
+            deleteBtn.addEventListener('click', async (e) => {
+              if (e && e.stopPropagation) e.stopPropagation();
+              await removeShelfDoc(doc.id);
+            });
+            actions.appendChild(deleteBtn);
 
             card.appendChild(actions);
 
@@ -481,6 +561,14 @@
         filterStarred.classList.add('active');
         if (filterAll) filterAll.classList.remove('active');
         await renderShelf();
+      });
+    }
+
+    const clearBtn = document.getElementById('btn-clear-shelf');
+    if (clearBtn && !clearBtn._dc_bound) {
+      clearBtn._dc_bound = true;
+      clearBtn.addEventListener('click', async () => {
+        await clearAllShelfDocs();
       });
     }
   }

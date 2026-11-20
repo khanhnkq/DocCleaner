@@ -63,6 +63,9 @@
       launchCleanReader: "Open in Clean Reader",
       starDocument: "Star document",
       unstarDocument: "Unstar document",
+      deleteDoc: "Remove from Shelf",
+      clearShelfLabel: "Clear Shelf",
+      clearShelfConfirm: "Are you sure you want to clear all documents from your Study Shelf?",
 
       // Action & Status Keys
       currentWebsite: "Current Website",
@@ -121,6 +124,9 @@
       launchCleanReader: "Mở trong chế độ đọc tập trung",
       starDocument: "Gắn sao tài liệu",
       unstarDocument: "Bỏ gắn sao",
+      deleteDoc: "Xóa khỏi kệ",
+      clearShelfLabel: "Dọn sạch kệ sách",
+      clearShelfConfirm: "Bạn có chắc muốn xóa tất cả tài liệu trong kệ học tập?",
 
       // Action & Status Keys
       currentWebsite: "Trang Web Hiện Tại",
@@ -179,6 +185,9 @@
       launchCleanReader: "Abrir en modo lectura limpia",
       starDocument: "Marcar como favorito",
       unstarDocument: "Quitar de favoritos",
+      deleteDoc: "Eliminar de la estantería",
+      clearShelfLabel: "Vaciar estantería",
+      clearShelfConfirm: "¿Deseas vaciar todos los documentos de tu estantería?",
 
       // Action & Status Keys
       currentWebsite: "Sitio Web Actual",
@@ -237,6 +246,9 @@
       launchCleanReader: "Ouvrir en mode lecture épurée",
       starDocument: "Ajouter aux favoris",
       unstarDocument: "Retirer des favoris",
+      deleteDoc: "Retirer de la bibliothèque",
+      clearShelfLabel: "Vider la bibliothèque",
+      clearShelfConfirm: "Voulez-vous supprimer tous les documents de votre bibliothèque ?",
 
       // Action & Status Keys
       currentWebsite: "Site Web Actuel",
