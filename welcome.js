@@ -1,11 +1,17 @@
 // ==========================================================================
-// DocCleaner Welcome & Day-0 Onboarding Script
+// DocCleaner Welcome & Day-0 Onboarding Script (Auto-Carousel & SVG Motion)
 // ==========================================================================
 
 (function initWelcome() {
   let currentStep = 0;
   const totalSteps = 3;
   let currentLang = 'en';
+
+  // Autoplay Configuration
+  const SLIDE_DURATION = 5500; // 5.5 seconds per slide
+  let elapsedTime = 0;
+  let isPaused = false;
+  let autoPlayTimer = null;
 
   const translations = {
     en: {
@@ -59,6 +65,7 @@
   };
 
   // DOM Elements
+  const mainCard = document.getElementById('mainCard');
   const carouselTrack = document.getElementById('carouselTrack');
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
@@ -69,18 +76,26 @@
   const langEnOpt = document.getElementById('langEnOpt');
 
   function updateStepUI() {
-    // Translate track
+    elapsedTime = 0;
+
+    // Translate track smoothly
     if (carouselTrack) {
       carouselTrack.style.transform = `translateX(-${currentStep * 100}%)`;
     }
 
-    // Update Indicators
+    // Update Indicators and Progress bars
     stepIndicators.forEach((el, index) => {
+      const progressBar = el.querySelector('.step-progress');
       el.classList.remove('active', 'completed');
+
       if (index === currentStep) {
         el.classList.add('active');
+        if (progressBar) progressBar.style.width = '0%';
       } else if (index < currentStep) {
         el.classList.add('completed');
+        if (progressBar) progressBar.style.width = '100%';
+      } else {
+        if (progressBar) progressBar.style.width = '0%';
       }
     });
 
@@ -97,6 +112,44 @@
       } else {
         nextBtn.innerText = dict.btnNext;
       }
+    }
+  }
+
+  // Auto-advance loop with progress bar animation
+  function startAutoplay() {
+    stopAutoplay();
+    const TICK_INTERVAL = 40; // 40ms updates for 25fps smooth bar filling
+
+    autoPlayTimer = setInterval(() => {
+      if (isPaused) return;
+
+      elapsedTime += TICK_INTERVAL;
+      const progressPercent = Math.min(100, (elapsedTime / SLIDE_DURATION) * 100);
+
+      // Update current step's progress bar
+      const activeIndicator = stepIndicators[currentStep];
+      if (activeIndicator) {
+        const progressBar = activeIndicator.querySelector('.step-progress');
+        if (progressBar) {
+          progressBar.style.width = `${progressPercent}%`;
+        }
+      }
+
+      if (elapsedTime >= SLIDE_DURATION) {
+        if (currentStep < totalSteps - 1) {
+          currentStep++;
+        } else {
+          currentStep = 0; // Smooth infinite loop
+        }
+        updateStepUI();
+      }
+    }, TICK_INTERVAL);
+  }
+
+  function stopAutoplay() {
+    if (autoPlayTimer) {
+      clearInterval(autoPlayTimer);
+      autoPlayTimer = null;
     }
   }
 
@@ -160,6 +213,7 @@
   }
 
   function finishOnboarding() {
+    stopAutoplay();
     // If opened via extension, close the tab or redirect
     if (typeof chrome !== 'undefined' && chrome.tabs && chrome.tabs.getCurrent) {
       chrome.tabs.getCurrent((tab) => {
@@ -174,7 +228,7 @@
     }
   }
 
-  // Event Listeners
+  // Event Listeners: Navigation
   if (nextBtn) {
     nextBtn.addEventListener('click', () => {
       if (currentStep < totalSteps - 1) {
@@ -218,6 +272,16 @@
     });
   }
 
+  // Hover Pause & Resume
+  if (mainCard) {
+    mainCard.addEventListener('mouseenter', () => {
+      isPaused = true;
+    });
+    mainCard.addEventListener('mouseleave', () => {
+      isPaused = false;
+    });
+  }
+
   // Keyboard accessibility
   window.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowRight' && currentStep < totalSteps - 1) {
@@ -233,4 +297,5 @@
 
   // Initialize
   detectInitialLanguage();
+  startAutoplay();
 })();

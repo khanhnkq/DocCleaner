@@ -157,6 +157,23 @@ body {
   border-radius: 10px;
   user-select: none;
   transition: background-color 0.15s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.step-indicator .step-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background-color: var(--accent-lime);
+  border-radius: 2px;
+  transition: width 0.08s linear;
+}
+
+.step-indicator.completed .step-progress {
+  width: 100% !important;
 }
 
 .step-indicator.active {
@@ -366,6 +383,169 @@ body {
 
 .footer-link:hover {
   color: var(--text-navy);
+}
+
+/* ==========================================================================
+   SVG Illustrations Motion — Crisp Flat Vector Animations (Zero Blur, Zero Shadow)
+   ========================================================================== */
+
+/* Slide 1: Animated Elements */
+.anim-callout-arrow {
+  animation: calloutSlide 1.2s ease-in-out infinite;
+}
+
+@keyframes calloutSlide {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-6px);
+  }
+}
+
+.anim-fab-btn {
+  transform-origin: 316px 158px;
+  animation: fabSimClick 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes fabSimClick {
+  0%, 36%, 64%, 100% {
+    transform: scale(1);
+  }
+  46% {
+    transform: scale(0.95);
+  }
+}
+
+.anim-cursor {
+  animation: cursorClick 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  transform-origin: 320px 160px;
+}
+
+@keyframes cursorClick {
+  0% {
+    transform: translate(380px, 200px);
+    opacity: 0;
+  }
+  24% {
+    transform: translate(320px, 160px);
+    opacity: 1;
+  }
+  46% {
+    transform: translate(320px, 160px) scale(0.85);
+  }
+  60% {
+    transform: translate(320px, 160px) scale(1);
+  }
+  75% {
+    transform: translate(320px, 160px);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(380px, 200px);
+    opacity: 0;
+  }
+}
+
+.anim-ad-block {
+  animation: adStrikePulse 2.8s ease-in-out infinite;
+}
+
+@keyframes adStrikePulse {
+  0%, 100% {
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* Slide 2: Animated Elements */
+.anim-paper-scroll {
+  animation: paperScroll 3.2s ease-in-out infinite;
+}
+
+@keyframes paperScroll {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.anim-print-action {
+  transform-origin: 328px 41px;
+  animation: printActionPulse 2s ease-in-out infinite;
+}
+
+@keyframes printActionPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+}
+
+/* Slide 3: Animated Elements */
+.anim-a4-sheet {
+  animation: a4SheetFloat 2.8s ease-in-out infinite;
+}
+
+@keyframes a4SheetFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.anim-check-path {
+  stroke-dasharray: 18;
+  stroke-dashoffset: 18;
+  animation: checkDraw 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.anim-check-path.check-delay {
+  animation-delay: 0.35s;
+}
+
+@keyframes checkDraw {
+  0% {
+    stroke-dashoffset: 18;
+  }
+  45%, 100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.anim-download-arrow {
+  animation: downloadBounce 1.4s ease-in-out infinite;
+}
+
+@keyframes downloadBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-callout-arrow,
+  .anim-fab-btn,
+  .anim-cursor,
+  .anim-ad-block,
+  .anim-paper-scroll,
+  .anim-print-action,
+  .anim-a4-sheet,
+  .anim-check-path,
+  .anim-download-arrow {
+    animation: none !important;
+  }
 }
 
 /* Responsive */
