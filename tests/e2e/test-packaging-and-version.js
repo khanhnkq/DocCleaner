@@ -136,6 +136,7 @@ async function runTests() {
     assert.ok(!zipList.includes('docs/'), 'ZIP must NOT contain docs/');
     assert.ok(!zipList.includes('scripts/'), 'ZIP must NOT contain scripts/');
     assert.ok(!zipList.includes('.git/'), 'ZIP must NOT contain .git/');
+    assert.ok(!zipList.includes('.github/'), 'ZIP must NOT contain .github/');
   });
 
   // =========================================================================

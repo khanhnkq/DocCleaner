@@ -1,0 +1,35 @@
+name: DocCleaner CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Run Automated Test Suites
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Validate JavaScript Syntax (node -c)
+        run: |
+          node -c background.js
+          node -c content.js
+          node -c popup.js
+          node -c scribd_handler.js
+          node -c welcome.js
+          node -c i18n.js
+          node -c scripts/bump-version.js
+
+      - name: Run Full Test Runner (Unit & E2E)
+        run: |
+          node tests/test-runner.js all

@@ -58,6 +58,7 @@ zip -r -q "$OUTPUT_ZIP" . \
   -x "store-assets/*" \
   -x "analytics/*" \
   -x "scratch/*" \
+  -x ".github/*" \
   -x ".gemini/*"
 
 # 4. Verification

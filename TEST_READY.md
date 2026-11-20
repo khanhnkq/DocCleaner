@@ -60,47 +60,47 @@ node tests/e2e/test-packaging-and-version.js
 
 | Test Scenario | Description | Test Suite File | Assertions | Target Milestone | Current Status |
 |---|---|---|:---:|:---:|:---:|
-| **TC-P2-01** | First-Run Document Auto-Save | `tests/unit/test-metadata.js`<br>`tests/e2e/test-study-shelf-flow.js` | 8 | M3 & M4 | ⏳ PENDING (WORKER) |
-| **TC-P2-02** | LRU Eviction Under Cap (25 items) | `tests/unit/test-lru-engine.js` | 7 | M2 | ⏳ PENDING (WORKER) |
-| **TC-P2-03** | Starred Document Immunity & Fallback | `tests/unit/test-lru-engine.js`<br>`tests/e2e/test-study-shelf-flow.js` | 9 | M2 & M4 | ⏳ PENDING (WORKER) |
-| **TC-P2-04** | Deduplication on Re-visit | `tests/unit/test-lru-engine.js`<br>`tests/e2e/test-study-shelf-flow.js` | 8 | M2 & M4 | ⏳ PENDING (WORKER) |
-| **TC-P2-05** | SPA Navigation Extraction | `tests/unit/test-metadata.js` | 5 | M3 | ⏳ PENDING (WORKER) |
-| **TC-P2-06** | Scribd Metadata Accuracy | `tests/unit/test-metadata.js` | 6 | M3 | ⏳ PENDING (WORKER) |
-| **TC-P2-07** | Lab PC Mode Ephemeral Storage | `tests/unit/test-lru-engine.js`<br>`tests/e2e/test-lab-mode-burn.js` | 7 | M2 | ⏳ PENDING (WORKER) |
-| **TC-P2-08** | 1-Click Clean & Burn Protocol | `tests/e2e/test-lab-mode-burn.js` | 8 | M2 | ⏳ PENDING (WORKER) |
-| **TC-P2-09** | Window-Close Auto-Purge | `tests/e2e/test-lab-mode-burn.js` | 4 | M2 | ⏳ PENDING (WORKER) |
-| **TC-P2-10** | 4-Language Switching (VN, EN, ES, FR) | `tests/unit/test-i18n.js`<br>`tests/e2e/test-popup-ui-and-i18n.js` | 14 | M1 & M4 | M1: ✅ PASS<br>M4: ⏳ PENDING |
-| **TC-P2-11** | Graphic Poster Design Audit (0 Shadows/Filters) | `tests/e2e/test-popup-ui-and-i18n.js` | 6 | M4 | ⏳ PENDING (WORKER) |
-| **TC-P2-12** | Memory & Performance SLA (<10KB storage) | `tests/unit/test-lru-engine.js` | 3 | M2 | ⏳ PENDING (WORKER) |
+| **TC-P2-01** | First-Run Document Auto-Save | `tests/unit/test-metadata.js`<br>`tests/e2e/test-study-shelf-flow.js` | 8 | M3 & M4 | ✅ PASS |
+| **TC-P2-02** | LRU Eviction Under Cap (25 items) | `tests/unit/test-lru-engine.js` | 7 | M2 | ✅ PASS |
+| **TC-P2-03** | Starred Document Immunity & Fallback | `tests/unit/test-lru-engine.js`<br>`tests/e2e/test-study-shelf-flow.js` | 9 | M2 & M4 | ✅ PASS |
+| **TC-P2-04** | Deduplication on Re-visit | `tests/unit/test-lru-engine.js`<br>`tests/e2e/test-study-shelf-flow.js` | 8 | M2 & M4 | ✅ PASS |
+| **TC-P2-05** | SPA Navigation Extraction | `tests/unit/test-metadata.js` | 5 | M3 | ✅ PASS |
+| **TC-P2-06** | Scribd Metadata Accuracy | `tests/unit/test-metadata.js` | 6 | M3 | ✅ PASS |
+| **TC-P2-07** | Lab PC Mode Ephemeral Storage | `tests/unit/test-lru-engine.js`<br>`tests/e2e/test-lab-mode-burn.js` | 7 | M2 | ✅ PASS |
+| **TC-P2-08** | 1-Click Clean & Burn Protocol | `tests/e2e/test-lab-mode-burn.js` | 8 | M2 | ✅ PASS |
+| **TC-P2-09** | Window-Close Auto-Purge | `tests/e2e/test-lab-mode-burn.js` | 4 | M2 | ✅ PASS |
+| **TC-P2-10** | 4-Language Switching (VN, EN, ES, FR) | `tests/unit/test-i18n.js`<br>`tests/e2e/test-popup-ui-and-i18n.js` | 14 | M1 & M4 | ✅ PASS |
+| **TC-P2-11** | Graphic Poster Design Audit (0 Shadows/Filters) | `tests/e2e/test-popup-ui-and-i18n.js` | 6 | M4 | ✅ PASS |
+| **TC-P2-12** | Memory & Performance SLA (<10KB storage) | `tests/unit/test-lru-engine.js` | 3 | M2 | ✅ PASS |
 
 ---
 
-## 4. Current Test Results Baseline
+## 4. Final Test Results Baseline (100% Pass)
 
 ```
 ================================================================
 📊 TEST EXECUTION SUMMARY REPORT
 ================================================================
-Total Suites: 7 | Passed: 1 | Pending Milestones: 5 | Failures: 1 | Time: 288ms
+Total Suites: 7 | Passed: 7 | Pending Milestones: 0 | Failures: 0 | Time: 6423ms
 
 Suite Name                            Milestone   Status              Duration
 --------------------------------------------------------------------------------
-i18n & Localization                   [M1]        ✅ PASS              7ms
-Storage LRU Engine & Star Immunity    [M2]        ⏳ PENDING (WORKER)  3ms
-Studocu & Scribd Metadata Extractors  [M3]        ⏳ PENDING (WORKER)  4ms
-Study Shelf E2E Flow                  [M4]        ⏳ PENDING (WORKER)  106ms
-Lab PC Mode & Clean & Burn Protocol   [M2]        ⏳ PENDING (WORKER)  2ms
-320px Popup UI & Graphic Poster CSS Audit[M4]        ⏳ PENDING (WORKER)  1ms
-Packaging, Manifest & Version Lock (1.8.0)[M5]        ❌ FAIL              164ms
+i18n & Localization                   [M1]        ✅ PASS              11ms
+Storage LRU Engine & Star Immunity    [M2]        ✅ PASS              4461ms
+Studocu & Scribd Metadata Extractors  [M3]        ✅ PASS              520ms
+Study Shelf E2E Flow                  [M4]        ✅ PASS              701ms
+Lab PC Mode & Clean & Burn Protocol   [M2]        ✅ PASS              234ms
+320px Popup UI & Graphic Poster CSS Audit[M4]        ✅ PASS              92ms
+Packaging, Manifest & Version Lock (1.8.0)[M5]        ✅ PASS              403ms
 --------------------------------------------------------------------------------
+
+🎉 ALL TEST SUITES PASSED (100% SUCCESS RATE)!
 ```
 
 ---
 
-## 5. Discovered Defect Escalation
+## 5. Resolved Defect Log
 
-### Defect #1: `scripts/package-extension.sh` missing `tests/*` exclusion
-- **File:** `scripts/package-extension.sh` (lines 39-60)
-- **Observed Behavior:** When packaging the extension, `tests/` directory is bundled into `DocCleaner-v1.8.0.zip`.
-- **Expected Behavior:** Extension package for Chrome Web Store must exclude developer tests and test harnesses (`-x "tests/*"`).
-- **Remediation Needed (for M5 worker):** Add `-x "tests/*"` to `zip -r -q "$OUTPUT_ZIP"` in `scripts/package-extension.sh`.
+### Defect #1: `scripts/package-extension.sh` missing `tests/*` and `.github/*` exclusions
+- **Status:** ✅ RESOLVED
+- **Resolution:** Added `-x "tests/*"` and `-x ".github/*"` to `scripts/package-extension.sh`. Output package `DocCleaner-v1.8.0.zip` contains strictly 26 production files without test or CI bloat. All Tier 4 packaging assertions pass.
