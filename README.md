@@ -74,6 +74,7 @@ DocCleaner runs **100% locally in your browser**:
 
 ## 📚 Development & Plans
 
+- 🗺️ [Long-Term Product Roadmap & Growth Strategy](docs/LONG_TERM_ROADMAP.md)
 - 🎨 [Design System & Visual Guidelines](docs/DESIGN_SYSTEM.md)
 - 📋 [Uninstall Flow & Feedback Plan](docs/plans/UNINSTALL_FEATURE_PLAN.md)
 - 🎨 [Color Palette Fix Plan](docs/plans/color_palette_fix_plan.md)
